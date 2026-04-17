@@ -4,6 +4,17 @@ import { seedPhones, type SeedPhone } from "@/lib/data/seed-phones";
 import { deriveSeedScores } from "@/lib/services/scoring";
 import { getPhoneDisplayName } from "@/lib/utils/phone-presentation";
 import { slugify } from "@/lib/utils/format";
+import {
+  type BatteryCapacityFilter,
+  type CameraQualityFilter,
+  type PerformanceTierFilter,
+  type PriceRangeFilter,
+  matchesRange,
+  resolveBatteryCapacity,
+  resolveCameraQuality,
+  resolvePerformanceTier,
+  resolvePriceRange
+} from "@/lib/utils/phone-filters";
 
 type CatalogSort = "top" | "price_asc" | "price_desc" | "camera" | "battery" | "performance";
 
@@ -15,6 +26,10 @@ export interface FallbackPhoneFilters {
   maxPrice?: number;
   minRam?: number;
   minBattery?: number;
+  priceRange?: PriceRangeFilter;
+  performanceTier?: PerformanceTierFilter;
+  cameraQuality?: CameraQualityFilter;
+  batteryCapacity?: BatteryCapacityFilter;
   sort?: CatalogSort;
   take?: number;
   skip?: number;
@@ -88,6 +103,16 @@ function compareBySort(left: Phone, right: Phone, sort: CatalogSort = "top") {
 
 export function listFallbackPhones(filters: FallbackPhoneFilters = {}) {
   const search = filters.search?.trim().toLowerCase();
+  const resolvedPriceRange = resolvePriceRange(filters.priceRange);
+  const resolvedPerformanceTier = resolvePerformanceTier(filters.performanceTier);
+  const resolvedCameraQuality = resolveCameraQuality(filters.cameraQuality);
+  const resolvedBatteryCapacity = resolveBatteryCapacity(filters.batteryCapacity);
+  const minimumPrice = Math.max(filters.minPrice ?? 0, resolvedPriceRange?.min ?? 0) || undefined;
+  const maximumPriceCandidates = [filters.maxPrice, resolvedPriceRange?.max].filter(
+    (value): value is number => value !== undefined
+  );
+  const maximumPrice = maximumPriceCandidates.length ? Math.min(...maximumPriceCandidates) : undefined;
+  const minimumBattery = Math.max(filters.minBattery ?? 0, resolvedBatteryCapacity?.min ?? 0) || undefined;
 
   const phones = fallbackCatalog
     .filter((phone) => {
@@ -106,19 +131,27 @@ export function listFallbackPhones(filters: FallbackPhoneFilters = {}) {
         }
       }
 
-      if (filters.minPrice !== undefined && phone.price < filters.minPrice) {
+      if (minimumPrice !== undefined && phone.price < minimumPrice) {
         return false;
       }
 
-      if (filters.maxPrice !== undefined && phone.price > filters.maxPrice) {
+      if (maximumPrice !== undefined && phone.price > maximumPrice) {
         return false;
       }
 
-      if (filters.minBattery !== undefined && Number(phone.battery ?? 0) < filters.minBattery) {
+      if (minimumBattery !== undefined && Number(phone.battery ?? 0) < minimumBattery) {
         return false;
       }
 
       if (filters.minRam !== undefined && phone.ram !== null && phone.ram < filters.minRam) {
+        return false;
+      }
+
+      if (!matchesRange(phone.performanceScore, resolvedPerformanceTier)) {
+        return false;
+      }
+
+      if (!matchesRange(phone.cameraScore, resolvedCameraQuality)) {
         return false;
       }
 

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { FavoriteButton } from "@/components/phones/favorite-button";
 import {
   buildLocalPhoneReference,
   getPhoneReferenceBySlug
@@ -86,9 +87,12 @@ export default async function PhoneDetailPage({
             </div>
 
             <div className="phone-detail-actions">
-              <Link href="/dashboard" className="button-secondary">
-                Back to dashboard
-              </Link>
+              <div className="card-primary-actions">
+                <FavoriteButton phoneId={phone.id} variant="full" />
+                <Link href={`/compare?left=${phone.slug}`} className="button">
+                  Compare in lab
+                </Link>
+              </div>
               <div className="marketplace-actions">
                 <a href={marketplaceLinks.lazada} target="_blank" rel="noreferrer noopener" className="button">
                   Lazada
@@ -97,6 +101,9 @@ export default async function PhoneDetailPage({
                   Shopee
                 </a>
               </div>
+              <Link href="/dashboard" className="button-secondary">
+                Back to dashboard
+              </Link>
             </div>
           </div>
         </div>

@@ -12,7 +12,7 @@ const services = [
     title: "Compare tool",
     copy: "Shortlist a few phones and check their scores, price, and core specs side by side.",
     href: "/compare",
-    cta: "Open compare guide"
+    cta: "Open compare lab"
   },
   {
     title: "Full spec pages",

@@ -2,31 +2,14 @@
 
 import Link from "next/link";
 
+import { FavoriteButton } from "@/components/phones/favorite-button";
 import { usePhoneReference } from "@/components/phones/use-phone-reference";
-import {
-  buildPhoneMarketplaceLinks,
-  getPhoneDisplayName
-} from "@/lib/utils/phone-presentation";
+import type { PhoneCardRecord } from "@/lib/types/phone-card";
+import { buildPhoneMarketplaceLinks, getPhoneDisplayName } from "@/lib/utils/phone-presentation";
 import { formatPhp, formatScore } from "@/lib/utils/format";
 
-interface DeviceCardPhone {
-  id: string;
-  slug: string;
-  brand: string;
-  model: string;
-  segment: string;
-  price: number;
-  performanceScore: number | null;
-  cameraScore: number | null;
-  batteryScore: number | null;
-  valueScore: number | null;
-  finalScore: number | null;
-}
-
 interface DeviceCardProps {
-  phone: DeviceCardPhone;
-  selected?: boolean;
-  onToggleSelect?: (id: string) => void;
+  phone: PhoneCardRecord;
   variant?: "dashboard" | "gallery";
 }
 
@@ -49,12 +32,7 @@ function renderSummaryLines(lines: Array<string | null | undefined>) {
   );
 }
 
-export function DeviceCard({
-  phone,
-  selected = false,
-  onToggleSelect,
-  variant = "dashboard"
-}: DeviceCardProps) {
+export function DeviceCard({ phone, variant = "dashboard" }: DeviceCardProps) {
   const { containerRef, reference, loading, error } = usePhoneReference(phone.slug);
   const summary = reference?.summary;
   const imageUrl = reference?.imageUrl;
@@ -66,7 +44,6 @@ export function DeviceCard({
     summary?.displaySize,
     summary?.resolution,
     summary?.cameraMain,
-    summary?.video,
     summary?.memory,
     summary?.chipset,
     summary?.battery,
@@ -74,25 +51,13 @@ export function DeviceCard({
   ];
 
   return (
-    <article
-      ref={containerRef}
-      className={`glass-panel phone-card ${isGallery ? "gallery-card" : "dashboard-card"}`}
-    >
+    <article ref={containerRef} className={`glass-panel phone-card ${isGallery ? "gallery-card" : "dashboard-card"}`}>
       <div className="phone-card-top">
         <div className="pill-row">
           <span className="pill">{phone.segment.replace(/_/g, " ")}</span>
           <span className="score-badge">{formatScore(phone.finalScore)}</span>
         </div>
-        {!isGallery && onToggleSelect ? (
-          <label className="chip compare-chip">
-            <input
-              type="checkbox"
-              checked={selected}
-              onChange={() => onToggleSelect(phone.id)}
-            />
-            Compare
-          </label>
-        ) : null}
+        <FavoriteButton phoneId={phone.id} variant="full" />
       </div>
 
       <div className="phone-media">
@@ -107,7 +72,9 @@ export function DeviceCard({
         <div className="phone-headline">
           <div>
             <h3>{displayName}</h3>
-            <p className="muted" style={{ margin: 0 }}>{formatPhp(phone.price)}</p>
+            <p className="muted" style={{ margin: 0 }}>
+              {formatPhp(phone.price)}
+            </p>
           </div>
         </div>
 
@@ -139,9 +106,14 @@ export function DeviceCard({
         </div>
 
         <div className="phone-card-actions">
-          <Link href={`/phones/${phone.slug}`} className="button-secondary">
-            View full specs
-          </Link>
+          <div className="card-primary-actions">
+            <Link href={`/phones/${phone.slug}`} className="button-secondary">
+              View full specs
+            </Link>
+            <Link href={`/compare?left=${phone.slug}`} className="button">
+              Compare
+            </Link>
+          </div>
           <div className="marketplace-actions">
             <a href={marketplaceLinks.lazada} target="_blank" rel="noreferrer noopener" className="button-ghost">
               Lazada

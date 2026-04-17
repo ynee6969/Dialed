@@ -2,14 +2,14 @@
 
 import type { Route } from "next";
 import Link from "next/link";
-import { Grid2x2, House, Images, LayoutDashboard, Mail } from "lucide-react";
+import { GitCompareArrows, Heart, House, Images, LayoutDashboard } from "lucide-react";
 
 const tabs = [
   { href: "/", label: "Home", icon: House },
   { href: "/gallery", label: "Gallery", icon: Images },
+  { href: "/compare", label: "Compare", icon: GitCompareArrows },
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/services", label: "Services", icon: Grid2x2 },
-  { href: "/contact", label: "Contact", icon: Mail }
+  { href: "/favorites", label: "Favorites", icon: Heart }
 ] satisfies Array<{ href: Route; label: string; icon: typeof House }>;
 
 export function MobileTabBar() {

@@ -6,6 +6,7 @@ import "./globals.css";
 import { SiteFooter } from "@/components/marketing/site-footer";
 import { SiteHeader } from "@/components/marketing/site-header";
 import { MobileTabBar } from "@/components/marketing/mobile-tabbar";
+import { AppProviders } from "@/components/providers/app-providers";
 import { BootstrapProvider } from "@/components/providers/bootstrap-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { site } from "@/lib/site";
@@ -39,10 +40,12 @@ export default function RootLayout({
       <body className={`${display.variable} ${body.variable} site-shell`}>
         <BootstrapProvider />
         <ThemeProvider />
-        <SiteHeader />
-        <main>{children}</main>
-        <SiteFooter />
-        <MobileTabBar />
+        <AppProviders>
+          <SiteHeader />
+          <main>{children}</main>
+          <SiteFooter />
+          <MobileTabBar />
+        </AppProviders>
       </body>
     </html>
   );

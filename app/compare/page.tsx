@@ -1,83 +1,185 @@
 import Link from "next/link";
-import { GitCompareArrows, ListChecks, Scale, Smartphone } from "lucide-react";
 
-const comparisonBenefits = [
-  {
-    title: "Pick up to four phones",
-    copy: "Shortlist the models you are still deciding between and keep the list focused."
-  },
-  {
-    title: "See the leaders quickly",
-    copy: "The compare view calls out which phone leads in performance, camera, battery, and overall score."
-  },
-  {
-    title: "Jump back to full specs",
-    copy: "When the scores are close, open the full spec page for the details that matter to you."
+import { ensureApplicationBootstrapped } from "@/lib/services/bootstrap";
+import { buildDetailedComparison } from "@/lib/services/comparison";
+import { formatPhp, formatScore } from "@/lib/utils/format";
+
+export const dynamic = "force-dynamic";
+
+export default async function ComparePage({
+  searchParams
+}: {
+  searchParams: Promise<{ left?: string; right?: string }>;
+}) {
+  const params = await searchParams;
+
+  try {
+    await ensureApplicationBootstrapped();
+  } catch (error) {
+    console.error("[compare.page]", error);
   }
-];
 
-const compareSteps = [
-  "Open the dashboard and filter the catalog down to the phones you actually want to compare.",
-  "Tap the Compare checkbox on each card to build a shortlist of up to four phones.",
-  "Use Compare selected to open the side-by-side summary and see the score leaders instantly."
-];
+  const comparison = await buildDetailedComparison(params.left, params.right);
+  const leftDevice = comparison.left;
+  const rightDevice = comparison.right;
 
-export default function ComparePage() {
   return (
-    <>
-      <section className="section">
-        <div className="page-shell marketing-grid">
-          <div className="glass-panel card">
-            <span className="section-label">Compare Tool</span>
-            <h1 className="section-title">Shortlist a few phones and line them up properly.</h1>
-            <p className="section-copy">
-              DeviceIQ comparison is built for the last part of the search: when you already have a few strong
-              options and want to see which one wins on the scores that matter most.
+    <section className="section">
+      <div className="page-shell compare-page">
+        <span className="section-label">Compare Lab</span>
+        <h1 className="section-title">Structured phone comparison without the dashboard clutter.</h1>
+        <p className="section-copy">
+          Pick two phones, line up the important spec sections, and let the page surface the biggest
+          differences visually.
+        </p>
+
+        <div className="glass-panel card compare-selector-card">
+          <div className="compare-selector-copy">
+            <h2 className="feature-title">Choose the phones to compare.</h2>
+            <p className="muted" style={{ marginBottom: 0 }}>
+              This page owns comparison now, so the dashboard stays focused on discovery and favorites.
             </p>
-            <div className="button-row" style={{ marginTop: 18 }}>
-              <Link href="/dashboard" className="button">
-                Open dashboard
-              </Link>
-              <Link href="/gallery" className="button-secondary">
-                Browse phones first
-              </Link>
+          </div>
+
+          <form className="compare-selector-grid">
+            <div className="field">
+              <label htmlFor="left">Phone A</label>
+              <select id="left" name="left" className="select" defaultValue={comparison.selectedLeftSlug ?? ""}>
+                {comparison.catalog.map((phone) => (
+                  <option key={phone.id} value={phone.slug}>
+                    {phone.brand} {phone.model}
+                  </option>
+                ))}
+              </select>
             </div>
-          </div>
 
-          <div className="glass-panel card">
-            <span className="section-label">How It Works</span>
-            <ul className="insight-list" style={{ marginTop: 20 }}>
-              {compareSteps.map((step) => (
-                <li key={step}>{step}</li>
-              ))}
-            </ul>
-          </div>
+            <div className="field">
+              <label htmlFor="right">Phone B</label>
+              <select id="right" name="right" className="select" defaultValue={comparison.selectedRightSlug ?? ""}>
+                {comparison.catalog.map((phone) => (
+                  <option key={phone.id} value={phone.slug}>
+                    {phone.brand} {phone.model}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <button type="submit" className="button compare-selector-submit">
+              Update comparison
+            </button>
+          </form>
         </div>
-      </section>
 
-      <section className="section">
-        <div className="page-shell">
-          <span className="section-label">Why Compare</span>
-          <h2 className="feature-title">Use the compare view when the short list gets serious.</h2>
-          <div className="card-grid" style={{ marginTop: 28 }}>
-            {comparisonBenefits.map((item, index) => {
-              const icons = [GitCompareArrows, Scale, Smartphone];
-              const Icon = icons[index] ?? ListChecks;
+        {leftDevice && rightDevice ? (
+          <>
+            <div className="glass-panel compare-hero-card">
+              <div className="compare-hero-phones">
+                {[leftDevice, rightDevice].map((device, index) => (
+                  <article key={device.phone.id} className="compare-phone-hero">
+                    <span className="compare-phone-label">Phone {index === 0 ? "A" : "B"}</span>
+                    <div className="compare-hero-score">{formatScore(device.phone.finalScore)}</div>
+                    <div className="compare-phone-media">
+                      {device.reference.imageUrl ? (
+                        <img src={device.reference.imageUrl} alt={device.displayName} />
+                      ) : (
+                        <div className="phone-media-placeholder">{device.phone.brand.slice(0, 1)}</div>
+                      )}
+                    </div>
+                    <h2>{device.displayName}</h2>
+                    <p className="muted compare-phone-price">{formatPhp(device.phone.price)}</p>
+                    <div className="compare-phone-pills">
+                      <span className="chip">Display {device.reference.summary.displaySize ?? "—"}</span>
+                      <span className="chip">Chipset {device.reference.summary.chipset ?? "—"}</span>
+                      <span className="chip">Battery {device.reference.summary.battery ?? "—"}</span>
+                    </div>
+                    <Link href={`/phones/${device.phone.slug}`} className="button-secondary compare-phone-link">
+                      Open full specs
+                    </Link>
+                  </article>
+                ))}
+              </div>
 
-              return (
-                <article key={item.title} className="glass-panel card">
-                  <div className="pill">
-                    <Icon size={15} />
-                    Compare
+              <div className="compare-versus-badge">VS</div>
+            </div>
+
+              <div className="compare-highlights-grid">
+                <div className="glass-panel card compare-highlight-card">
+                <span className="section-label">{leftDevice.displayName}</span>
+                <h3>Reasons to consider it</h3>
+                <ul className="insight-list" style={{ marginTop: 18 }}>
+                  {comparison.highlights.left.map((highlight) => (
+                    <li key={highlight}>{highlight}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="glass-panel card compare-highlight-card">
+                <span className="section-label">{rightDevice.displayName}</span>
+                <h3>Reasons to consider it</h3>
+                <ul className="insight-list" style={{ marginTop: 18 }}>
+                  {comparison.highlights.right.map((highlight) => (
+                    <li key={highlight}>{highlight}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="glass-panel card compare-score-card">
+              <span className="section-label">Score Snapshot</span>
+              <div className="compare-score-rows">
+                {comparison.summaryRows.map((row) => (
+                  <div key={row.label} className="compare-score-row">
+                    <div className={`compare-score-cell ${row.leftWinner ? "is-winner" : ""}`}>{row.leftValue}</div>
+                    <div className="compare-score-label">{row.label}</div>
+                    <div className={`compare-score-cell ${row.rightWinner ? "is-winner" : ""}`}>{row.rightValue}</div>
                   </div>
-                  <h3 style={{ marginTop: 18 }}>{item.title}</h3>
-                  <p className="muted">{item.copy}</p>
-                </article>
-              );
-            })}
+                ))}
+              </div>
+            </div>
+
+            <div className="compare-sections">
+              {comparison.sections.map((section) => (
+                <section key={section.title} className="glass-panel compare-section-card">
+                  <div className="compare-section-header">
+                    <h2>{section.title}</h2>
+                  </div>
+
+                  <div className="compare-table compare-table-header" aria-hidden="true">
+                    <div className="compare-label-cell">Spec</div>
+                    <div className="compare-value-cell">{leftDevice.displayName}</div>
+                    <div className="compare-value-cell">{rightDevice.displayName}</div>
+                  </div>
+
+                  <div className="compare-table-body">
+                    {section.rows.map((row) => (
+                      <div key={`${section.title}-${row.label}`} className="compare-table-row">
+                        <div className="compare-label-cell">{row.label}</div>
+                        <div className={`compare-value-cell ${row.leftWinner ? "is-winner" : row.isDifferent ? "is-different" : ""}`}>
+                          <span className="compare-mobile-name">{leftDevice.displayName}</span>
+                          <span>{row.leftValue}</span>
+                        </div>
+                        <div className={`compare-value-cell ${row.rightWinner ? "is-winner" : row.isDifferent ? "is-different" : ""}`}>
+                          <span className="compare-mobile-name">{rightDevice.displayName}</span>
+                          <span>{row.rightValue}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              ))}
+            </div>
+          </>
+        ) : (
+          <div className="glass-panel card empty-state" style={{ marginTop: 28 }}>
+            <p className="muted" style={{ marginTop: 0 }}>
+              We could not build the current comparison pair. Pick two phones from the selector above.
+            </p>
+            <Link href="/dashboard" className="button-secondary" style={{ display: "inline-flex" }}>
+              Back to dashboard
+            </Link>
           </div>
-        </div>
-      </section>
-    </>
+        )}
+      </div>
+    </section>
   );
 }

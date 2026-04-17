@@ -2,6 +2,7 @@ import { GalleryGrid } from "@/components/phones/gallery-grid";
 import { catalogStats } from "@/lib/data/seed-phones";
 import { ensureApplicationBootstrapped } from "@/lib/services/bootstrap";
 import { listPhones } from "@/lib/services/phones";
+import { serializePhoneCard } from "@/lib/types/phone-card";
 
 export const dynamic = "force-dynamic";
 
@@ -31,21 +32,7 @@ export default async function GalleryPage() {
           Browse the full catalog with photos and quick spec lines. Open any phone for the full spec page.
         </p>
         <div style={{ marginTop: 28 }}>
-          <GalleryGrid
-            phones={catalog.phones.map((phone) => ({
-              id: phone.id,
-              slug: phone.slug,
-              brand: phone.brand,
-              model: phone.model,
-              segment: phone.segment,
-              price: phone.price,
-              performanceScore: phone.performanceScore ?? 0,
-              cameraScore: phone.cameraScore ?? 0,
-              batteryScore: phone.batteryScore ?? 0,
-              valueScore: phone.valueScore ?? 0,
-              finalScore: phone.finalScore ?? 0
-            }))}
-          />
+          <GalleryGrid phones={catalog.phones.map(serializePhoneCard)} />
         </div>
       </div>
     </section>

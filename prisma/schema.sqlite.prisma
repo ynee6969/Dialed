@@ -68,10 +68,33 @@ model Phone {
   updatedAt            DateTime          @updatedAt
   sources              PhoneSource[]
   jobs                 EnrichmentJob[]
+  favorites            Favorite[]
 
   @@index([segment, price])
   @@index([brand, model])
   @@index([finalScore])
+}
+
+model User {
+  id        String     @id @default(cuid())
+  name      String
+  email     String     @unique
+  password  String
+  createdAt DateTime   @default(now())
+  favorites Favorite[]
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+  userId    String
+  phoneId   String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  phone     Phone    @relation(fields: [phoneId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, phoneId])
+  @@index([userId, createdAt])
+  @@index([phoneId])
 }
 
 model PhoneSource {

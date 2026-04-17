@@ -2,6 +2,7 @@ import type { Route } from "next";
 import Link from "next/link";
 
 import { BrandLockup } from "@/components/marketing/brand-lockup";
+import { HeaderAuthControls } from "@/components/marketing/header-auth-controls";
 import { ThemeToggle } from "@/components/marketing/theme-toggle";
 
 const links = [
@@ -28,7 +29,10 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <ThemeToggle />
+        <div className="header-actions">
+          <HeaderAuthControls />
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );

@@ -12,6 +12,16 @@ import {
   isPrismaRuntimeError,
   logServerFailure
 } from "@/lib/services/runtime-safety";
+import {
+  type BatteryCapacityFilter,
+  type CameraQualityFilter,
+  type PerformanceTierFilter,
+  type PriceRangeFilter,
+  resolveBatteryCapacity,
+  resolveCameraQuality,
+  resolvePerformanceTier,
+  resolvePriceRange
+} from "@/lib/utils/phone-filters";
 
 export interface PhoneFilters {
   search?: string;
@@ -21,9 +31,40 @@ export interface PhoneFilters {
   maxPrice?: number;
   minRam?: number;
   minBattery?: number;
+  priceRange?: PriceRangeFilter;
+  performanceTier?: PerformanceTierFilter;
+  cameraQuality?: CameraQualityFilter;
+  batteryCapacity?: BatteryCapacityFilter;
   sort?: "top" | "price_asc" | "price_desc" | "camera" | "battery" | "performance";
   take?: number;
   skip?: number;
+}
+
+function buildNumericRangeFilter<T extends "performanceScore" | "cameraScore" | "battery">(
+  field: T,
+  range?: { min?: number; max?: number }
+): Prisma.PhoneWhereInput {
+  if (!range) {
+    return {};
+  }
+
+  const bounds: { gte?: number; lte?: number } = {};
+
+  if (range.min !== undefined) {
+    bounds.gte = range.min;
+  }
+
+  if (range.max !== undefined) {
+    bounds.lte = range.max;
+  }
+
+  if (!Object.keys(bounds).length) {
+    return {};
+  }
+
+  return {
+    [field]: bounds
+  } as Prisma.PhoneWhereInput;
 }
 
 export interface PhoneListResult {
@@ -55,6 +96,17 @@ export async function listPhones(filters: PhoneFilters = {}): Promise<PhoneListR
     return listFallbackPhones(filters);
   }
 
+  const resolvedPriceRange = resolvePriceRange(filters.priceRange);
+  const resolvedPerformanceTier = resolvePerformanceTier(filters.performanceTier);
+  const resolvedCameraQuality = resolveCameraQuality(filters.cameraQuality);
+  const resolvedBatteryCapacity = resolveBatteryCapacity(filters.batteryCapacity);
+  const minimumPrice = Math.max(filters.minPrice ?? 0, resolvedPriceRange?.min ?? 0) || undefined;
+  const maximumPriceCandidates = [filters.maxPrice, resolvedPriceRange?.max].filter(
+    (value): value is number => value !== undefined
+  );
+  const maximumPrice = maximumPriceCandidates.length ? Math.min(...maximumPriceCandidates) : undefined;
+  const minimumBattery = Math.max(filters.minBattery ?? 0, resolvedBatteryCapacity?.min ?? 0) || undefined;
+
   const where: Prisma.PhoneWhereInput = {
     AND: [
       filters.segment ? { segment: filters.segment as never } : {},
@@ -67,16 +119,18 @@ export async function listPhones(filters: PhoneFilters = {}): Promise<PhoneListR
             ]
           }
         : {},
-      filters.minPrice || filters.maxPrice
+      minimumPrice !== undefined || maximumPrice !== undefined
         ? {
             price: {
-              gte: filters.minPrice,
-              lte: filters.maxPrice
+              gte: minimumPrice,
+              lte: maximumPrice
             }
           }
         : {},
       filters.minRam ? { ram: { gte: filters.minRam } } : {},
-      filters.minBattery ? { battery: { gte: filters.minBattery } } : {}
+      minimumBattery ? { battery: { gte: minimumBattery } } : {},
+      buildNumericRangeFilter("performanceScore", resolvedPerformanceTier),
+      buildNumericRangeFilter("cameraScore", resolvedCameraQuality)
     ]
   };
 

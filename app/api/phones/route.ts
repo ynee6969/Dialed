@@ -3,6 +3,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { ensureApplicationBootstrapped } from "@/lib/services/bootstrap";
 import { listPhones } from "@/lib/services/phones";
 import { getErrorMessage } from "@/lib/services/runtime-safety";
+import {
+  batteryCapacityOptions,
+  cameraQualityOptions,
+  performanceTierOptions,
+  priceRangeOptions
+} from "@/lib/utils/phone-filters";
 
 function parseNumber(value: string | null) {
   if (!value) {
@@ -11,6 +17,17 @@ function parseNumber(value: string | null) {
 
   const parsed = Number(value);
   return Number.isFinite(parsed) ? parsed : undefined;
+}
+
+function parseFilterValue<T extends string>(
+  value: string | null,
+  options: readonly { value: T }[]
+) {
+  if (!value) {
+    return undefined;
+  }
+
+  return options.some((option) => option.value === value) ? (value as T) : undefined;
 }
 
 export async function GET(request: NextRequest) {
@@ -26,6 +43,10 @@ export async function GET(request: NextRequest) {
       maxPrice: parseNumber(searchParams.get("maxPrice")),
       minRam: parseNumber(searchParams.get("minRam")),
       minBattery: parseNumber(searchParams.get("minBattery")),
+      priceRange: parseFilterValue(searchParams.get("priceRange"), priceRangeOptions),
+      performanceTier: parseFilterValue(searchParams.get("performanceTier"), performanceTierOptions),
+      cameraQuality: parseFilterValue(searchParams.get("cameraQuality"), cameraQualityOptions),
+      batteryCapacity: parseFilterValue(searchParams.get("batteryCapacity"), batteryCapacityOptions),
       sort: (searchParams.get("sort") as
         | "top"
         | "price_asc"

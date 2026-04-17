@@ -414,6 +414,40 @@ main {
   color: var(--text);
 }
 
+.header-actions,
+.header-auth-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-auth-group {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.header-auth-button {
+  gap: 8px;
+}
+
+.header-auth-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  min-height: 24px;
+  padding-inline: 7px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  color: var(--accent);
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.muted-chip {
+  color: var(--muted);
+}
+
 .score-badge {
   display: inline-flex;
   align-items: center;
@@ -486,9 +520,28 @@ main {
   display: block;
 }
 
+.dashboard-topbar-split {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.dashboard-cta-row {
+  justify-content: flex-end;
+}
+
 .dashboard-mobile-actions {
   display: none;
   gap: 12px;
+}
+
+.dashboard-summary-card {
+  padding-block: 18px;
+}
+
+.sidebar-filter-stack {
+  align-content: start;
 }
 
 .results-stack {
@@ -533,7 +586,7 @@ main {
 .phone-card-top {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   gap: 12px;
 }
 
@@ -584,11 +637,6 @@ main {
   line-height: 1.15;
 }
 
-.compare-chip {
-  white-space: nowrap;
-  cursor: pointer;
-}
-
 .spec-summary-list {
   list-style: none;
   padding: 0;
@@ -609,6 +657,12 @@ main {
   margin-top: 4px;
 }
 
+.card-primary-actions {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .marketplace-actions {
   display: grid;
   gap: 12px;
@@ -616,10 +670,44 @@ main {
 }
 
 .phone-card-actions .button-secondary,
+.phone-card-actions .button,
 .marketplace-actions .button,
 .marketplace-actions .button-secondary,
 .marketplace-actions .button-ghost {
   width: 100%;
+}
+
+.favorite-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, color 160ms ease;
+}
+
+.favorite-button:hover {
+  transform: translateY(-1px);
+}
+
+.favorite-button.is-active {
+  background: var(--accent-soft);
+  border-color: rgba(70, 179, 123, 0.28);
+  color: var(--accent);
+}
+
+.favorite-button:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.favorite-button-full {
+  min-width: 112px;
 }
 
 .card-meta-note {
@@ -679,7 +767,295 @@ main {
 .phone-detail-actions {
   display: grid;
   gap: 12px;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.9fr);
+}
+
+.phone-detail-actions .card-primary-actions {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.phone-detail-actions > .button-secondary,
+.phone-detail-actions .marketplace-actions {
+  width: 100%;
+}
+
+.auth-shell {
+  display: grid;
+  place-items: center;
+}
+
+.auth-card {
+  width: min(100%, 560px);
+  padding: clamp(22px, 4vw, 32px);
+}
+
+.auth-submit {
+  width: 100%;
+  gap: 8px;
+}
+
+.auth-message {
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid transparent;
+}
+
+.auth-message-error {
+  background: color-mix(in srgb, var(--danger) 16%, transparent);
+  border-color: color-mix(in srgb, var(--danger) 34%, transparent);
+  color: var(--text);
+}
+
+.inline-link {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.compare-page,
+.compare-sections {
+  display: grid;
+  gap: 24px;
+}
+
+.compare-selector-card,
+.compare-hero-card,
+.compare-score-card,
+.compare-section-card {
+  overflow: hidden;
+}
+
+.compare-selector-card {
+  display: grid;
+  gap: 22px;
+}
+
+.compare-selector-copy h2,
+.compare-section-card h2 {
+  margin: 0;
+}
+
+.compare-selector-copy p {
+  margin-top: 10px;
+}
+
+.compare-selector-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: end;
+}
+
+.compare-selector-submit {
+  width: fit-content;
+}
+
+.compare-hero-card {
+  position: relative;
+  padding: clamp(20px, 3vw, 32px);
+}
+
+.compare-hero-phones,
+.compare-highlights-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.compare-phone-hero {
+  display: grid;
+  gap: 16px;
+  padding: 22px;
+  border-radius: 26px;
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+}
+
+.compare-phone-hero h2 {
+  margin: 0;
+  font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.compare-phone-label {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.compare-hero-score {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-width: 72px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  color: var(--accent);
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.compare-phone-media {
+  height: 260px;
+  border-radius: 24px;
+  background: color-mix(in srgb, var(--surface-strong) 82%, transparent);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+.compare-phone-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.compare-phone-price {
+  margin: -8px 0 0;
+  font-size: 1rem;
+}
+
+.compare-phone-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.compare-phone-link {
+  width: fit-content;
+}
+
+.compare-versus-badge {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 88px;
+  height: 88px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.75rem;
+  letter-spacing: -0.04em;
+}
+
+.compare-highlight-card h3 {
+  margin: 16px 0 0;
+}
+
+.compare-score-card {
+  padding: 24px;
+}
+
+.compare-score-rows {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.compare-score-row {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(0, 1fr) 160px minmax(0, 1fr);
+  align-items: center;
+}
+
+.compare-score-cell,
+.compare-label-cell,
+.compare-value-cell {
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: var(--surface-soft);
+  border: 1px solid transparent;
+}
+
+.compare-score-cell {
+  font-weight: 700;
+  text-align: center;
+}
+
+.compare-score-label {
+  color: var(--muted);
+  text-align: center;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.compare-score-cell.is-winner,
+.compare-value-cell.is-winner {
+  border-color: rgba(70, 179, 123, 0.28);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+.compare-value-cell.is-different:not(.is-winner) {
+  border-color: var(--border);
+  background: color-mix(in srgb, var(--surface-strong) 82%, transparent);
+}
+
+.compare-section-card {
+  display: grid;
+}
+
+.compare-section-header {
+  padding: 24px 24px 0;
+}
+
+.compare-table,
+.compare-table-row {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(180px, 0.8fr) repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.compare-table-header {
+  padding: 20px 24px 0;
+}
+
+.compare-table-header .compare-label-cell,
+.compare-table-header .compare-value-cell {
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.compare-table-body {
+  display: grid;
+  gap: 14px;
+  padding: 20px 24px 24px;
+}
+
+.compare-label-cell {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.compare-value-cell {
+  display: grid;
+  gap: 6px;
+  align-content: center;
+  line-height: 1.55;
+}
+
+.compare-mobile-name {
+  display: none;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .specs-table-card {
@@ -737,6 +1113,7 @@ main {
 
 .desktop-nav {
   margin-left: auto;
+  margin-right: 18px;
 }
 
 .mobile-tabbar {
@@ -839,7 +1216,7 @@ main {
   }
 }
 
-@media (max-width: 960px) {
+@media (max-width: 1024px) {
   .dashboard-layout {
     grid-template-columns: 1fr;
   }
@@ -865,61 +1242,15 @@ main {
   .phone-detail-hero {
     grid-template-columns: 1fr;
   }
-}
-
-@media (max-width: 768px) {
-  main {
-    padding-bottom: 110px;
-  }
-
-  .header-inner,
-  .footer-inner {
-    align-items: center;
-  }
-
-  .desktop-nav,
-  .footer-note {
-    display: none;
-  }
-
-  .mobile-tabbar {
-    display: flex;
-  }
-
-  .section {
-    padding: 24px 0 36px;
-  }
-
-  .card-grid,
-  .comparison-grid,
-  .recommendation-grid,
-  .detail-summary-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .phone-grid,
-  .gallery-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-  }
-
-  .theme-toggle span,
-  .brand-text span {
-    display: none;
-  }
 
   .phone-media,
   .gallery-card .phone-media {
-    height: 152px;
+    height: 168px;
     border-radius: 18px;
   }
 
-  .phone-detail-media {
-    min-height: 280px;
-  }
-
   .phone-card {
-    padding: 14px;
+    padding: 16px;
     gap: 12px;
     border-radius: 24px;
   }
@@ -954,12 +1285,8 @@ main {
     font-size: 0.92rem;
   }
 
-  .compare-chip {
+  .favorite-button {
     width: 100%;
-    min-width: 0;
-    justify-content: center;
-    padding: 9px 12px;
-    font-size: 0.92rem;
   }
 
   .phone-card-body {
@@ -971,7 +1298,7 @@ main {
   }
 
   .phone-card h3 {
-    font-size: clamp(0.98rem, 3.9vw, 1.12rem);
+    font-size: clamp(1rem, 2vw, 1.16rem);
     line-height: 1.15;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -990,13 +1317,90 @@ main {
     display: none;
   }
 
-  .phone-card-actions {
+  .phone-card-actions,
+  .card-primary-actions {
     gap: 8px;
   }
 
-  .phone-card-actions .button-secondary {
+  .card-primary-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .phone-card-actions .button-secondary,
+  .phone-card-actions .button {
     padding: 11px 12px;
     font-size: 0.9rem;
+  }
+
+  .compare-selector-grid,
+  .compare-highlights-grid,
+  .compare-hero-phones {
+    grid-template-columns: 1fr;
+  }
+
+  .compare-versus-badge {
+    position: static;
+    transform: none;
+    margin: 18px auto 0;
+  }
+
+  .compare-score-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .compare-score-label {
+    grid-column: 1 / -1;
+    order: -1;
+  }
+}
+
+@media (max-width: 768px) {
+  main {
+    padding-bottom: 110px;
+  }
+
+  .header-inner,
+  .footer-inner {
+    align-items: center;
+  }
+
+  .desktop-nav,
+  .footer-note {
+    display: none;
+  }
+
+  .mobile-tabbar {
+    display: flex;
+  }
+
+  .header-inner {
+    flex-wrap: wrap;
+  }
+
+  .section {
+    padding: 24px 0 36px;
+  }
+
+  .card-grid,
+  .comparison-grid,
+  .recommendation-grid,
+  .detail-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .phone-grid,
+  .gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .theme-toggle span,
+  .brand-text span {
+    display: none;
+  }
+
+  .phone-detail-media {
+    min-height: 280px;
   }
 
   .phone-detail-actions {
@@ -1015,6 +1419,45 @@ main {
   .spec-row {
     grid-template-columns: 1fr;
     gap: 8px;
+  }
+
+  .compare-hero-card,
+  .compare-score-card,
+  .compare-section-header,
+  .compare-table-header,
+  .compare-table-body {
+    padding-inline: 16px;
+  }
+
+  .compare-phone-hero {
+    padding: 18px;
+  }
+
+  .compare-phone-media {
+    height: 220px;
+  }
+
+  .compare-table-header {
+    display: none;
+  }
+
+  .compare-table-row {
+    grid-template-columns: 1fr;
+  }
+
+  .compare-label-cell {
+    background: transparent;
+    border: 0;
+    padding: 0 0 4px;
+  }
+
+  .compare-mobile-name {
+    display: block;
+  }
+
+  .compare-selector-submit,
+  .compare-phone-link {
+    width: 100%;
   }
 }
 
@@ -1039,7 +1482,7 @@ main {
     font-size: 0.88rem;
   }
 
-  .compare-chip {
+  .favorite-button {
     font-size: 0.88rem;
   }
 }

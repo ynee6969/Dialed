@@ -20,11 +20,13 @@
   },
   "dependencies": {
     "@prisma/client": "^6.6.0",
+    "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.6.2",
     "lucide-react": "^0.503.0",
     "next": "^15.3.0",
+    "next-auth": "^4.24.14",
     "playwright": "^1.59.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

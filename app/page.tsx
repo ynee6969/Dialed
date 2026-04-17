@@ -19,7 +19,7 @@ const featureCards = [
   },
   {
     title: "Shortlist and compare",
-    copy: "Keep a few phones in play and check them side by side before you decide.",
+    copy: "Move the finalists into a dedicated compare lab and inspect the differences properly.",
     icon: GitCompareArrows
   }
 ];
@@ -35,7 +35,7 @@ export default function HomePage() {
           <h2 className="section-title">Search, compare, and narrow it down fast.</h2>
           <p className="section-copy">
             The site is built for one job: help you get to a short list without the usual mess.
-            Use the dashboard to filter the catalog, compare phones, and open the full spec page for any model.
+            Use the dashboard to filter the catalog, save likely winners, and open the full spec page for any model.
           </p>
 
           <div className="card-grid" style={{ marginTop: 28 }}>
@@ -89,11 +89,11 @@ export default function HomePage() {
             <h2 className="feature-title">Shortlist a few phones and compare them side by side.</h2>
             <p className="section-copy">
               When you are down to the final few options, use the compare flow to see which phone leads in
-              performance, camera, battery, and overall score without bouncing between pages.
+              performance, camera, battery, and overall score without keeping comparison controls in the dashboard.
             </p>
             <div className="button-row" style={{ marginTop: 18 }}>
               <Link href="/compare" className="button">
-                Open compare guide
+                Open compare lab
               </Link>
               <Link href="/dashboard" className="button-secondary">
                 Start in dashboard
@@ -104,9 +104,9 @@ export default function HomePage() {
           <div className="glass-panel card">
             <span className="section-label">Compare Flow</span>
             <ul className="insight-list" style={{ marginTop: 20 }}>
-              <li>Pick up to four phones from the dashboard.</li>
-              <li>Use Compare selected to open the score leaders instantly.</li>
-              <li>Open full specs only for the phones that stay close after the score check.</li>
+              <li>Filter the catalog down to the short list in the dashboard.</li>
+              <li>Save or open a device into the compare lab when it belongs in the final two.</li>
+              <li>Read the structured row-by-row table before opening full specs for the winner.</li>
             </ul>
           </div>
         </div>
@@ -146,7 +146,7 @@ export default function HomePage() {
             <h2 className="feature-title">Browse first. Decide later.</h2>
             <p className="section-copy">
               Use the public pages to look around, then jump into the dashboard when you want filters,
-              scores, and compare mode.
+              favorites, and a cleaner decision flow.
             </p>
             <div className="button-row" style={{ marginTop: 18 }}>
               <Link href="/about" className="button-secondary">

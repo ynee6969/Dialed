@@ -13,7 +13,7 @@ export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
   const highlights = [
     `${catalogSize} phones across ${segmentCount} price bands`,
     "Full product photos and quick spec lines",
-    "Side-by-side compare mode",
+    "Dedicated side-by-side compare lab",
     "Light and dark mode"
   ];
 
@@ -30,7 +30,7 @@ export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
           <h1 className="section-title">Pick a phone without opening ten tabs.</h1>
           <p className="section-copy">
             Set a budget. Check camera, battery, and performance. Compare a few models side by side and
-            open the full spec page when you want the details.
+            save the standouts when you want the details later.
           </p>
           <div className="button-row" style={{ marginTop: 28 }}>
             <Link href="/dashboard" className="button">
@@ -65,14 +65,14 @@ export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
                   <ListFilter size={14} style={{ verticalAlign: "middle", marginRight: 8 }} />
                   Filter the list
                 </span>
-                Narrow the catalog by budget, brand, battery, and segment.
+                Narrow the catalog by brand, price, battery, camera, and performance.
               </div>
               <div className="metric">
                 <span>
                   <GitCompareArrows size={14} style={{ verticalAlign: "middle", marginRight: 8 }} />
                   Compare side by side
                 </span>
-                Keep a few phones in play and check them against each other.
+                Open the compare lab and evaluate two phones row by row.
               </div>
               <div className="metric">
                 <span>
@@ -100,7 +100,7 @@ export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
               </div>
               <div className="metric">
                 <span>Compare</span>
-                <strong>Up to 4 phones</strong>
+                <strong>2-phone deep dive</strong>
               </div>
             </div>
           </div>
