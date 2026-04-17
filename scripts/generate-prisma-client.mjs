@@ -16,17 +16,11 @@ function resolveSchemaPath() {
 const schemaPath = resolveSchemaPath();
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(scriptDir, "..");
-const prismaBin = process.platform === "win32"
-  ? path.join(projectRoot, "node_modules", ".bin", "prisma.cmd")
-  : path.join(projectRoot, "node_modules", ".bin", "prisma");
+const prismaCliEntry = path.join(projectRoot, "node_modules", "prisma", "build", "index.js");
 const prismaArgs = ["generate", "--schema", schemaPath];
 const generatedClientPath = path.join(projectRoot, "node_modules", ".prisma", "client", "index.d.ts");
-const command = process.platform === "win32" ? (process.env.ComSpec ?? "cmd.exe") : prismaBin;
-const commandArgs = process.platform === "win32"
-  ? ["/d", "/s", "/c", `"${prismaBin}" ${prismaArgs.join(" ")}`]
-  : prismaArgs;
 
-const result = spawnSync(command, commandArgs, {
+const result = spawnSync(process.execPath, [prismaCliEntry, ...prismaArgs], {
   stdio: "pipe",
   cwd: projectRoot,
   env: process.env

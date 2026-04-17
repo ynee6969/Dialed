@@ -1,15 +1,30 @@
+import type { Session } from "next-auth";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 
 import { authOptions } from "@/auth";
 import { hasConfiguredAuthSecret } from "@/lib/auth/config";
+import { isPrismaRuntimeError, logServerFailure } from "@/lib/services/runtime-safety";
 
-export async function getAuthenticatedUser() {
+export async function getOptionalSession(): Promise<Session | null> {
   if (!hasConfiguredAuthSecret()) {
     return null;
   }
 
-  const session = await getServerSession(authOptions);
+  try {
+    return await getServerSession(authOptions);
+  } catch (error) {
+    if (isPrismaRuntimeError(error)) {
+      logServerFailure("auth.session", error);
+      return null;
+    }
+
+    throw error;
+  }
+}
+
+export async function getAuthenticatedUser() {
+  const session = await getOptionalSession();
   const user = session?.user;
 
   if (!user?.id || !user.email) {

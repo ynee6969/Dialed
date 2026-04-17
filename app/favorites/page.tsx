@@ -1,11 +1,10 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth";
 
-import { authOptions } from "@/auth";
 import { AuthConfigNotice } from "@/components/auth/auth-config-notice";
 import { DeviceCard } from "@/components/phones/device-card";
 import { hasConfiguredAuthSecret } from "@/lib/auth/config";
+import { getOptionalSession } from "@/lib/auth/session";
 import { listFavoritesByUserId } from "@/lib/services/favorites";
 import { serializePhoneCard } from "@/lib/types/phone-card";
 
@@ -22,7 +21,7 @@ export default async function FavoritesPage() {
     );
   }
 
-  const session = await getServerSession(authOptions);
+  const session = await getOptionalSession();
 
   if (!session?.user?.id) {
     redirect("/login?callbackUrl=%2Ffavorites");

@@ -4,7 +4,12 @@ import { authConfigurationMessage, hasConfiguredAuthSecret } from "@/lib/auth/co
 import { prisma } from "@/lib/prisma";
 import { hashPassword } from "@/lib/auth/password";
 import { signupSchema } from "@/lib/auth/validation";
-import { hasDatabaseUrl } from "@/lib/services/runtime-safety";
+import {
+  authServiceUnavailableMessage,
+  hasDatabaseUrl,
+  isPrismaRuntimeError,
+  logServerFailure
+} from "@/lib/services/runtime-safety";
 
 export async function POST(request: Request) {
   if (!hasConfiguredAuthSecret()) {
@@ -12,10 +17,7 @@ export async function POST(request: Request) {
   }
 
   if (!hasDatabaseUrl()) {
-    return NextResponse.json(
-      { error: "Authentication is unavailable until the database is configured." },
-      { status: 503 }
-    );
+    return NextResponse.json({ error: authServiceUnavailableMessage }, { status: 503 });
   }
 
   try {
@@ -46,6 +48,11 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ user }, { status: 201 });
   } catch (error) {
+    if (isPrismaRuntimeError(error)) {
+      logServerFailure("auth.signup", error);
+      return NextResponse.json({ error: authServiceUnavailableMessage }, { status: 503 });
+    }
+
     if (error instanceof Error) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }

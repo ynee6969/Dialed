@@ -1,16 +1,20 @@
 import type { NextAuthOptions } from "next-auth";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import { resolvedAuthSecret } from "@/lib/auth/config";
 import { prisma } from "@/lib/prisma";
 import { verifyPassword } from "@/lib/auth/password";
 import { loginSchema } from "@/lib/auth/validation";
-import { hasDatabaseUrl } from "@/lib/services/runtime-safety";
+import { hasDatabaseUrl, isPrismaRuntimeError, logServerFailure } from "@/lib/services/runtime-safety";
+
+const databaseBackedAuthEnabled = hasDatabaseUrl();
 
 export const authOptions: NextAuthOptions = {
+  adapter: databaseBackedAuthEnabled ? PrismaAdapter(prisma) : undefined,
   secret: resolvedAuthSecret,
   session: {
-    strategy: "jwt",
+    strategy: databaseBackedAuthEnabled ? "database" : "jwt",
     maxAge: 60 * 60 * 24 * 30
   },
   pages: {
@@ -30,7 +34,7 @@ export const authOptions: NextAuthOptions = {
         }
       },
       async authorize(rawCredentials) {
-        if (!hasDatabaseUrl()) {
+        if (!databaseBackedAuthEnabled) {
           return null;
         }
 
@@ -39,25 +43,34 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        const email = parsed.data.email.toLowerCase();
-        const user = await prisma.user.findUnique({
-          where: { email }
-        });
+        try {
+          const email = parsed.data.email.toLowerCase();
+          const user = await prisma.user.findUnique({
+            where: { email }
+          });
 
-        if (!user) {
-          return null;
+          if (!user?.password) {
+            return null;
+          }
+
+          const isValidPassword = await verifyPassword(parsed.data.password, user.password);
+          if (!isValidPassword) {
+            return null;
+          }
+
+          return {
+            id: user.id,
+            name: user.name ?? user.email ?? "Dialed member",
+            email: user.email ?? email
+          };
+        } catch (error) {
+          if (isPrismaRuntimeError(error)) {
+            logServerFailure("auth.authorize", error);
+            return null;
+          }
+
+          throw error;
         }
-
-        const isValidPassword = await verifyPassword(parsed.data.password, user.password);
-        if (!isValidPassword) {
-          return null;
-        }
-
-        return {
-          id: user.id,
-          name: user.name,
-          email: user.email
-        };
       }
     })
   ],
@@ -66,23 +79,54 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id as string;
         token.sub = user.id as string;
-        token.name = user.name;
-        token.email = user.email;
+
+        if (typeof user.name === "string") {
+          token.name = user.name;
+        }
+
+        if (typeof user.email === "string") {
+          token.email = user.email;
+        }
       }
 
       return token;
     },
-    async session({ session, token }) {
-      if (session.user && typeof token.id === "string") {
-        session.user.id = token.id;
-      }
+    async session({ session, token, user }) {
+      if (session.user) {
+        const resolvedUserId =
+          typeof user?.id === "string"
+            ? user.id
+            : typeof token.id === "string"
+              ? token.id
+              : typeof token.sub === "string"
+                ? token.sub
+                : undefined;
 
-      if (session.user && typeof token.name === "string") {
-        session.user.name = token.name;
-      }
+        if (resolvedUserId) {
+          session.user.id = resolvedUserId;
+        }
 
-      if (session.user && typeof token.email === "string") {
-        session.user.email = token.email;
+        const resolvedName =
+          typeof user?.name === "string"
+            ? user.name
+            : typeof token.name === "string"
+              ? token.name
+              : undefined;
+
+        if (resolvedName) {
+          session.user.name = resolvedName;
+        }
+
+        const resolvedEmail =
+          typeof user?.email === "string"
+            ? user.email
+            : typeof token.email === "string"
+              ? token.email
+              : undefined;
+
+        if (resolvedEmail) {
+          session.user.email = resolvedEmail;
+        }
       }
 
       return session;

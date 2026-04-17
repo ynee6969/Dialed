@@ -1,6 +1,11 @@
 import Link from "next/link";
 
+import { getOptionalSession } from "@/lib/auth/session";
 import { ensureApplicationBootstrapped } from "@/lib/services/bootstrap";
+import {
+  listRecentComparisonSnapshotsByUserId,
+  rememberComparisonSnapshot
+} from "@/lib/services/comparison-history";
 import { buildDetailedComparison } from "@/lib/services/comparison";
 import { formatPhp, formatScore } from "@/lib/utils/format";
 
@@ -19,9 +24,23 @@ export default async function ComparePage({
     console.error("[compare.page]", error);
   }
 
+  const session = await getOptionalSession();
   const comparison = await buildDetailedComparison(params.left, params.right);
   const leftDevice = comparison.left;
   const rightDevice = comparison.right;
+  let recentComparisons: Awaited<ReturnType<typeof listRecentComparisonSnapshotsByUserId>> = [];
+
+  if (session?.user?.id) {
+    try {
+      if (leftDevice && rightDevice) {
+        await rememberComparisonSnapshot(session.user.id, leftDevice.phone.id, rightDevice.phone.id);
+      }
+
+      recentComparisons = await listRecentComparisonSnapshotsByUserId(session.user.id);
+    } catch (error) {
+      console.error("[compare.history]", error);
+    }
+  }
 
   return (
     <section className="section">
@@ -69,6 +88,29 @@ export default async function ComparePage({
             </button>
           </form>
         </div>
+
+        {recentComparisons.length ? (
+          <div className="glass-panel card" style={{ marginTop: 20 }}>
+            <span className="section-label">Recent comparisons</span>
+            <p className="muted" style={{ marginBottom: 0 }}>
+              Your last comparison pairs stay attached to your account for quick jump-backs.
+            </p>
+
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 18 }}>
+              {recentComparisons.map((entry) => (
+                <Link
+                  key={entry.id}
+                  href={`/compare?left=${entry.leftPhone.slug}&right=${entry.rightPhone.slug}`}
+                  className="button-secondary"
+                  style={{ display: "inline-flex" }}
+                >
+                  {entry.leftPhone.brand} {entry.leftPhone.model} vs {entry.rightPhone.brand}{" "}
+                  {entry.rightPhone.model}
+                </Link>
+              ))}
+            </div>
+          </div>
+        ) : null}
 
         {leftDevice && rightDevice ? (
           <>

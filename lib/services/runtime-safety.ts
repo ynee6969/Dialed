@@ -2,6 +2,12 @@ import { Prisma } from "@prisma/client";
 
 import { env } from "@/lib/env";
 
+export const authServiceUnavailableMessage =
+  "Account services are temporarily unavailable. Please try again in a moment.";
+
+export const favoritesServiceUnavailableMessage =
+  "Favorites are temporarily unavailable. Please try again in a moment.";
+
 export function hasDatabaseUrl() {
   return Boolean(env.DATABASE_URL?.trim());
 }

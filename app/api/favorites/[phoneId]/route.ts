@@ -2,17 +2,19 @@ import { NextResponse } from "next/server";
 
 import { getAuthenticatedUser, unauthorizedResponse } from "@/lib/auth/session";
 import { removeFavorite } from "@/lib/services/favorites";
-import { hasDatabaseUrl } from "@/lib/services/runtime-safety";
+import {
+  favoritesServiceUnavailableMessage,
+  hasDatabaseUrl,
+  isPrismaRuntimeError,
+  logServerFailure
+} from "@/lib/services/runtime-safety";
 
 export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ phoneId: string }> }
 ) {
   if (!hasDatabaseUrl()) {
-    return NextResponse.json(
-      { error: "Favorites are unavailable until the database is configured." },
-      { status: 503 }
-    );
+    return NextResponse.json({ error: favoritesServiceUnavailableMessage }, { status: 503 });
   }
 
   const user = await getAuthenticatedUser();
@@ -21,7 +23,16 @@ export async function DELETE(
   }
 
   const { phoneId } = await params;
-  await removeFavorite(user.id, phoneId);
+  try {
+    await removeFavorite(user.id, phoneId);
 
-  return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    if (isPrismaRuntimeError(error)) {
+      logServerFailure("favorites.remove", error);
+      return NextResponse.json({ error: favoritesServiceUnavailableMessage }, { status: 503 });
+    }
+
+    throw error;
+  }
 }
