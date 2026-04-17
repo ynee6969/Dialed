@@ -32,6 +32,43 @@ const authContent = {
   }
 } as const;
 
+const sessionVerificationRetries = 4;
+const sessionVerificationDelayMs = 150;
+
+function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function readAuthenticatedSession() {
+  for (let attempt = 0; attempt < sessionVerificationRetries; attempt += 1) {
+    const response = await fetch("/api/auth/session", {
+      method: "GET",
+      cache: "no-store",
+      credentials: "include",
+      headers: {
+        Accept: "application/json"
+      }
+    });
+
+    if (response.ok) {
+      const session = (await response.json()) as {
+        user?: {
+          id?: string;
+          email?: string | null;
+        } | null;
+      };
+
+      if (session?.user?.id) {
+        return session;
+      }
+    }
+
+    await wait(sessionVerificationDelayMs);
+  }
+
+  return null;
+}
+
 export function AuthForm({ mode, callbackUrl }: AuthFormProps) {
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -75,11 +112,22 @@ export function AuthForm({ mode, callbackUrl }: AuthFormProps) {
         redirect: false
       });
 
-      if (result?.error) {
+      if (result?.error || !result?.ok) {
         setError(
           mode === "login"
             ? "We couldn't sign you in with that email and password."
             : "Your account was created, but the automatic sign in failed. Please try logging in."
+        );
+        return;
+      }
+
+      const session = await readAuthenticatedSession();
+
+      if (!session?.user?.id) {
+        setError(
+          mode === "login"
+            ? "We could not confirm your session after signing in. Please try again."
+            : "Your account was created, but we could not confirm the new session yet. Please log in once to continue."
         );
         return;
       }

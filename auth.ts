@@ -14,7 +14,8 @@ export const authOptions: NextAuthOptions = {
   adapter: databaseBackedAuthEnabled ? PrismaAdapter(prisma) : undefined,
   secret: resolvedAuthSecret,
   session: {
-    strategy: databaseBackedAuthEnabled ? "database" : "jwt",
+    // Credentials auth in NextAuth requires JWT sessions.
+    strategy: "jwt",
     maxAge: 60 * 60 * 24 * 30
   },
   pages: {
