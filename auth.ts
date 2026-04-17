@@ -1,16 +1,14 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
+import { resolvedAuthSecret } from "@/lib/auth/config";
 import { prisma } from "@/lib/prisma";
 import { verifyPassword } from "@/lib/auth/password";
 import { loginSchema } from "@/lib/auth/validation";
-import { env } from "@/lib/env";
 import { hasDatabaseUrl } from "@/lib/services/runtime-safety";
 
-const developmentSecret = "dialed-local-auth-secret-change-me";
-
 export const authOptions: NextAuthOptions = {
-  secret: env.AUTH_SECRET ?? (process.env.NODE_ENV === "development" ? developmentSecret : undefined),
+  secret: resolvedAuthSecret,
   session: {
     strategy: "jwt",
     maxAge: 60 * 60 * 24 * 30

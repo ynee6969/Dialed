@@ -1,11 +1,16 @@
 import { NextResponse } from "next/server";
 
+import { authConfigurationMessage, hasConfiguredAuthSecret } from "@/lib/auth/config";
 import { prisma } from "@/lib/prisma";
 import { hashPassword } from "@/lib/auth/password";
 import { signupSchema } from "@/lib/auth/validation";
 import { hasDatabaseUrl } from "@/lib/services/runtime-safety";
 
 export async function POST(request: Request) {
+  if (!hasConfiguredAuthSecret()) {
+    return NextResponse.json({ error: authConfigurationMessage }, { status: 503 });
+  }
+
   if (!hasDatabaseUrl()) {
     return NextResponse.json(
       { error: "Authentication is unavailable until the database is configured." },

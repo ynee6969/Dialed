@@ -1,0 +1,25 @@
+import Link from "next/link";
+
+import { authConfigurationMessage } from "@/lib/auth/config";
+
+export function AuthConfigNotice() {
+  return (
+    <div className="auth-shell">
+      <div className="glass-panel auth-card">
+        <span className="section-label">Auth Setup Needed</span>
+        <h1 className="feature-title">Authentication is not configured yet.</h1>
+        <p className="section-copy" style={{ maxWidth: "none" }}>
+          {authConfigurationMessage}
+        </p>
+        <p className="muted" style={{ marginBottom: 0 }}>
+          Add the secret in Vercel, redeploy, and the login/signup flow will start working.
+        </p>
+        <div className="button-row" style={{ marginTop: 20 }}>
+          <Link href="/dashboard" className="button-secondary">
+            Back to dashboard
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
