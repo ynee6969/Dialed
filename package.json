@@ -1,0 +1,43 @@
+{
+  "name": "ai-phone-matchmaker",
+  "version": "1.0.0",
+  "private": true,
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate:dev": "prisma migrate dev",
+    "prisma:seed": "tsx prisma/seed.ts",
+    "prisma:generate:sqlite": "prisma generate --schema prisma/schema.sqlite.prisma",
+    "prisma:push:sqlite": "prisma db push --schema prisma/schema.sqlite.prisma",
+    "prisma:seed:sqlite": "tsx prisma/seed.ts",
+    "db:init:sqlite": "py -3.12 scripts/init_sqlite_dev.py"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.6.0",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "framer-motion": "^12.6.2",
+    "lucide-react": "^0.503.0",
+    "next": "^15.3.0",
+    "playwright": "^1.59.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.0.12",
+    "@types/react-dom": "^19.0.5",
+    "eslint": "^9.24.0",
+    "eslint-config-next": "^15.3.0",
+    "prisma": "^6.6.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}

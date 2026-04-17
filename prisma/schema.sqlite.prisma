@@ -1,0 +1,108 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum PhoneSegment {
+  entry
+  budget
+  entry_mid
+  midrange
+  upper_mid
+  flagship
+  ultra_flagship
+}
+
+enum EnrichmentStatus {
+  pending
+  queued
+  processing
+  completed
+  fallback
+  failed
+}
+
+enum SourceKind {
+  gsmarena
+  kimovil
+  nanoreview
+}
+
+model Phone {
+  id                   String            @id @default(cuid())
+  slug                 String            @unique
+  brand                String
+  model                String
+  segment              PhoneSegment
+  price                Int
+  performanceScore     Float?
+  cameraScore          Float?
+  batteryScore         Float?
+  valueScore           Float?
+  finalScore           Float?
+  display              String?
+  chipset              String?
+  gpu                  String?
+  ram                  Int?
+  storage              Int?
+  cameraMain           Int?
+  cameraUltrawide      Int?
+  battery              Int?
+  charging             Int?
+  os                   String?
+  releaseYear          Int?
+  releaseDate          DateTime?
+  benchmarkScore       Int?
+  aiSummary            String?
+  enrichmentStatus     EnrichmentStatus  @default(pending)
+  enrichmentConfidence Float?
+  preferredSource      SourceKind?
+  lastEnrichedAt       DateTime?
+  rawSeed              Json
+  enrichmentPayload    Json?
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+  sources              PhoneSource[]
+  jobs                 EnrichmentJob[]
+
+  @@index([segment, price])
+  @@index([brand, model])
+  @@index([finalScore])
+}
+
+model PhoneSource {
+  id            String      @id @default(cuid())
+  phoneId       String
+  sourceKind    SourceKind
+  sourceUrl     String
+  cacheKey      String      @unique
+  rawMarkdown   String?
+  rawExtraction Json?
+  fetchedAt     DateTime?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  phone         Phone       @relation(fields: [phoneId], references: [id], onDelete: Cascade)
+
+  @@index([phoneId, sourceKind])
+}
+
+model EnrichmentJob {
+  id         String           @id @default(cuid())
+  phoneId     String
+  status     EnrichmentStatus @default(queued)
+  provider   String?
+  sourceKind SourceKind?
+  attempts   Int              @default(0)
+  error      String?
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+  startedAt  DateTime?
+  finishedAt DateTime?
+  phone      Phone            @relation(fields: [phoneId], references: [id], onDelete: Cascade)
+
+  @@index([status, createdAt])
+}
