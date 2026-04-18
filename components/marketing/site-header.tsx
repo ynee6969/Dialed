@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 
 import { BrandLockup } from "@/components/marketing/brand-lockup";
 import { HeaderAuthControls } from "@/components/marketing/header-auth-controls";
-import { ThemeToggle } from "@/components/marketing/theme-toggle";
 
 const links = [
   { href: "/", label: "Home" },
@@ -47,7 +46,6 @@ export function SiteHeader() {
 
         <div className="header-actions">
           <HeaderAuthControls />
-          <ThemeToggle />
         </div>
       </div>
     </header>

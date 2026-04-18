@@ -9,10 +9,10 @@ import { InstantNavLink } from "@/components/navigation/instant-nav-link";
 
 const tabs = [
   { href: "/", label: "Home", icon: House },
-  { href: "/services", label: "Services", icon: Sparkles },
+  { href: "/services", label: "Tools", icon: Sparkles },
   { href: "/compare", label: "Compare", icon: GitCompareArrows },
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/favorites", label: "Favorites", icon: Heart }
+  { href: "/dashboard", label: "Browse", icon: LayoutDashboard },
+  { href: "/favorites", label: "Saved", icon: Heart }
 ] satisfies Array<{ href: Route; label: string; icon: typeof House }>;
 
 function isActivePath(pathname: string, href: Route) {

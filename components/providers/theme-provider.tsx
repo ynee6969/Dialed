@@ -10,7 +10,8 @@ import {
 } from "react";
 
 import {
-  defaultThemePaletteId,
+  defaultDarkThemePaletteId,
+  defaultLightThemePaletteId,
   getThemePresetById,
   isThemePaletteId,
   themePresets,
@@ -41,20 +42,50 @@ const LEGACY_PALETTE_KEY = "dialed-theme-palette";
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
-function parseHexToRgb(value: string) {
+function parseHexColor(value: string) {
   const normalized = value.replace("#", "");
   const compact = normalized.length === 3
     ? normalized
         .split("")
         .map((entry) => `${entry}${entry}`)
         .join("")
+    : normalized.length === 4
+      ? normalized
+          .split("")
+          .map((entry) => `${entry}${entry}`)
+          .join("")
     : normalized;
 
   const red = Number.parseInt(compact.slice(0, 2), 16);
   const green = Number.parseInt(compact.slice(2, 4), 16);
   const blue = Number.parseInt(compact.slice(4, 6), 16);
+  const alpha = compact.length === 8 ? Number.parseInt(compact.slice(6, 8), 16) / 255 : 1;
 
+  return { red, green, blue, alpha };
+}
+
+function parseHexToRgb(value: string) {
+  const { red, green, blue } = parseHexColor(value);
   return `${red}, ${green}, ${blue}`;
+}
+
+function toRgba(value: string, alphaMultiplier = 1) {
+  const { red, green, blue, alpha } = parseHexColor(value);
+  const finalAlpha = Math.max(0, Math.min(1, alpha * alphaMultiplier));
+
+  return `rgba(${red}, ${green}, ${blue}, ${finalAlpha.toFixed(3)})`;
+}
+
+function mixColors(primary: string, secondary: string, secondaryWeight: number) {
+  const base = parseHexColor(primary);
+  const mix = parseHexColor(secondary);
+  const weight = Math.max(0, Math.min(1, secondaryWeight));
+  const inverse = 1 - weight;
+  const red = Math.round((base.red * inverse) + (mix.red * weight));
+  const green = Math.round((base.green * inverse) + (mix.green * weight));
+  const blue = Math.round((base.blue * inverse) + (mix.blue * weight));
+
+  return `rgb(${red} ${green} ${blue})`;
 }
 
 function resolveStoredMode(value: string | null): ThemeMode {
@@ -65,8 +96,8 @@ function resolveStoredMode(value: string | null): ThemeMode {
   return "dark";
 }
 
-function resolveStoredPalette(value: string | null): ThemePaletteId {
-  return isThemePaletteId(value) ? value : defaultThemePaletteId;
+function resolveStoredPalette(value: string | null, fallback: ThemePaletteId): ThemePaletteId {
+  return isThemePaletteId(value) ? value : fallback;
 }
 
 function getSystemTheme(): ThemeAppearance {
@@ -86,6 +117,13 @@ function applyPalette(appearance: ThemeAppearance, paletteId: ThemePaletteId) {
   const root = document.documentElement;
 
   root.dataset.theme = appearance;
+  root.style.setProperty("--bg", preset.background);
+  root.style.setProperty("--surface", toRgba(preset.background, appearance === "dark" ? 0.9 : 0.94));
+  root.style.setProperty("--surface-soft", mixColors(preset.surface, preset.background, appearance === "dark" ? 0.18 : 0.08));
+  root.style.setProperty("--surface-strong", mixColors(preset.surface, preset.foreground, appearance === "dark" ? 0.12 : 0.2));
+  root.style.setProperty("--border", toRgba(preset.foreground, appearance === "dark" ? 0.12 : 0.18));
+  root.style.setProperty("--text", preset.foreground);
+  root.style.setProperty("--muted", mixColors(preset.muted, preset.foreground, appearance === "dark" ? 0.1 : 0.04));
   root.style.setProperty("--accent", preset.accent);
   root.style.setProperty("--accent-rgb", parseHexToRgb(preset.accent));
   root.style.setProperty("--accent-strong", preset.accentStrong);
@@ -95,26 +133,29 @@ function applyPalette(appearance: ThemeAppearance, paletteId: ThemePaletteId) {
   root.style.setProperty("--accent-tertiary", preset.tertiary);
   root.style.setProperty("--accent-tertiary-rgb", parseHexToRgb(preset.tertiary));
   root.style.setProperty("--accent-contrast", preset.accentContrast);
-  root.style.setProperty("--accent-soft", `rgba(${parseHexToRgb(preset.accent)}, 0.14)`);
+  root.style.setProperty("--accent-soft", `rgba(${parseHexToRgb(preset.accent)}, ${appearance === "dark" ? "0.16" : "0.13"})`);
+  root.style.setProperty("--danger", preset.danger);
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
   const [mode, setMode] = useState<ThemeMode>("dark");
-  const [lightPaletteId, setLightPaletteId] = useState<ThemePaletteId>(defaultThemePaletteId);
-  const [darkPaletteId, setDarkPaletteId] = useState<ThemePaletteId>(defaultThemePaletteId);
+  const [lightPaletteId, setLightPaletteId] = useState<ThemePaletteId>(defaultLightThemePaletteId);
+  const [darkPaletteId, setDarkPaletteId] = useState<ThemePaletteId>(defaultDarkThemePaletteId);
   const [systemTheme, setSystemTheme] = useState<ThemeAppearance>("dark");
 
   useEffect(() => {
     const storedMode = resolveStoredMode(
       window.localStorage.getItem(THEME_MODE_KEY) ?? window.localStorage.getItem(LEGACY_THEME_KEY)
     );
-    const legacyPalette = resolveStoredPalette(window.localStorage.getItem(LEGACY_PALETTE_KEY));
+    const legacyPalette = window.localStorage.getItem(LEGACY_PALETTE_KEY);
     const storedLightPalette = resolveStoredPalette(
-      window.localStorage.getItem(LIGHT_PALETTE_KEY) ?? legacyPalette
+      window.localStorage.getItem(LIGHT_PALETTE_KEY) ?? legacyPalette,
+      defaultLightThemePaletteId
     );
     const storedDarkPalette = resolveStoredPalette(
-      window.localStorage.getItem(DARK_PALETTE_KEY) ?? legacyPalette
+      window.localStorage.getItem(DARK_PALETTE_KEY) ?? legacyPalette,
+      defaultDarkThemePaletteId
     );
 
     setMode(storedMode);

@@ -1,7 +1,8 @@
 "use client";
 
-import { Check, Monitor, MoonStar, Palette, Search, SunMedium } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Check, Monitor, MoonStar, Palette, Search, SunMedium, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 
 import { useThemeValue, type ThemeAppearance, type ThemeMode } from "@/components/providers/theme-provider";
 
@@ -24,13 +25,13 @@ function PresetSwatches({
 }
 
 export function ThemeToggle() {
+  const pathname = usePathname();
   const {
     activePaletteId,
     darkPaletteId,
     lightPaletteId,
     mode,
     presets,
-    ready,
     resolvedTheme,
     setMode,
     setPalette
@@ -38,33 +39,10 @@ export function ThemeToggle() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [editingTheme, setEditingTheme] = useState<ThemeAppearance>("dark");
-  const shellRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (!open) {
-      return;
-    }
-
-    function handlePointerDown(event: MouseEvent) {
-      if (!shellRef.current?.contains(event.target as Node)) {
-        setOpen(false);
-      }
-    }
-
-    function handleEscape(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        setOpen(false);
-      }
-    }
-
-    window.addEventListener("mousedown", handlePointerDown);
-    window.addEventListener("keydown", handleEscape);
-
-    return () => {
-      window.removeEventListener("mousedown", handlePointerDown);
-      window.removeEventListener("keydown", handleEscape);
-    };
-  }, [open]);
+    setOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     if (!open) {
@@ -72,6 +50,21 @@ export function ThemeToggle() {
     }
 
     setEditingTheme(resolvedTheme);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setOpen(false);
+      }
+    }
+
+    window.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleEscape);
+    };
   }, [open, resolvedTheme]);
 
   const filteredPresets = useMemo(() => {
@@ -86,6 +79,7 @@ export function ThemeToggle() {
   const lightPreset = presets.find((preset) => preset.id === lightPaletteId) ?? presets[0];
   const darkPreset = presets.find((preset) => preset.id === darkPaletteId) ?? presets[0];
   const activePreset = presets.find((preset) => preset.id === activePaletteId) ?? presets[0];
+  const editingPreset = editingTheme === "light" ? lightPreset : darkPreset;
   const modeOptions: Array<{
     value: ThemeMode;
     label: string;
@@ -95,19 +89,23 @@ export function ThemeToggle() {
     { value: "dark", label: "Dark", icon: MoonStar },
     { value: "system", label: "System", icon: Monitor }
   ];
-  const editingPreset = editingTheme === "light" ? lightPreset : darkPreset;
+
+  const statusCopy =
+    mode === "system"
+      ? `System is currently showing ${resolvedTheme} mode`
+      : `${mode.charAt(0).toUpperCase()}${mode.slice(1)} mode is active`;
 
   return (
-    <div ref={shellRef} className="theme-toggle-shell">
+    <>
       <button
         type="button"
-        className={`theme-toggle ${open ? "is-open" : ""}`.trim()}
-        onClick={() => setOpen((current) => !current)}
-        aria-label="Open theme customizer"
+        className={`theme-launcher ${open ? "is-open" : ""}`.trim()}
+        onClick={() => setOpen(true)}
+        aria-label="Open theme settings"
         aria-expanded={open}
       >
         <Palette size={16} />
-        <span>Theme</span>
+        <span className="theme-launcher-label">Theme</span>
         <PresetSwatches
           accent={activePreset.accent}
           secondary={activePreset.secondary}
@@ -116,103 +114,131 @@ export function ThemeToggle() {
       </button>
 
       {open ? (
-        <div className="glass-panel theme-panel theme-settings-panel" role="dialog" aria-modal="false" aria-label="Theme settings">
-          <div className="theme-panel-header">
-            <div>
-              <strong>Theme</strong>
-              <p className="muted">
-                Choose light, dark, or system mode, then pick a preset for each side of the interface.
-              </p>
-            </div>
-          </div>
-
-          <div className="theme-mode-row theme-mode-row-three">
-            {modeOptions.map((option) => {
-              const Icon = option.icon;
-
-              return (
-                <button
-                  key={option.value}
-                  type="button"
-                  className={`theme-mode-button ${mode === option.value ? "is-active" : ""}`.trim()}
-                  onClick={() => setMode(option.value)}
-                >
-                  <Icon size={15} />
-                  <span>{option.label}</span>
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="theme-settings-surface-grid">
-            {([
-              {
-                appearance: "light" as const,
-                label: "Light theme",
-                description: "Used when the app is in light mode.",
-                preset: lightPreset
-              },
-              {
-                appearance: "dark" as const,
-                label: "Dark theme",
-                description: "Used when the app is in dark mode.",
-                preset: darkPreset
-              }
-            ] satisfies Array<{
-              appearance: ThemeAppearance;
-              label: string;
-              description: string;
-              preset: typeof activePreset;
-            }>).map((entry) => (
-              <button
-                key={entry.appearance}
-                type="button"
-                className={`theme-settings-surface ${editingTheme === entry.appearance ? "is-active" : ""}`.trim()}
-                onClick={() => setEditingTheme(entry.appearance)}
-              >
-                <div className="theme-settings-surface-copy">
-                  <span>{entry.label}</span>
-                  <strong>{entry.preset.name}</strong>
-                  <small>{entry.description}</small>
-                </div>
-                <PresetSwatches
-                  accent={entry.preset.accent}
-                  secondary={entry.preset.secondary}
-                  tertiary={entry.preset.tertiary}
-                />
-              </button>
-            ))}
-          </div>
-
-          <label className="theme-search" htmlFor="theme-preset-search">
-            <Search size={15} />
-            <input
-              id="theme-preset-search"
-              type="search"
-              placeholder="Theme..."
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-            />
-          </label>
-
-          <div className="theme-settings-section">
-            <div className="theme-settings-section-header">
-              <div>
-                <strong>{editingTheme === "light" ? "Light theme" : "Dark theme"}</strong>
-                <p className="muted" style={{ marginBottom: 0 }}>
-                  {editingTheme === "light"
-                    ? "Choose the preset you want whenever light mode is active."
-                    : "Choose the preset you want whenever dark mode is active."}
+        <div className="theme-modal-backdrop" role="presentation" onClick={() => setOpen(false)}>
+          <div
+            className="glass-panel theme-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Theme settings"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="theme-modal-header">
+              <div className="theme-modal-copy">
+                <span className="section-label theme-modal-label">Appearance</span>
+                <h2>Theme settings</h2>
+                <p className="muted">
+                  Match the layout to your taste with the full Monkeytype theme catalog, then choose what
+                  light, dark, and system mode should use.
                 </p>
               </div>
-              <span className="theme-settings-badge">
-                {mode === "system"
-                  ? `System is currently using ${resolvedTheme}`
-                  : `${mode[0]?.toUpperCase()}${mode.slice(1)} mode active`}
-              </span>
+
+              <button
+                type="button"
+                className="button-ghost theme-modal-close"
+                onClick={() => setOpen(false)}
+                aria-label="Close theme settings"
+              >
+                <X size={16} />
+              </button>
             </div>
 
-            <div className="theme-panel-list theme-settings-list">
+            <div className="theme-mode-row theme-modal-mode-row">
+              {modeOptions.map((option) => {
+                const Icon = option.icon;
+
+                return (
+                  <button
+                    key={option.value}
+                    type="button"
+                    className={`theme-mode-button ${mode === option.value ? "is-active" : ""}`.trim()}
+                    onClick={() => setMode(option.value)}
+                  >
+                    <Icon size={15} />
+                    <span>{option.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="theme-preview-grid">
+              {([
+                {
+                  appearance: "light" as const,
+                  title: "Light preset",
+                  description: "Used whenever light mode is active.",
+                  preset: lightPreset
+                },
+                {
+                  appearance: "dark" as const,
+                  title: "Dark preset",
+                  description: "Used whenever dark mode is active.",
+                  preset: darkPreset
+                }
+              ] satisfies Array<{
+                appearance: ThemeAppearance;
+                title: string;
+                description: string;
+                preset: typeof activePreset;
+              }>).map((entry) => (
+                <button
+                  key={entry.appearance}
+                  type="button"
+                  className={`theme-preview-card ${editingTheme === entry.appearance ? "is-active" : ""}`.trim()}
+                  onClick={() => setEditingTheme(entry.appearance)}
+                >
+                  <div className="theme-preview-copy">
+                    <span>{entry.title}</span>
+                    <strong>{entry.preset.name}</strong>
+                    <p>{entry.description}</p>
+                  </div>
+                  <PresetSwatches
+                    accent={entry.preset.accent}
+                    secondary={entry.preset.secondary}
+                    tertiary={entry.preset.tertiary}
+                  />
+                </button>
+              ))}
+            </div>
+
+            <div className="theme-modal-toolbar">
+              <label className="theme-search theme-modal-search" htmlFor="theme-preset-search">
+                <Search size={15} />
+                <input
+                  id="theme-preset-search"
+                  type="search"
+                  placeholder="Search Monkeytype themes..."
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                />
+              </label>
+
+              <div className="theme-edit-toggle" role="tablist" aria-label="Theme preset target">
+                {(["light", "dark"] as const).map((appearance) => (
+                  <button
+                    key={appearance}
+                    type="button"
+                    className={`theme-edit-button ${editingTheme === appearance ? "is-active" : ""}`.trim()}
+                    onClick={() => setEditingTheme(appearance)}
+                    role="tab"
+                    aria-selected={editingTheme === appearance}
+                  >
+                    {appearance === "light" ? "Editing light" : "Editing dark"}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="theme-modal-section-header">
+              <div>
+                <strong>{editingTheme === "light" ? "Light theme presets" : "Dark theme presets"}</strong>
+                <p className="muted">
+                  Pick the preset that should power the {editingTheme} side of the interface.
+                </p>
+              </div>
+              <span className="theme-status-chip">{statusCopy}</span>
+            </div>
+
+            <div className="theme-preset-list">
               {filteredPresets.map((preset) => {
                 const active = preset.id === editingPreset.id;
 
@@ -220,50 +246,25 @@ export function ThemeToggle() {
                   <button
                     key={`${editingTheme}-${preset.id}`}
                     type="button"
-                    className={`theme-option ${active ? "is-active" : ""}`.trim()}
+                    className={`theme-preset-row ${active ? "is-active" : ""}`.trim()}
                     onClick={() => setPalette(editingTheme, preset.id)}
                   >
-                    <span className="theme-option-name">
-                      {active ? <Check size={14} /> : <span className="theme-option-spacer" />}
-                      {preset.name}
+                    <span className="theme-preset-name">
+                      {active ? <Check size={14} /> : <span className="theme-preset-spacer" />}
+                      <span className="theme-preset-name-text">{preset.name}</span>
                     </span>
-                    <span className="theme-option-swatches" aria-hidden="true">
-                      <span style={{ background: preset.accent }} />
-                      <span style={{ background: preset.secondary }} />
-                      <span style={{ background: preset.tertiary }} />
-                    </span>
+                    <PresetSwatches
+                      accent={preset.accent}
+                      secondary={preset.secondary}
+                      tertiary={preset.tertiary}
+                    />
                   </button>
                 );
               })}
             </div>
           </div>
-
-          <div className="theme-settings-section theme-settings-summary-section">
-            <div className="theme-settings-summary-row">
-              <div className="theme-settings-summary-copy">
-                <span>Light theme</span>
-                <strong>{lightPreset.name}</strong>
-              </div>
-              <PresetSwatches
-                accent={lightPreset.accent}
-                secondary={lightPreset.secondary}
-                tertiary={lightPreset.tertiary}
-              />
-            </div>
-            <div className="theme-settings-summary-row">
-              <div className="theme-settings-summary-copy">
-                <span>Dark theme</span>
-                <strong>{darkPreset.name}</strong>
-              </div>
-              <PresetSwatches
-                accent={darkPreset.accent}
-                secondary={darkPreset.secondary}
-                tertiary={darkPreset.tertiary}
-              />
-            </div>
-          </div>
         </div>
       ) : null}
-    </div>
+    </>
   );
 }

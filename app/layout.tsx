@@ -6,6 +6,7 @@ import "./globals.css";
 import { CursorAura } from "@/components/marketing/cursor-aura";
 import { SiteFooter } from "@/components/marketing/site-footer";
 import { SiteHeader } from "@/components/marketing/site-header";
+import { ThemeToggle } from "@/components/marketing/theme-toggle";
 import { MobileTabBar } from "@/components/marketing/mobile-tabbar";
 import { AppProviders } from "@/components/providers/app-providers";
 import { BootstrapProvider } from "@/components/providers/bootstrap-provider";
@@ -47,6 +48,7 @@ export default function RootLayout({
             <main>{children}</main>
             <SiteFooter />
             <MobileTabBar />
+            <ThemeToggle />
           </AppProviders>
         </ThemeProvider>
       </body>
