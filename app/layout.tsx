@@ -40,14 +40,15 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${display.variable} ${body.variable} site-shell`}>
         <BootstrapProvider />
-        <ThemeProvider />
-        <AppProviders>
-          <CursorAura />
-          <SiteHeader />
-          <main>{children}</main>
-          <SiteFooter />
-          <MobileTabBar />
-        </AppProviders>
+        <ThemeProvider>
+          <AppProviders>
+            <CursorAura />
+            <SiteHeader />
+            <main>{children}</main>
+            <SiteFooter />
+            <MobileTabBar />
+          </AppProviders>
+        </ThemeProvider>
       </body>
     </html>
   );

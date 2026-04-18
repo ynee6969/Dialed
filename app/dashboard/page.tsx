@@ -1,8 +1,18 @@
+import { unstable_cache } from "next/cache";
+
 import { MatchmakerDashboard } from "@/components/dashboard/matchmaker-dashboard";
 import { listPhones } from "@/lib/services/phones";
 import { serializePhoneCard } from "@/lib/types/phone-card";
 
-export const dynamic = "force-dynamic";
+const getDashboardCatalog = unstable_cache(
+  async () => listPhones({ take: 60, sort: "top" }),
+  ["dashboard-catalog"],
+  {
+    revalidate: 120
+  }
+);
+
+export const revalidate = 120;
 
 export default async function DashboardPage() {
   let catalog = {
@@ -12,7 +22,7 @@ export default async function DashboardPage() {
   } as Awaited<ReturnType<typeof listPhones>>;
 
   try {
-    catalog = await listPhones({ take: 84, sort: "top" });
+    catalog = await getDashboardCatalog();
   } catch (error) {
     console.error("[dashboard.page]", error);
   }

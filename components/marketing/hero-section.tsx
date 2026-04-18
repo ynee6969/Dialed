@@ -1,9 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { ArrowRight, BarChart3, BatteryCharging, Camera, Layers3, Sparkles, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
+
+import { InstantNavLink } from "@/components/navigation/instant-nav-link";
 
 interface HeroSectionProps {
   catalogSize: number;
@@ -52,6 +55,13 @@ function CountMetric({
 }
 
 export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.prefetch("/dashboard");
+    router.prefetch("/compare");
+  }, [router]);
+
   const storyPoints = [
     {
       icon: Layers3,
@@ -95,9 +105,9 @@ export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
             </p>
 
             <div className="button-row hero-action-row">
-              <Link href="/dashboard" className="button magnetic-button">
+              <InstantNavLink href="/dashboard" className="button magnetic-button" loadingLabel="Opening phone browser...">
                 Browse phones <ArrowRight size={16} />
-              </Link>
+              </InstantNavLink>
               <Link href="/compare" className="button-secondary magnetic-button">
                 Watch the compare reveal
               </Link>

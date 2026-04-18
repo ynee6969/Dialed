@@ -210,6 +210,29 @@ export function MatchmakerDashboard({
   const [loading, setLoading] = useState(false);
   const [activeMobileSheet, setActiveMobileSheet] = useState(false);
   const [desktopFiltersExpanded, setDesktopFiltersExpanded] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(24);
+
+  useEffect(() => {
+    function resolveVisibleCount() {
+      if (window.matchMedia("(max-width: 640px)").matches) {
+        return 12;
+      }
+
+      if (window.matchMedia("(max-width: 1024px)").matches) {
+        return 18;
+      }
+
+      return 24;
+    }
+
+    function syncVisibleCount() {
+      setVisibleCount(resolveVisibleCount());
+    }
+
+    syncVisibleCount();
+    window.addEventListener("resize", syncVisibleCount);
+    return () => window.removeEventListener("resize", syncVisibleCount);
+  }, []);
 
   useEffect(() => {
     const params = new URLSearchParams();
@@ -218,7 +241,7 @@ export function MatchmakerDashboard({
     if (filters.performanceTier) params.set("performanceTier", filters.performanceTier);
     if (filters.cameraQuality) params.set("cameraQuality", filters.cameraQuality);
     if (filters.batteryCapacity) params.set("batteryCapacity", filters.batteryCapacity);
-    params.set("take", "84");
+    params.set("take", "60");
 
     let ignore = false;
     const controller = new AbortController();
@@ -244,6 +267,7 @@ export function MatchmakerDashboard({
           setPhones(data.phones ?? []);
           setBrands(data.brands ?? []);
           setTotal(data.total ?? 0);
+          setVisibleCount((current) => Math.min(current, resolveResultVisibleCount()));
         })
         .catch((error) => {
           if (!ignore && error.name !== "AbortError") {
@@ -264,7 +288,24 @@ export function MatchmakerDashboard({
     };
   }, [filters.brand, filters.priceRange, filters.performanceTier, filters.cameraQuality, filters.batteryCapacity]);
 
+  function resolveResultVisibleCount() {
+    if (typeof window === "undefined") {
+      return 24;
+    }
+
+    if (window.matchMedia("(max-width: 640px)").matches) {
+      return 12;
+    }
+
+    if (window.matchMedia("(max-width: 1024px)").matches) {
+      return 18;
+    }
+
+    return 24;
+  }
+
   const activeFilterCount = Object.values(filters).filter(Boolean).length;
+  const renderedPhones = phones.slice(0, visibleCount);
 
   return (
     <div className="dashboard-layout">
@@ -348,11 +389,26 @@ export function MatchmakerDashboard({
 
         <div className={`phone-grid dashboard-grid ${loading ? "is-dimmed" : ""}`}>
           {phones.length ? (
-            phones.map((phone) => <DeviceCard key={phone.id} phone={phone} />)
+            renderedPhones.map((phone) => <DeviceCard key={phone.id} phone={phone} />)
           ) : (
             <div className="glass-panel empty-state">No phones match the current filters.</div>
           )}
         </div>
+
+        {visibleCount < phones.length ? (
+          <div className="dashboard-more-row">
+            <button
+              type="button"
+              className="button-secondary magnetic-button"
+              onClick={() => setVisibleCount((current) => current + resolveResultVisibleCount())}
+            >
+              Show more phones
+            </button>
+            <span className="muted">
+              Showing {renderedPhones.length} of {phones.length}
+            </span>
+          </div>
+        ) : null}
 
         {loading ? (
           <div className="glass-panel card dashboard-loading-card">
