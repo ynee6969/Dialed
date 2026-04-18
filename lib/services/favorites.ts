@@ -1,10 +1,13 @@
 import { prisma } from "@/lib/prisma";
+import { phonePreviewSourceInclude } from "@/lib/services/phones";
 
 export async function listFavoritesByUserId(userId: string) {
   return prisma.favorite.findMany({
     where: { userId },
     include: {
-      phone: true
+      phone: {
+        include: phonePreviewSourceInclude
+      }
     },
     orderBy: {
       createdAt: "desc"
@@ -37,7 +40,9 @@ export async function addFavorite(userId: string, phoneId: string) {
     },
     update: {},
     include: {
-      phone: true
+      phone: {
+        include: phonePreviewSourceInclude
+      }
     }
   });
 }

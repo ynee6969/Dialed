@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { ensureApplicationBootstrapped } from "@/lib/services/bootstrap";
 import { listPhones } from "@/lib/services/phones";
 import { getErrorMessage } from "@/lib/services/runtime-safety";
+import { serializePhoneCard } from "@/lib/types/phone-card";
 import {
   batteryCapacityOptions,
   cameraQualityOptions,
@@ -32,8 +32,6 @@ function parseFilterValue<T extends string>(
 
 export async function GET(request: NextRequest) {
   try {
-    await ensureApplicationBootstrapped();
-
     const searchParams = request.nextUrl.searchParams;
     const result = await listPhones({
       search: searchParams.get("search") ?? undefined,
@@ -59,7 +57,17 @@ export async function GET(request: NextRequest) {
       skip: parseNumber(searchParams.get("skip"))
     });
 
-    return NextResponse.json(result);
+    return NextResponse.json(
+      {
+        ...result,
+        phones: result.phones.map(serializePhoneCard)
+      },
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=120, stale-while-revalidate=600"
+        }
+      }
+    );
   } catch (error) {
     return NextResponse.json(
       {

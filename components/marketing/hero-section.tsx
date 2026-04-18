@@ -2,105 +2,222 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { CheckCircle2, GitCompareArrows, ListFilter, Sparkles } from "lucide-react";
+import { ArrowRight, BarChart3, BatteryCharging, Camera, Layers3, Sparkles, Zap } from "lucide-react";
+import { useEffect, useState } from "react";
 
 interface HeroSectionProps {
   catalogSize: number;
   segmentCount: number;
 }
 
+function CountMetric({
+  label,
+  value,
+  suffix = ""
+}: {
+  label: string;
+  value: number;
+  suffix?: string;
+}) {
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    let animationFrame = 0;
+    const start = performance.now();
+    const duration = 1100;
+
+    const tick = (time: number) => {
+      const progress = Math.min((time - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setDisplayValue(Math.round(value * eased));
+
+      if (progress < 1) {
+        animationFrame = window.requestAnimationFrame(tick);
+      }
+    };
+
+    animationFrame = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(animationFrame);
+  }, [value]);
+
+  return (
+    <div className="hero-stat-card">
+      <span>{label}</span>
+      <strong>
+        {displayValue}
+        {suffix}
+      </strong>
+    </div>
+  );
+}
+
 export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
-  const highlights = [
-    `${catalogSize} phones across ${segmentCount} price bands`,
-    "Full product photos and quick spec lines",
-    "Dedicated side-by-side compare lab",
-    "Light and dark mode"
+  const storyPoints = [
+    {
+      icon: Layers3,
+      title: "Too many tabs",
+      copy: "Phone shopping turns into chaos when every shortlist lives in a different spec page."
+    },
+    {
+      icon: BarChart3,
+      title: "One clean flow",
+      copy: "Dialed keeps discovery, saved phones, and deep comparison inside one consistent surface."
+    },
+    {
+      icon: Sparkles,
+      title: "A better decision",
+      copy: "Filter fast, compare like a pro, and stop guessing which phone is actually right for you."
+    }
+  ];
+
+  const revealRows = [
+    { label: "Camera", left: 99, right: 91 },
+    { label: "Battery", left: 93, right: 88 },
+    { label: "Performance", left: 98, right: 90 }
   ];
 
   return (
-    <section className="section">
-      <div className="page-shell hero-grid">
+    <section className="section home-hero-section">
+      <div className="page-shell hero-grid premium-hero-grid">
         <motion.div
-          className="glass-panel hero-panel"
+          className="glass-panel hero-panel premium-hero-panel"
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55 }}
         >
-          <span className="section-label">Find Your Next Phone</span>
-          <h1 className="section-title">Pick a phone without opening ten tabs.</h1>
-          <p className="section-copy">
-            Set a budget. Check camera, battery, and performance. Compare a few models side by side and
-            save the standouts when you want the details later.
-          </p>
-          <div className="button-row" style={{ marginTop: 28 }}>
-            <Link href="/dashboard" className="button">
-              Open dashboard
-            </Link>
-            <Link href="/gallery" className="button-secondary">
-              Browse gallery
-            </Link>
+          <div className="hero-noise" aria-hidden="true" />
+          <div className="hero-copy-stack">
+            <span className="section-label">AI Phone Matchmaker</span>
+            <h1 className="section-title">Stop guessing. Start comparing.</h1>
+            <p className="section-copy">
+              Search the catalog, watch standout phones rise to the top, and open a structured compare lab
+              the moment the shortlist gets serious. Signing in is optional until you want favorites.
+            </p>
+
+            <div className="button-row hero-action-row">
+              <Link href="/dashboard" className="button magnetic-button">
+                Browse phones <ArrowRight size={16} />
+              </Link>
+              <Link href="/compare" className="button-secondary magnetic-button">
+                Watch the compare reveal
+              </Link>
+            </div>
+
+            <div className="hero-badge-row">
+              <span className="pill">
+                <Sparkles size={14} />
+                Premium browsing flow
+              </span>
+              <span className="pill">
+                <Camera size={14} />
+                Rich spec snapshots
+              </span>
+              <span className="pill">
+                <Zap size={14} />
+                Built for fast decisions
+              </span>
+            </div>
           </div>
 
-          <div className="pill-row" style={{ marginTop: 28 }}>
-            {highlights.map((highlight) => (
-              <span key={highlight} className="pill">
-                <Sparkles size={14} />
-                {highlight}
-              </span>
-            ))}
+          <div className="hero-story-grid">
+            {storyPoints.map((point, index) => {
+              const Icon = point.icon;
+
+              return (
+                <motion.article
+                  key={point.title}
+                  className="hero-story-card"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.45, delay: 0.12 + index * 0.1 }}
+                >
+                  <span className="hero-story-icon">
+                    <Icon size={18} />
+                  </span>
+                  <h3>{point.title}</h3>
+                  <p>{point.copy}</p>
+                </motion.article>
+              );
+            })}
           </div>
         </motion.div>
 
         <motion.div
-          className="hero-stack"
+          className="hero-stack premium-hero-stack"
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.1 }}
+          transition={{ duration: 0.55, delay: 0.08 }}
         >
-          <div className="glass-panel card">
-            <div className="pill">What You Can Do</div>
-            <div className="stack" style={{ marginTop: 18 }}>
-              <div className="metric">
-                <span>
-                  <ListFilter size={14} style={{ verticalAlign: "middle", marginRight: 8 }} />
-                  Filter the list
-                </span>
-                Narrow the catalog by brand, price, battery, camera, and performance.
-              </div>
-              <div className="metric">
-                <span>
-                  <GitCompareArrows size={14} style={{ verticalAlign: "middle", marginRight: 8 }} />
-                  Compare side by side
-                </span>
-                Open the compare lab and evaluate two phones row by row.
-              </div>
-              <div className="metric">
-                <span>
-                  <CheckCircle2 size={14} style={{ verticalAlign: "middle", marginRight: 8 }} />
-                  Open full specs
-                </span>
-                Jump from the quick card view to the full spec sheet for any phone.
-              </div>
+          <div className="glass-panel hero-signature-card">
+            <div className="signature-eyebrow">
+              <span className="section-label">Signature Moment</span>
+              <span className="chip hero-chip">Two phones. One winner.</span>
+            </div>
+
+            <div className="signature-phone-row">
+              <article className="signature-phone-card">
+                <span className="chip">Phone A</span>
+                <h3>Xiaomi 14 Ultra</h3>
+                <p>Flagship camera + ultra-premium build</p>
+              </article>
+
+              <div className="signature-versus">VS</div>
+
+              <article className="signature-phone-card signature-phone-card-accent">
+                <span className="chip">Phone B</span>
+                <h3>Galaxy S24 Ultra</h3>
+                <p>Balanced performance, camera, and battery</p>
+              </article>
+            </div>
+
+            <div className="signature-compare-grid">
+              {revealRows.map((row, index) => (
+                <motion.div
+                  key={row.label}
+                  className="signature-compare-row"
+                  initial={{ opacity: 0, x: 16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4, delay: 0.22 + index * 0.12 }}
+                >
+                  <div className="signature-compare-header">
+                    <span>{row.label}</span>
+                    <strong>{row.left > row.right ? "Winner: Phone A" : "Winner: Phone B"}</strong>
+                  </div>
+                  <div className="signature-compare-bars">
+                    <span className="signature-compare-bar left" style={{ width: `${row.left}%` }} />
+                    <span className="signature-compare-bar right" style={{ width: `${row.right}%` }} />
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
 
-          <div className="glass-panel card">
-            <div className="metric-grid">
-              <div className="metric">
-                <span>Catalog</span>
-                <strong>{catalogSize} phones</strong>
+          <div className="hero-stats-grid">
+            <CountMetric label="Phones" value={catalogSize} />
+            <CountMetric label="Price bands" value={segmentCount} />
+            <CountMetric label="Saved picks" value={24} suffix="+" />
+            <CountMetric label="Compare depth" value={9} suffix=" sections" />
+          </div>
+
+          <div className="glass-panel hero-feature-list">
+            <div className="hero-feature-list-header">
+              <span className="section-label">What scroll reveals</span>
+              <p className="muted">
+                As you move through the site, the decision flow keeps tightening instead of throwing more clutter at you.
+              </p>
+            </div>
+            <div className="hero-feature-reveal">
+              <div>
+                <Camera size={16} />
+                <span>Spec cards expand with animated scores and quick facts.</span>
               </div>
-              <div className="metric">
-                <span>Segments</span>
-                <strong>{segmentCount} price bands</strong>
+              <div>
+                <BatteryCharging size={16} />
+                <span>Filters collapse out of the way until you need them again.</span>
               </div>
-              <div className="metric">
-                <span>Sources</span>
-                <strong>3 sites</strong>
-              </div>
-              <div className="metric">
-                <span>Compare</span>
-                <strong>2-phone deep dive</strong>
+              <div>
+                <BarChart3 size={16} />
+                <span>Compare rows surface the important differences immediately.</span>
               </div>
             </div>
           </div>

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
-import { ensureApplicationBootstrapped } from "@/lib/services/bootstrap";
 import { comparePhones } from "@/lib/services/comparison";
 
 const compareSchema = z.object({
@@ -10,7 +9,6 @@ const compareSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
-    await ensureApplicationBootstrapped();
     const body = compareSchema.parse(await request.json());
     const result = await comparePhones(body.ids);
 

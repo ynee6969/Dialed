@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { FavoriteButton } from "@/components/phones/favorite-button";
 import {
   buildLocalPhoneReference,
-  getPhoneReferenceBySlug
+  getCachedPhoneReferenceBySlug
 } from "@/lib/services/gsmarena-reference";
 import { getPhoneBySlug } from "@/lib/services/phones";
 import {
@@ -27,7 +27,7 @@ export default async function PhoneDetailPage({
   try {
     [phone, reference] = await Promise.all([
       getPhoneBySlug(slug),
-      getPhoneReferenceBySlug(slug)
+      getCachedPhoneReferenceBySlug(slug)
     ]);
   } catch (error) {
     console.error("[phone-detail.page]", error);

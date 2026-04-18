@@ -1,4 +1,4 @@
-import { type Phone, Prisma } from "@prisma/client";
+import { type Phone, Prisma, SourceKind } from "@prisma/client";
 
 import { prisma } from "@/lib/prisma";
 import {
@@ -40,6 +40,31 @@ export interface PhoneFilters {
   skip?: number;
 }
 
+export interface PhonePreviewSource {
+  sourceUrl: string;
+  rawExtraction: Prisma.JsonValue | null;
+}
+
+export type PhoneCatalogRecord = Phone & {
+  sources?: PhonePreviewSource[];
+};
+
+export const phonePreviewSourceInclude = {
+  sources: {
+    where: {
+      sourceKind: SourceKind.gsmarena
+    },
+    orderBy: {
+      updatedAt: "desc"
+    },
+    take: 1,
+    select: {
+      sourceUrl: true,
+      rawExtraction: true
+    }
+  }
+} satisfies Prisma.PhoneInclude;
+
 function buildNumericRangeFilter<T extends "performanceScore" | "cameraScore" | "battery">(
   field: T,
   range?: { min?: number; max?: number }
@@ -68,7 +93,7 @@ function buildNumericRangeFilter<T extends "performanceScore" | "cameraScore" | 
 }
 
 export interface PhoneListResult {
-  phones: Phone[];
+  phones: PhoneCatalogRecord[];
   total: number;
   brands: string[];
 }
@@ -138,6 +163,7 @@ export async function listPhones(filters: PhoneFilters = {}): Promise<PhoneListR
     const [phones, total, brandRows] = await Promise.all([
       prisma.phone.findMany({
         where,
+        include: phonePreviewSourceInclude,
         orderBy: buildOrderBy(filters.sort),
         take: filters.take ?? 100,
         skip: filters.skip ?? 0
@@ -159,6 +185,26 @@ export async function listPhones(filters: PhoneFilters = {}): Promise<PhoneListR
     if (isPrismaRuntimeError(error)) {
       logServerFailure("phones.list", error);
       return listFallbackPhones(filters);
+    }
+
+    throw error;
+  }
+}
+
+export async function getPhoneBySlugWithPreviewSource(slug: string): Promise<PhoneCatalogRecord | null> {
+  if (!hasDatabaseUrl()) {
+    return getFallbackPhoneBySlug(slug);
+  }
+
+  try {
+    return await prisma.phone.findUnique({
+      where: { slug },
+      include: phonePreviewSourceInclude
+    });
+  } catch (error) {
+    if (isPrismaRuntimeError(error)) {
+      logServerFailure("phones.bySlugWithPreviewSource", error);
+      return getFallbackPhoneBySlug(slug);
     }
 
     throw error;

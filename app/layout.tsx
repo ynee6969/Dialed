@@ -3,6 +3,7 @@ import { Manrope, Space_Grotesk } from "next/font/google";
 
 import "./globals.css";
 
+import { CursorAura } from "@/components/marketing/cursor-aura";
 import { SiteFooter } from "@/components/marketing/site-footer";
 import { SiteHeader } from "@/components/marketing/site-header";
 import { MobileTabBar } from "@/components/marketing/mobile-tabbar";
@@ -41,6 +42,7 @@ export default function RootLayout({
         <BootstrapProvider />
         <ThemeProvider />
         <AppProviders>
+          <CursorAura />
           <SiteHeader />
           <main>{children}</main>
           <SiteFooter />

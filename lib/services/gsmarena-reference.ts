@@ -1,8 +1,8 @@
-import { Prisma, SourceKind, type Phone, type PhoneSource } from "@prisma/client";
+import { Prisma, SourceKind, type Phone } from "@prisma/client";
 
 import { prisma } from "@/lib/prisma";
 import { getGsmArenaBdReference } from "@/lib/services/gsmarena-bd-reference";
-import { getPhoneBySlug } from "@/lib/services/phones";
+import { getPhoneBySlug, getPhoneBySlugWithPreviewSource } from "@/lib/services/phones";
 import {
   hasDatabaseUrl,
   isPrismaRuntimeError,
@@ -451,7 +451,10 @@ async function cacheReference(phoneId: string, reference: PhoneReference) {
   });
 }
 
-function readCachedReference(phoneId: string, source?: PhoneSource | null) {
+function readCachedReference(
+  phoneId: string,
+  source?: { rawExtraction: Prisma.JsonValue | null } | null
+) {
   const memory = referenceCache.get(phoneId);
   if (memory && !shouldRefreshReference(memory)) {
     return memory;
@@ -466,6 +469,26 @@ function readCachedReference(phoneId: string, source?: PhoneSource | null) {
   }
 
   return null;
+}
+
+export function getCachedPhoneReferenceForPhone(
+  phone: Phone & {
+    sources?: Array<{
+      rawExtraction: Prisma.JsonValue | null;
+    }>;
+  }
+) {
+  return readCachedReference(phone.id, phone.sources?.[0]) ?? buildLocalPhoneReference(phone);
+}
+
+export async function getCachedPhoneReferenceBySlug(slug: string) {
+  const phone = await getPhoneBySlugWithPreviewSource(slug);
+
+  if (!phone) {
+    return null;
+  }
+
+  return getCachedPhoneReferenceForPhone(phone);
 }
 
 export async function getPhoneReferenceBySlug(slug: string) {

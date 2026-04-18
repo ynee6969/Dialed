@@ -1,68 +1,121 @@
 "use client";
 
 import Link from "next/link";
+import { BatteryCharging, Camera, Cpu, Sparkles, Zap } from "lucide-react";
+import { useRef } from "react";
 
 import { FavoriteButton } from "@/components/phones/favorite-button";
-import { usePhoneReference } from "@/components/phones/use-phone-reference";
 import type { PhoneCardRecord } from "@/lib/types/phone-card";
-import { buildPhoneMarketplaceLinks, getPhoneDisplayName } from "@/lib/utils/phone-presentation";
 import { formatPhp, formatScore } from "@/lib/utils/format";
+import { buildPhoneMarketplaceLinks, getPhoneDisplayName } from "@/lib/utils/phone-presentation";
 
 interface DeviceCardProps {
   phone: PhoneCardRecord;
   variant?: "dashboard" | "gallery";
 }
 
-function renderSummaryLines(lines: Array<string | null | undefined>) {
-  const filtered = lines.filter((line): line is string => Boolean(line && line.trim().length > 0));
-  if (!filtered.length) {
-    return (
-      <ul className="spec-summary-list">
-        <li>Specs are loading from the reference source...</li>
-      </ul>
-    );
+interface StatRow {
+  label: string;
+  icon: typeof Sparkles;
+  value: number | null;
+}
+
+function clampScore(value: number | null) {
+  return Math.max(0, Math.min(100, Math.round(value ?? 0)));
+}
+
+function buildSpecChips(phone: PhoneCardRecord) {
+  return [phone.displaySpec, phone.chipsetSpec, phone.batterySpec]
+    .filter((value): value is string => Boolean(value))
+    .slice(0, 3);
+}
+
+function buildDetailCards(phone: PhoneCardRecord) {
+  return [
+    {
+      label: "Camera",
+      value: phone.cameraSpec
+    },
+    {
+      label: "Memory",
+      value: phone.memorySpec
+    },
+    {
+      label: "Charging",
+      value: phone.chargingSpec
+    }
+  ].filter((item) => Boolean(item.value));
+}
+
+export function DeviceCard({ phone }: DeviceCardProps) {
+  const cardRef = useRef<HTMLElement | null>(null);
+  const displayName = getPhoneDisplayName(phone.brand, phone.model);
+  const marketplaceLinks = buildPhoneMarketplaceLinks(phone);
+  const specChips = buildSpecChips(phone);
+  const detailCards = buildDetailCards(phone);
+  const statRows: StatRow[] = [
+    { label: "Performance", icon: Zap, value: phone.performanceScore },
+    { label: "Camera", icon: Camera, value: phone.cameraScore },
+    { label: "Battery", icon: BatteryCharging, value: phone.batteryScore },
+    { label: "Value", icon: Cpu, value: phone.valueScore }
+  ];
+
+  function handlePointerMove(event: React.PointerEvent<HTMLElement>) {
+    if (!cardRef.current || !window.matchMedia("(pointer: fine)").matches) {
+      return;
+    }
+
+    const bounds = cardRef.current.getBoundingClientRect();
+    const offsetX = event.clientX - bounds.left;
+    const offsetY = event.clientY - bounds.top;
+    const rotateX = ((offsetY / bounds.height) - 0.5) * -8;
+    const rotateY = ((offsetX / bounds.width) - 0.5) * 8;
+
+    cardRef.current.style.setProperty("--card-rotate-x", `${rotateX.toFixed(2)}deg`);
+    cardRef.current.style.setProperty("--card-rotate-y", `${rotateY.toFixed(2)}deg`);
+    cardRef.current.style.setProperty("--card-glow-x", `${offsetX.toFixed(0)}px`);
+    cardRef.current.style.setProperty("--card-glow-y", `${offsetY.toFixed(0)}px`);
+  }
+
+  function resetPointerState() {
+    if (!cardRef.current) {
+      return;
+    }
+
+    cardRef.current.style.setProperty("--card-rotate-x", "0deg");
+    cardRef.current.style.setProperty("--card-rotate-y", "0deg");
+    cardRef.current.style.setProperty("--card-glow-x", "50%");
+    cardRef.current.style.setProperty("--card-glow-y", "50%");
   }
 
   return (
-    <ul className="spec-summary-list">
-      {filtered.map((line) => (
-        <li key={line}>{line}</li>
-      ))}
-    </ul>
-  );
-}
+    <article
+      ref={cardRef}
+      className="glass-panel phone-card"
+      onPointerMove={handlePointerMove}
+      onPointerLeave={resetPointerState}
+    >
+      <div className="phone-card-glow" aria-hidden="true" />
 
-export function DeviceCard({ phone, variant = "dashboard" }: DeviceCardProps) {
-  const { containerRef, reference, loading, error } = usePhoneReference(phone.slug);
-  const summary = reference?.summary;
-  const imageUrl = reference?.imageUrl;
-  const isGallery = variant === "gallery";
-  const displayName = getPhoneDisplayName(phone.brand, phone.model);
-  const marketplaceLinks = buildPhoneMarketplaceLinks(phone);
-
-  const summaryLines = [
-    summary?.displaySize,
-    summary?.resolution,
-    summary?.cameraMain,
-    summary?.memory,
-    summary?.chipset,
-    summary?.battery,
-    summary?.charging
-  ];
-
-  return (
-    <article ref={containerRef} className={`glass-panel phone-card ${isGallery ? "gallery-card" : "dashboard-card"}`}>
       <div className="phone-card-top">
-        <div className="pill-row">
-          <span className="pill">{phone.segment.replace(/_/g, " ")}</span>
-          <span className="score-badge">{formatScore(phone.finalScore)}</span>
+        <span className="pill phone-card-segment">{phone.segment.replace(/_/g, " ")}</span>
+        <FavoriteButton phoneId={phone.id} variant="full" className="phone-card-favorite" />
+      </div>
+
+      <div className="phone-card-score-strip">
+        <div className="phone-card-score-panel">
+          <span>Dialed score</span>
+          <strong>{formatScore(phone.finalScore)}</strong>
         </div>
-        <FavoriteButton phoneId={phone.id} variant="full" />
+        <div className="phone-card-price-panel">
+          <span>Starts at</span>
+          <strong>{formatPhp(phone.price)}</strong>
+        </div>
       </div>
 
       <div className="phone-media">
-        {imageUrl ? (
-          <img src={imageUrl} alt={displayName} loading="lazy" />
+        {phone.imageUrl ? (
+          <img src={phone.imageUrl} alt={displayName} loading="lazy" decoding="async" />
         ) : (
           <div className="phone-media-placeholder">{phone.brand.slice(0, 1)}</div>
         )}
@@ -72,45 +125,63 @@ export function DeviceCard({ phone, variant = "dashboard" }: DeviceCardProps) {
         <div className="phone-headline">
           <div>
             <h3>{displayName}</h3>
-            <p className="muted" style={{ margin: 0 }}>
-              {formatPhp(phone.price)}
+            <p className="muted phone-card-subcopy">
+              Compare it side by side, save it for later, or drill into the full spec sheet.
             </p>
           </div>
         </div>
 
-        {!isGallery ? (
-          <div className="metric-grid">
-            <div className="metric">
-              <span>Performance</span>
-              <strong>{formatScore(phone.performanceScore)}</strong>
-            </div>
-            <div className="metric">
-              <span>Camera</span>
-              <strong>{formatScore(phone.cameraScore)}</strong>
-            </div>
-            <div className="metric">
-              <span>Battery</span>
-              <strong>{formatScore(phone.batteryScore)}</strong>
-            </div>
-            <div className="metric">
-              <span>Value</span>
-              <strong>{formatScore(phone.valueScore)}</strong>
-            </div>
+        <div className="phone-card-chip-row">
+          {specChips.length ? (
+            specChips.map((spec) => (
+              <span key={spec} className="chip phone-card-chip">
+                {spec}
+              </span>
+            ))
+          ) : (
+            <span className="chip phone-card-chip">Preview specs ready after sync</span>
+          )}
+        </div>
+
+        <div className="phone-card-stat-stack">
+          {statRows.map((stat) => {
+            const Icon = stat.icon;
+            const progress = clampScore(stat.value);
+
+            return (
+              <div key={stat.label} className="phone-stat-row">
+                <div className="phone-stat-label">
+                  <span>
+                    <Icon size={14} />
+                    {stat.label}
+                  </span>
+                  <strong>{formatScore(stat.value)}</strong>
+                </div>
+                <div className="phone-stat-track">
+                  <span className="phone-stat-fill" style={{ width: `${progress}%` }} />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {detailCards.length ? (
+          <div className="phone-card-detail-grid">
+            {detailCards.map((detail) => (
+              <div key={detail.label} className="phone-detail-chip">
+                <span>{detail.label}</span>
+                <strong>{detail.value}</strong>
+              </div>
+            ))}
           </div>
         ) : null}
 
-        <div className="phone-summary-block">
-          {renderSummaryLines(summaryLines)}
-          {loading ? <p className="muted card-meta-note">Fetching reference specs...</p> : null}
-          {error ? <p className="muted card-meta-note">Reference unavailable right now.</p> : null}
-        </div>
-
         <div className="phone-card-actions">
           <div className="card-primary-actions">
-            <Link href={`/phones/${phone.slug}`} className="button-secondary">
+            <Link href={`/phones/${phone.slug}`} className="button-secondary magnetic-button">
               View full specs
             </Link>
-            <Link href={`/compare?left=${phone.slug}`} className="button">
+            <Link href={`/compare?left=${phone.slug}`} className="button magnetic-button">
               Compare
             </Link>
           </div>

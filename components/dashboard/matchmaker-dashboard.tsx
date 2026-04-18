@@ -1,8 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import {
+  ChevronDown,
+  ChevronUp,
+  Filter,
+  LoaderCircle,
+  RotateCcw,
+  X
+} from "lucide-react";
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
-import { Filter, LoaderCircle, RotateCcw, X } from "lucide-react";
 
 import { DeviceCard } from "@/components/phones/device-card";
 import type { PhoneCardRecord } from "@/lib/types/phone-card";
@@ -81,7 +88,7 @@ function DashboardFilters({
   const hasActiveFilters = Object.values(filters).some(Boolean);
 
   return (
-    <div className="stack sidebar-filter-stack" style={{ marginTop: 18 }}>
+    <div className="stack sidebar-filter-stack">
       <div className="field">
         <label htmlFor="brand">Brand</label>
         <select
@@ -133,7 +140,7 @@ function DashboardFilters({
 
       <button
         type="button"
-        className="button-secondary"
+        className="button-secondary magnetic-button"
         disabled={!hasActiveFilters}
         onClick={() => setFilters(defaultFilters)}
       >
@@ -169,6 +176,27 @@ function MobileSheet({
   );
 }
 
+function DashboardSkeletonGrid() {
+  return (
+    <div className="phone-grid dashboard-grid dashboard-skeleton-grid" aria-hidden="true">
+      {Array.from({ length: 6 }).map((_, index) => (
+        <div key={index} className="glass-panel phone-card phone-card-skeleton">
+          <div className="skeleton-line skeleton-pill" />
+          <div className="skeleton-media" />
+          <div className="skeleton-line skeleton-title" />
+          <div className="skeleton-line skeleton-copy" />
+          <div className="skeleton-line skeleton-copy short" />
+          <div className="skeleton-stats">
+            <div className="skeleton-line skeleton-stat" />
+            <div className="skeleton-line skeleton-stat" />
+            <div className="skeleton-line skeleton-stat" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function MatchmakerDashboard({
   initialPhones,
   initialBrands,
@@ -181,6 +209,7 @@ export function MatchmakerDashboard({
   const [status, setStatus] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [activeMobileSheet, setActiveMobileSheet] = useState(false);
+  const [desktopFiltersExpanded, setDesktopFiltersExpanded] = useState(true);
 
   useEffect(() => {
     const params = new URLSearchParams();
@@ -189,46 +218,48 @@ export function MatchmakerDashboard({
     if (filters.performanceTier) params.set("performanceTier", filters.performanceTier);
     if (filters.cameraQuality) params.set("cameraQuality", filters.cameraQuality);
     if (filters.batteryCapacity) params.set("batteryCapacity", filters.batteryCapacity);
-    params.set("take", "100");
+    params.set("take", "84");
 
     let ignore = false;
     const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => {
+      setLoading(true);
+      setStatus(null);
 
-    setLoading(true);
-    setStatus(null);
-
-    void fetch(`/api/phones?${params.toString()}`, {
-      signal: controller.signal
-    })
-      .then(async (response) => {
-        if (!response.ok) {
-          throw new Error("Could not load the dashboard.");
-        }
-
-        return response.json();
+      void fetch(`/api/phones?${params.toString()}`, {
+        signal: controller.signal
       })
-      .then((data) => {
-        if (ignore) {
-          return;
-        }
+        .then(async (response) => {
+          if (!response.ok) {
+            throw new Error("Could not load the dashboard.");
+          }
 
-        setPhones(data.phones ?? []);
-        setBrands(data.brands ?? []);
-        setTotal(data.total ?? 0);
-      })
-      .catch((error) => {
-        if (!ignore && error.name !== "AbortError") {
-          setStatus("Could not reload the phone list right now.");
-        }
-      })
-      .finally(() => {
-        if (!ignore) {
-          setLoading(false);
-        }
-      });
+          return response.json();
+        })
+        .then((data) => {
+          if (ignore) {
+            return;
+          }
+
+          setPhones(data.phones ?? []);
+          setBrands(data.brands ?? []);
+          setTotal(data.total ?? 0);
+        })
+        .catch((error) => {
+          if (!ignore && error.name !== "AbortError") {
+            setStatus("Could not reload the phone list right now.");
+          }
+        })
+        .finally(() => {
+          if (!ignore) {
+            setLoading(false);
+          }
+        });
+    }, 140);
 
     return () => {
       ignore = true;
+      window.clearTimeout(timeoutId);
       controller.abort();
     };
   }, [filters.brand, filters.priceRange, filters.performanceTier, filters.cameraQuality, filters.batteryCapacity]);
@@ -238,39 +269,68 @@ export function MatchmakerDashboard({
   return (
     <div className="dashboard-layout">
       <aside className="sidebar desktop-sidebar">
-        <div className="glass-panel sidebar-card sidebar-scroll">
-          <span className="section-label">Filters</span>
-          <DashboardFilters filters={filters} setFilters={setFilters} brands={brands} />
+        <div className="glass-panel sidebar-card dashboard-filter-panel">
+          <button
+            type="button"
+            className="dashboard-filter-toggle"
+            onClick={() => setDesktopFiltersExpanded((current) => !current)}
+            aria-expanded={desktopFiltersExpanded}
+          >
+            <div>
+              <span className="section-label">Filters</span>
+              <p className="muted dashboard-filter-copy">
+                Brand, budget, performance, camera, and battery in one compact stack.
+              </p>
+            </div>
+            {desktopFiltersExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+          </button>
+
+          {desktopFiltersExpanded ? (
+            <div className="sidebar-scroll">
+              <DashboardFilters filters={filters} setFilters={setFilters} brands={brands} />
+            </div>
+          ) : (
+            <p className="muted dashboard-filter-collapsed">
+              {activeFilterCount ? `${activeFilterCount} filters active.` : "Filters are tucked away."}
+            </p>
+          )}
         </div>
       </aside>
 
       <section className="results-stack">
         <div className="dashboard-topbar dashboard-topbar-split">
-          <div className="stack" style={{ gap: 10 }}>
+          <div className="stack dashboard-copy-stack">
             <span className="section-label">Dashboard</span>
-            <h1 className="dashboard-title">Filter smarter, save what matters, and compare in a dedicated lab.</h1>
+            <div className="dashboard-hero-meta">
+              <span className="chip">{stats.catalogSize} phones in the live catalog</span>
+              <span className="chip">{activeFilterCount} filters active</span>
+              <span className="chip">Sign-in is optional</span>
+            </div>
+            <h1 className="dashboard-title">Browse the full catalog first. Sign in only when you want favorites.</h1>
             <p className="muted dashboard-copy">
-              Use the sidebar to narrow the catalog, save contenders as favorites, and open the compare page
-              only when you are ready to evaluate two phones side by side.
+              This page is now the main discovery surface. Filter the catalog, open specs fast, and jump into
+              compare only when you already have contenders worth testing.
             </p>
           </div>
 
           <div className="button-row dashboard-cta-row">
-            <Link href="/compare" className="button">
+            <Link href="/compare" className="button magnetic-button">
               Open compare lab
             </Link>
-            <Link href="/favorites" className="button-secondary">
+            <Link href="/favorites" className="button-secondary magnetic-button">
               View saved phones
             </Link>
           </div>
         </div>
 
         <div className="dashboard-mobile-actions">
-          <button type="button" className="button-secondary" onClick={() => setActiveMobileSheet(true)}>
+          <button type="button" className="button-secondary magnetic-button" onClick={() => setActiveMobileSheet(true)}>
             <Filter size={16} />
-            <span style={{ marginLeft: 8 }}>Filters</span>
+            <span style={{ marginLeft: 8 }}>
+              Filters{activeFilterCount ? ` (${activeFilterCount})` : ""}
+            </span>
           </button>
-          <Link href="/compare" className="button">
+          <Link href="/compare" className="button magnetic-button">
             Compare phones
           </Link>
         </div>
@@ -284,28 +344,9 @@ export function MatchmakerDashboard({
           </div>
         ) : null}
 
-        <div className="glass-panel card dashboard-summary-card">
-          <div className="metric-grid">
-            <div className="metric">
-              <span>Showing now</span>
-              <strong>{total}</strong>
-            </div>
-            <div className="metric">
-              <span>Filters active</span>
-              <strong>{activeFilterCount}</strong>
-            </div>
-            <div className="metric">
-              <span>Total catalog</span>
-              <strong>{stats.catalogSize}</strong>
-            </div>
-            <div className="metric">
-              <span>Compare flow</span>
-              <strong>Dedicated page</strong>
-            </div>
-          </div>
-        </div>
+        {loading ? <DashboardSkeletonGrid /> : null}
 
-        <div className="phone-grid dashboard-grid">
+        <div className={`phone-grid dashboard-grid ${loading ? "is-dimmed" : ""}`}>
           {phones.length ? (
             phones.map((phone) => <DeviceCard key={phone.id} phone={phone} />)
           ) : (
@@ -314,7 +355,7 @@ export function MatchmakerDashboard({
         </div>
 
         {loading ? (
-          <div className="glass-panel card">
+          <div className="glass-panel card dashboard-loading-card">
             <p className="muted" style={{ margin: 0 }}>
               <LoaderCircle size={16} className="spin" style={{ marginRight: 8, verticalAlign: "middle" }} />
               Updating the catalog view...

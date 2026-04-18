@@ -1,9 +1,10 @@
+import { unstable_cache } from "next/cache";
 import { type Phone } from "@prisma/client";
 
-import { buildLocalPhoneReference, getPhoneReferenceBySlug } from "@/lib/services/gsmarena-reference";
-import { getPhoneBySlug, getPhonesByIds, listPhones } from "@/lib/services/phones";
-import type { PhoneReference } from "@/lib/types/phone-reference";
+import { getCachedPhoneReferenceForPhone } from "@/lib/services/gsmarena-reference";
+import { getPhoneBySlugWithPreviewSource, getPhonesByIds, listPhones } from "@/lib/services/phones";
 import { serializePhoneCard, type PhoneCardRecord } from "@/lib/types/phone-card";
+import type { PhoneReference } from "@/lib/types/phone-reference";
 import { formatPhp, formatScore } from "@/lib/utils/format";
 import { getPhoneDisplayName } from "@/lib/utils/phone-presentation";
 
@@ -81,7 +82,7 @@ function firstValue(...values: Array<string | number | null | undefined>) {
 }
 
 function normalizeComparisonValue(value: string | null | undefined) {
-  return value?.trim() || "—";
+  return value?.trim() || "-";
 }
 
 function parseNumber(value: string) {
@@ -221,7 +222,11 @@ function buildSections(left: ComparisonDevice, right: ComparisonDevice): Compari
     {
       title: "Chipset",
       rows: [
-        createRow("Chipset", firstValue(left.reference.summary.chipset, left.phone.chipset), firstValue(right.reference.summary.chipset, right.phone.chipset)),
+        createRow(
+          "Chipset",
+          firstValue(left.reference.summary.chipset, left.phone.chipset),
+          firstValue(right.reference.summary.chipset, right.phone.chipset)
+        ),
         createRow(
           "Process",
           readValue(left.reference, "Platform", "Chipset"),
@@ -249,10 +254,15 @@ function buildSections(left: ComparisonDevice, right: ComparisonDevice): Compari
           firstValue(readValue(left.reference, "Platform", "GPU"), left.phone.gpu),
           firstValue(readValue(right.reference, "Platform", "GPU"), right.phone.gpu)
         ),
-        createRow("Performance score", formatScore(left.phone.performanceScore), formatScore(right.phone.performanceScore), {
-          parser: parseNumber,
-          preference: "higher"
-        })
+        createRow(
+          "Performance score",
+          formatScore(left.phone.performanceScore),
+          formatScore(right.phone.performanceScore),
+          {
+            parser: parseNumber,
+            preference: "higher"
+          }
+        )
       ]
     },
     {
@@ -271,7 +281,11 @@ function buildSections(left: ComparisonDevice, right: ComparisonDevice): Compari
             preference: "higher"
           }
         ),
-        createRow("Video", readValue(left.reference, "Main Camera", "Video"), readValue(right.reference, "Main Camera", "Video")),
+        createRow(
+          "Video",
+          readValue(left.reference, "Main Camera", "Video"),
+          readValue(right.reference, "Main Camera", "Video")
+        ),
         createRow("Camera score", formatScore(left.phone.cameraScore), formatScore(right.phone.cameraScore), {
           parser: parseNumber,
           preference: "higher"
@@ -281,10 +295,21 @@ function buildSections(left: ComparisonDevice, right: ComparisonDevice): Compari
     {
       title: "Battery",
       rows: [
-        createRow("Capacity", firstValue(left.reference.summary.battery, left.phone.battery ? `${left.phone.battery} mAh` : null), firstValue(right.reference.summary.battery, right.phone.battery ? `${right.phone.battery} mAh` : null), {
-          parser: parseNumber,
-          preference: "higher"
-        }),
+        createRow(
+          "Capacity",
+          firstValue(
+            left.reference.summary.battery,
+            left.phone.battery ? `${left.phone.battery} mAh` : null
+          ),
+          firstValue(
+            right.reference.summary.battery,
+            right.phone.battery ? `${right.phone.battery} mAh` : null
+          ),
+          {
+            parser: parseNumber,
+            preference: "higher"
+          }
+        ),
         createRow("Endurance score", formatScore(left.phone.batteryScore), formatScore(right.phone.batteryScore), {
           parser: parseNumber,
           preference: "higher"
@@ -299,10 +324,21 @@ function buildSections(left: ComparisonDevice, right: ComparisonDevice): Compari
     {
       title: "Charging",
       rows: [
-        createRow("Charging", firstValue(left.reference.summary.charging, left.phone.charging ? `${left.phone.charging} W` : null), firstValue(right.reference.summary.charging, right.phone.charging ? `${right.phone.charging} W` : null), {
-          parser: parseNumber,
-          preference: "higher"
-        }),
+        createRow(
+          "Charging",
+          firstValue(
+            left.reference.summary.charging,
+            left.phone.charging ? `${left.phone.charging} W` : null
+          ),
+          firstValue(
+            right.reference.summary.charging,
+            right.phone.charging ? `${right.phone.charging} W` : null
+          ),
+          {
+            parser: parseNumber,
+            preference: "higher"
+          }
+        ),
         createRow(
           "USB",
           readValue(left.reference, "Comms", "USB"),
@@ -372,11 +408,15 @@ function buildSections(left: ComparisonDevice, right: ComparisonDevice): Compari
     }
   ].map((section) => ({
     ...section,
-    rows: section.rows.filter((row) => row.leftValue !== "—" || row.rightValue !== "—")
+    rows: section.rows.filter((row) => row.leftValue !== "-" || row.rightValue !== "-")
   }));
 }
 
-function buildHighlights(left: ComparisonDevice, right: ComparisonDevice, summaryRows: ComparisonSummaryRow[]) {
+function buildHighlights(
+  left: ComparisonDevice,
+  right: ComparisonDevice,
+  summaryRows: ComparisonSummaryRow[]
+) {
   const highlights = {
     left: [] as string[],
     right: [] as string[]
@@ -425,7 +465,9 @@ function buildHighlights(left: ComparisonDevice, right: ComparisonDevice, summar
   }
 
   if (!highlights.right.length) {
-    highlights.right.push(`${right.displayName} stays competitive without giving away a major category.`);
+    highlights.right.push(
+      `${right.displayName} stays competitive without giving away a major category.`
+    );
   }
 
   return {
@@ -435,11 +477,12 @@ function buildHighlights(left: ComparisonDevice, right: ComparisonDevice, summar
 }
 
 function resolveSelection(catalog: PhoneCardRecord[], requestedLeft?: string, requestedRight?: string) {
-  const leftSlug = catalog.some((phone) => phone.slug === requestedLeft) ? requestedLeft ?? null : catalog[0]?.slug ?? null;
-  const rightSlug =
-    catalog.some((phone) => phone.slug === requestedRight && phone.slug !== leftSlug)
-      ? requestedRight ?? null
-      : catalog.find((phone) => phone.slug !== leftSlug)?.slug ?? null;
+  const leftSlug = catalog.some((phone) => phone.slug === requestedLeft)
+    ? requestedLeft ?? null
+    : catalog[0]?.slug ?? null;
+  const rightSlug = catalog.some((phone) => phone.slug === requestedRight && phone.slug !== leftSlug)
+    ? requestedRight ?? null
+    : catalog.find((phone) => phone.slug !== leftSlug)?.slug ?? null;
 
   return {
     leftSlug,
@@ -452,12 +495,12 @@ async function getDevice(slug: string | null) {
     return null;
   }
 
-  const phone = await getPhoneBySlug(slug);
+  const phone = await getPhoneBySlugWithPreviewSource(slug);
   if (!phone) {
     return null;
   }
 
-  const reference = (await getPhoneReferenceBySlug(slug)) ?? buildLocalPhoneReference(phone);
+  const reference = getCachedPhoneReferenceForPhone(phone);
   return buildDevice(phone, reference);
 }
 
@@ -480,41 +523,54 @@ export async function comparePhones(ids: string[]) {
   };
 }
 
-export async function buildDetailedComparison(leftSlug?: string, rightSlug?: string): Promise<DetailedComparisonView> {
-  const catalogResult = await listPhones({ take: 120, sort: "top" });
-  const catalog = catalogResult.phones.map(serializePhoneCard);
-  const selection = resolveSelection(catalog, leftSlug, rightSlug);
+const buildDetailedComparisonCached = unstable_cache(
+  async (leftSlug?: string, rightSlug?: string): Promise<DetailedComparisonView> => {
+    const catalogResult = await listPhones({ take: 120, sort: "top" });
+    const catalog = catalogResult.phones.map(serializePhoneCard);
+    const selection = resolveSelection(catalog, leftSlug, rightSlug);
 
-  const [left, right] = await Promise.all([getDevice(selection.leftSlug), getDevice(selection.rightSlug)]);
+    const [left, right] = await Promise.all([
+      getDevice(selection.leftSlug),
+      getDevice(selection.rightSlug)
+    ]);
 
-  if (!left || !right) {
+    if (!left || !right) {
+      return {
+        catalog,
+        selectedLeftSlug: selection.leftSlug,
+        selectedRightSlug: selection.rightSlug,
+        left: null,
+        right: null,
+        summaryRows: [],
+        sections: [],
+        highlights: {
+          left: [],
+          right: []
+        }
+      };
+    }
+
+    const summaryRows = buildSummaryRows(left, right);
+    const sections = buildSections(left, right);
+    const highlights = buildHighlights(left, right, summaryRows);
+
     return {
       catalog,
       selectedLeftSlug: selection.leftSlug,
       selectedRightSlug: selection.rightSlug,
-      left: null,
-      right: null,
-      summaryRows: [],
-      sections: [],
-      highlights: {
-        left: [],
-        right: []
-      }
+      left,
+      right,
+      summaryRows,
+      sections,
+      highlights
     };
+  },
+  ["detailed-comparison"],
+  {
+    revalidate: 300
   }
+);
 
-  const summaryRows = buildSummaryRows(left, right);
-  const sections = buildSections(left, right);
-  const highlights = buildHighlights(left, right, summaryRows);
-
-  return {
-    catalog,
-    selectedLeftSlug: selection.leftSlug,
-    selectedRightSlug: selection.rightSlug,
-    left,
-    right,
-    summaryRows,
-    sections,
-    highlights
-  };
+export async function buildDetailedComparison(leftSlug?: string, rightSlug?: string) {
+  return buildDetailedComparisonCached(leftSlug, rightSlug);
 }

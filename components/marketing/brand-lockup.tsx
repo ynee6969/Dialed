@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Route } from "next";
 
 import { site } from "@/lib/site";
 
@@ -17,7 +18,7 @@ export function BrandLockup({
   href = "/"
 }: {
   subtitle?: string;
-  href?: "/" | "/about" | "/services" | "/gallery" | "/contact" | "/dashboard";
+  href?: Route;
 }) {
   return (
     <Link href={href} className="brand-lockup">

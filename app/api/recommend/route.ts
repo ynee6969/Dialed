@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { RateLimitError, enforceRateLimit } from "@/lib/services/rate-limit";
-import { ensureApplicationBootstrapped } from "@/lib/services/bootstrap";
 import { recommendPhones } from "@/lib/services/recommendations";
 
 export async function POST(request: NextRequest) {
   try {
-    await ensureApplicationBootstrapped();
     enforceRateLimit(
       `recommend:${request.headers.get("x-forwarded-for") ?? "local"}`,
       30,

@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 import { getOptionalSession } from "@/lib/auth/session";
-import { ensureApplicationBootstrapped } from "@/lib/services/bootstrap";
 import {
   listRecentComparisonSnapshotsByUserId,
   rememberComparisonSnapshot
@@ -17,12 +16,6 @@ export default async function ComparePage({
   searchParams: Promise<{ left?: string; right?: string }>;
 }) {
   const params = await searchParams;
-
-  try {
-    await ensureApplicationBootstrapped();
-  } catch (error) {
-    console.error("[compare.page]", error);
-  }
 
   const session = await getOptionalSession();
   const comparison = await buildDetailedComparison(params.left, params.right);

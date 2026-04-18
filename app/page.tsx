@@ -1,26 +1,27 @@
 import Link from "next/link";
-import { ArrowRight, GitCompareArrows, Images, SlidersHorizontal } from "lucide-react";
+import { ArrowRight, GitCompareArrows, Layers3, SlidersHorizontal, Sparkles } from "lucide-react";
 
 import { HeroSection } from "@/components/marketing/hero-section";
 import { catalogStats, curatedGallery } from "@/lib/data/seed-phones";
-import { getPhoneDisplayName } from "@/lib/utils/phone-presentation";
 import { formatPhp } from "@/lib/utils/format";
+import { getPhoneDisplayName } from "@/lib/utils/phone-presentation";
 
-const featureCards = [
+const workflowSteps = [
   {
-    title: "Phone cards that stay useful",
-    copy: "Price, scores, photos, and the quick spec lines you actually care about.",
-    icon: Images
+    title: "Problem",
+    copy: "Too many phones. Too many spec sheets. Too many tabs."
   },
   {
-    title: "Filters that do the real work",
-    copy: "Cut by budget, brand, battery, and performance instead of scrolling forever.",
-    icon: SlidersHorizontal
+    title: "Chaos",
+    copy: "Every store, review page, and benchmark chart tells part of the story."
   },
   {
-    title: "Shortlist and compare",
-    copy: "Move the finalists into a dedicated compare lab and inspect the differences properly.",
-    icon: GitCompareArrows
+    title: "Solution",
+    copy: "Dialed turns that mess into one clean catalog with structured compare built in."
+  },
+  {
+    title: "Power",
+    copy: "Filter faster, save contenders when you want, and make the final call with confidence."
   }
 ];
 
@@ -31,129 +32,114 @@ export default function HomePage() {
 
       <section className="section">
         <div className="page-shell">
-          <span className="section-label">What You Can Do Here</span>
-          <h2 className="section-title">Search, compare, and narrow it down fast.</h2>
-          <p className="section-copy">
-            The site is built for one job: help you get to a short list without the usual mess.
-            Use the dashboard to filter the catalog, save likely winners, and open the full spec page for any model.
-          </p>
-
-          <div className="card-grid" style={{ marginTop: 28 }}>
-            {featureCards.map((feature) => {
-              const Icon = feature.icon;
-              return (
-                <article key={feature.title} className="glass-panel card">
-                  <div className="pill">
-                    <Icon size={15} />
-                    Feature
-                  </div>
-                  <h3 style={{ marginTop: 18 }}>{feature.title}</h3>
-                  <p className="muted">{feature.copy}</p>
-                </article>
-              );
-            })}
+          <span className="section-label">Scroll Story</span>
+          <h2 className="feature-title">From phone-shopping overload to a shortlist you trust.</h2>
+          <div className="story-strip">
+            {workflowSteps.map((step, index) => (
+              <article key={step.title} className="glass-panel story-card">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <h3>{step.title}</h3>
+                <p>{step.copy}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
       <section className="section">
-        <div className="page-shell marketing-grid">
-          <div className="glass-panel card">
-            <span className="section-label">How Scoring Works</span>
-            <h2 className="feature-title">Scores help you sort fast.</h2>
-            <p className="section-copy">
-              The overall score blends performance, camera, battery, and value. It is there to help you
-              sort the list, not replace the full specs.
-            </p>
-            <Link href="/dashboard" className="button" style={{ marginTop: 16, display: "inline-flex" }}>
-              Open dashboard
-            </Link>
-          </div>
-
-          <div className="glass-panel card">
-            <span className="section-label">How Specs Get Filled In</span>
-            <ul className="insight-list" style={{ marginTop: 20 }}>
-              <li>Start with the base phone list.</li>
-              <li>Pull details from device pages.</li>
-              <li>Clean and store the specs.</li>
-              <li>Show the latest saved version in the app.</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="page-shell marketing-grid">
-          <div className="glass-panel card">
-            <span className="section-label">Compare Tool</span>
-            <h2 className="feature-title">Shortlist a few phones and compare them side by side.</h2>
-            <p className="section-copy">
-              When you are down to the final few options, use the compare flow to see which phone leads in
-              performance, camera, battery, and overall score without keeping comparison controls in the dashboard.
-            </p>
-            <div className="button-row" style={{ marginTop: 18 }}>
-              <Link href="/compare" className="button">
-                Open compare lab
-              </Link>
-              <Link href="/dashboard" className="button-secondary">
-                Start in dashboard
-              </Link>
+        <div className="page-shell home-feature-layout">
+          <article className="glass-panel home-feature-card">
+            <div className="home-feature-icon">
+              <SlidersHorizontal size={18} />
             </div>
-          </div>
+            <span className="section-label">Discovery</span>
+            <h3>One dashboard, no redundant gallery.</h3>
+            <p className="muted">
+              The catalog now lives in one public dashboard with collapsible filters, faster cards, and a cleaner route
+              structure.
+            </p>
+            <Link href="/dashboard" className="button magnetic-button">
+              Open dashboard <ArrowRight size={16} />
+            </Link>
+          </article>
 
-          <div className="glass-panel card">
-            <span className="section-label">Compare Flow</span>
-            <ul className="insight-list" style={{ marginTop: 20 }}>
-              <li>Filter the catalog down to the short list in the dashboard.</li>
-              <li>Save or open a device into the compare lab when it belongs in the final two.</li>
-              <li>Read the structured row-by-row table before opening full specs for the winner.</li>
-            </ul>
-          </div>
+          <article className="glass-panel home-feature-card accent">
+            <div className="home-feature-icon">
+              <GitCompareArrows size={18} />
+            </div>
+            <span className="section-label">Signature Compare</span>
+            <h3>Two phones slide in. The most important differences light up instantly.</h3>
+            <p className="muted">
+              The compare page stays focused on row-by-row specs, winner highlights, and a calmer decision moment.
+            </p>
+            <Link href="/compare" className="button magnetic-button">
+              Open compare lab
+            </Link>
+          </article>
+
+          <article className="glass-panel home-feature-card">
+            <div className="home-feature-icon">
+              <Layers3 size={18} />
+            </div>
+            <span className="section-label">Favorites</span>
+            <h3>Browsing stays public. Account features kick in only when you want them.</h3>
+            <p className="muted">
+              Sign in becomes valuable when you want persistent favorites and comparison history, not before.
+            </p>
+            <Link href="/favorites" className="button-secondary magnetic-button">
+              See favorites flow
+            </Link>
+          </article>
         </div>
       </section>
 
       <section className="section">
         <div className="page-shell">
-          <span className="section-label">Gallery Preview</span>
-          <h2 className="section-title">Browse the full catalog.</h2>
-          <div className="phone-grid" style={{ marginTop: 28 }}>
-            {curatedGallery.map((phone) => (
-              <article key={`${phone.brand}-${phone.model}`} className="glass-panel phone-card">
-                <div className="pill-row">
-                  <span className="pill">{phone.segment.replace("_", " ")}</span>
-                  <span className="score-badge">{phone.performance_score}/100</span>
-                </div>
-                <h3 style={{ marginTop: 18 }}>
-                  {getPhoneDisplayName(phone.brand, phone.model)}
-                </h3>
-                <p className="muted">Battery {phone.battery} mAh | Camera {phone.camera_score} | Performance {phone.performance_score}</p>
-                <div className="button-row" style={{ marginTop: 18 }}>
-                  <span className="button-secondary">{formatPhp(phone.price)}</span>
+          <span className="section-label">Interactive Cards</span>
+          <h2 className="feature-title">Cards that feel alive before you even open the spec sheet.</h2>
+          <div className="home-preview-grid">
+            {curatedGallery.slice(0, 3).map((phone, index) => (
+              <article key={`${phone.brand}-${phone.model}`} className={`glass-panel home-preview-card ${index === 1 ? "is-featured" : ""}`.trim()}>
+                <span className="pill">
+                  <Sparkles size={14} />
+                  {phone.segment.replace(/_/g, " ")}
+                </span>
+                <h3>{getPhoneDisplayName(phone.brand, phone.model)}</h3>
+                <p className="muted">{formatPhp(phone.price)}</p>
+                <div className="home-preview-stats">
+                  <div>
+                    <span>Performance</span>
+                    <strong>{phone.performance_score}</strong>
+                  </div>
+                  <div>
+                    <span>Camera</span>
+                    <strong>{phone.camera_score}</strong>
+                  </div>
+                  <div>
+                    <span>Battery</span>
+                    <strong>{phone.battery}</strong>
+                  </div>
                 </div>
               </article>
             ))}
           </div>
-          <Link href="/gallery" className="button-secondary" style={{ marginTop: 22, display: "inline-flex" }}>
-            View full gallery <ArrowRight size={16} style={{ marginLeft: 8 }} />
-          </Link>
         </div>
       </section>
 
       <section className="section">
         <div className="page-shell">
-          <div className="glass-panel card">
-            <span className="section-label">One Place For The Whole Search</span>
-            <h2 className="feature-title">Browse first. Decide later.</h2>
+          <div className="glass-panel final-cta-card">
+            <span className="section-label">Ready When You Are</span>
+            <h2 className="feature-title">Find your perfect phone in one focused flow.</h2>
             <p className="section-copy">
-              Use the public pages to look around, then jump into the dashboard when you want filters,
-              favorites, and a cleaner decision flow.
+              Browse openly, filter fast, compare like a pro, and sign in only when you want favorites to stick.
             </p>
-            <div className="button-row" style={{ marginTop: 18 }}>
-              <Link href="/about" className="button-secondary">
-                See how it works
+            <div className="button-row">
+              <Link href="/dashboard" className="button magnetic-button">
+                Start browsing
               </Link>
-              <Link href="/contact" className="button-ghost">
-                Get in touch
+              <Link href="/services" className="button-secondary magnetic-button">
+                Explore the tools
               </Link>
             </div>
           </div>
