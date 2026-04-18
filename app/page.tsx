@@ -1,3 +1,25 @@
+/**
+ * ===================================
+ * HOME PAGE (Landing Page)
+ * ===================================
+ * 
+ * Purpose: The main landing page of the Dialed application.
+ * Introduces the app's core value proposition: a clean phone shopping experience.
+ * 
+ * Key Features:
+ * - Hero section with app statistics (total phones, segments)
+ * - Scroll story: Problem → Chaos → Solution → Power narrative
+ * - Feature cards highlighting three main tools: Discovery, Compare, Favorites
+ * - Interactive cards preview showing phone browsing experience
+ * - Calls-to-action directing users to main app sections
+ * 
+ * User Journey: First-time visitors land here to understand what Dialed offers,
+ * then navigate to dashboard, compare, or favorites sections.
+ * 
+ * Design Pattern: Glass morphism panels, gradient backgrounds, responsive grid layouts.
+ * Mobile-first: All sections adapt gracefully from mobile to desktop viewports.
+ */
+
 import Link from "next/link";
 import { ArrowRight, GitCompareArrows, Layers3, SlidersHorizontal, Sparkles } from "lucide-react";
 
@@ -6,28 +28,35 @@ import { catalogStats, curatedGallery } from "@/lib/data/seed-phones";
 import { formatPhp } from "@/lib/utils/format";
 import { getPhoneDisplayName } from "@/lib/utils/phone-presentation";
 
+/* Array of narrative steps that tell the story of the app's value proposition
+   Each step represents a stage in the user's phone shopping journey.
+   This creates a compelling narrative arc: Problem → Chaos → Solution → Power */
 const workflowSteps = [
   {
     title: "Problem",
-    copy: "Too many phones. Too many spec sheets. Too many tabs."
+    copy: "Too many phones. Too many spec sheets. Too many tabs." /* Establishes the pain point: information overload */
   },
   {
     title: "Chaos",
-    copy: "Every store, review page, and benchmark chart tells part of the story."
+    copy: "Every store, review page, and benchmark chart tells part of the story." /* Emphasizes fragmentation across multiple sources */
   },
   {
     title: "Solution",
-    copy: "Dialed turns that mess into one clean catalog with structured compare built in."
+    copy: "Dialed turns that mess into one clean catalog with structured compare built in." /* Introduces the app's core solution */
   },
   {
     title: "Power",
-    copy: "Filter faster, save contenders when you want, and make the final call with confidence."
+    copy: "Filter faster, save contenders when you want, and make the final call with confidence." /* Highlights the benefits: speed, curation, confidence */
   }
 ];
 
+/* Main home page component
+   Accepts catalogStats from seed data to display current app metrics.
+   Returns a multi-section page with hero, narrative, features, and cards.
+   All sections use responsive grid layouts that adapt to screen size. */
 export default function HomePage() {
   return (
-    <>
+    <>  {/* Fragment wrapper allows multiple top-level elements */}
       <HeroSection catalogSize={catalogStats.total} segmentCount={catalogStats.segments} />
 
       <section className="section">

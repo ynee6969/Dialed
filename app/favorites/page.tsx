@@ -1,5 +1,31 @@
+/**
+ * ===================================
+ * FAVORITES PAGE
+ * ===================================
+ * 
+ * Purpose: Displays user's saved/favorited phones.
+ * Protected page - requires authentication to view.
+ * 
+ * Features:
+ * - Shows all phones user has marked as favorite
+ * - Filters out phones not yet added to catalog
+ * - Uses same card layout as dashboard for consistency
+ * - Empty state when no favorites saved
+ * - Quick navigation to dashboard to browse more phones
+ * 
+ * User Journey: Authenticated user clicks favorites → Views saved devices → Can compare or view details.
+ * 
+ * Security:
+ * - Checks auth is configured (else shows notice)
+ * - Requires active user session (redirects to login if not)
+ * - Only returns current user's favorites (server-side filtering)
+ * 
+ * Data: Fetches favorites from database, serializes to phone card format.
+ * Dynamic: force-dynamic ensures only current user's data is shown.
+ */
+
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { redirect } from "next/navigation"; /* Server-side redirect */
 
 import { AuthConfigNotice } from "@/components/auth/auth-config-notice";
 import { DeviceCard } from "@/components/phones/device-card";
@@ -8,6 +34,8 @@ import { getOptionalSession } from "@/lib/auth/session";
 import { listFavoritesByUserId } from "@/lib/services/favorites";
 import { serializePhoneCard } from "@/lib/types/phone-card";
 
+/* force-dynamic: Don't cache this page
+   Each user has different favorites; always fetch fresh data */
 export const dynamic = "force-dynamic";
 
 export default async function FavoritesPage() {
@@ -23,6 +51,8 @@ export default async function FavoritesPage() {
 
   const session = await getOptionalSession();
 
+  /* Protect page: Redirect to login if not authenticated
+     Encodes callback URL so user returns here after login */
   if (!session?.user?.id) {
     redirect("/login?callbackUrl=%2Ffavorites");
   }

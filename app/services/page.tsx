@@ -1,5 +1,28 @@
+/**
+ * ===================================
+ * SERVICES PAGE (Features Showcase)
+ * ===================================
+ * 
+ * Purpose: Highlights the three main tools/services Dialed provides.
+ * Marketing-focused page explaining app capabilities to new users.
+ * 
+ * Three Main Tools:
+ * 1. Compare Lab (featured): Side-by-side phone comparison with stat bars
+ * 2. Catalog Browser: Dashboard with filters and phone cards
+ * 3. Full Spec Pages: Detailed specifications for individual phones
+ * 
+ * Design:
+ * - Asymmetric grid: Featured card takes more space
+ * - Visual previews: Each card shows interaction examples
+ * - Stat bars: Visual representation of scores/performance
+ * - Call-to-action buttons: Direct links to each tool
+ * 
+ * User Journey: Users learn what each feature does before diving in.
+ * From here, they can jump directly to specific tools or back to dashboard.
+ */
+
 import Link from "next/link";
-import { ArrowRight, BarChart3, Boxes, GitCompareArrows } from "lucide-react";
+import { ArrowRight, BarChart3, Boxes, GitCompareArrows } from "lucide-react"; /* Icon components */
 
 export default function ServicesPage() {
   return (
@@ -11,7 +34,10 @@ export default function ServicesPage() {
           The layout now breaks the old equal-box grid. Compare takes the lead, while discovery and full specs support it.
         </p>
 
+        {/* Asymmetric 3-column grid: featured card + 2 smaller cards
+            Featured card spans more vertical space */}
         <div className="services-grid">
+          {/* FEATURED CARD: Compare Lab - The signature experience */}
           <article className="glass-panel service-card service-card-featured">
             <div className="service-card-copy">
               <span className="section-label">Featured Tool</span>

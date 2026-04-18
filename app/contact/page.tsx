@@ -1,4 +1,25 @@
-import { site } from "@/lib/site";
+/**
+ * ===================================
+ * CONTACT PAGE
+ * ===================================
+ * 
+ * Purpose: Provides contact information and allows users to send feedback.
+ * Two-column layout: Contact info + message form.
+ * 
+ * Features:
+ * - Display email address for direct contact
+ * - List partnership opportunities (retail, listings, data)
+ * - Outline focus areas (catalog fixes, compare tools, scoring)
+ * - Contact form for feedback/bug reports/suggestions
+ * 
+ * User Journey: Users with questions or improvements reach out here.
+ * Form allows them to describe issues without leaving the app.
+ * 
+ * Note: Form is a UI-only placeholder in current version.
+ * Full backend integration would handle form submission to email service.
+ */
+
+import { site } from "@/lib/site"; /* Contains site.email config */
 
 export default function ContactPage() {
   return (
@@ -10,7 +31,9 @@ export default function ContactPage() {
           <p className="section-copy">
             Use this page for feedback, bug reports, partnership ideas, or data corrections.
           </p>
+          {/* Contact information stack - 3 key items */}
           <div className="stack" style={{ marginTop: 22 }}>
+            {/* Contact method 1: Direct email */}
             <div className="metric">
               <span>Email</span>
               {site.email}

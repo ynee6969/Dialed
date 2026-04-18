@@ -1,29 +1,157 @@
+/* ===================================
+   ROOT THEME VARIABLES (Default/Dark Mode)
+   
+   This :root selector defines all CSS custom properties (variables) that are
+   used throughout the entire application. These variables establish the design
+   system foundation for colors, spacing, shadows, and border-radius values.
+   The variables are scoped to the root level so they cascade to all child elements
+   and can be overridden by more specific selectors (like theme variants).
+   ==================================== */
+
 :root {
-  --radius-xl: 28px;
-  --radius-lg: 22px;
-  --radius-md: 16px;
+  /* BORDER-RADIUS SYSTEM
+     These variables define a hierarchical system of border-radius values used across components.
+     The naming convention (xl, lg, md) helps maintain consistency throughout the design.
+     - Used in glass panels, buttons, cards, and other rounded UI elements
+     - Contributes to the modern, polished aesthetic of the interface */
+  --radius-xl: 28px;    /* Extra large radius for prominent containers like main panels */
+  --radius-lg: 22px;    /* Large radius for secondary containers */
+  --radius-md: 16px;    /* Medium radius for smaller UI components */
+
+  /* SHADOW SYSTEM
+     Defines the primary shadow used for depth and elevation throughout the UI.
+     This shadow creates visual hierarchy and makes elements appear "floating" above the surface.
+     - The blur (48px) and spread create a soft, subtle shadow effect
+     - The RGBA color (15, 23, 42, 0.12) is a dark semi-transparent color with 12% opacity
+     - Used primarily on glass panels and elevated content areas
+     - Creates a sophisticated, modern appearance for the design */
   --shadow: 0 18px 48px rgba(15, 23, 42, 0.12);
-  --bg: #0d1117;
-  --surface: rgba(20, 25, 32, 0.92);
-  --surface-soft: #161d26;
-  --surface-strong: #1d2631;
+
+  /* COLOR PALETTE - BACKGROUND & SURFACE LAYERS
+     These colors create the foundation layer system, allowing depth perception
+     and visual hierarchy in the dark theme.
+     
+     --bg: Main background color for the entire page/viewport
+     - Used on <body> and main page containers
+     - Very dark (#0d1117 is almost pure black with slight blue tint)
+     - Provides maximum contrast for readability
+     - Sets the overall mood to dark and professional
+     
+     --surface: Primary surface color for interactive elements and panels
+     - Semi-transparent (92% opacity) allows for backdrop blur effects
+     - Used as background for glass-morphic panels
+     - Slightly lighter than --bg to create visual separation
+     
+     --surface-soft: Secondary lighter surface for nested/secondary content
+     - Used for buttons, input fields, and tertiary containers
+     - Provides visual hierarchy between different content layers
+     
+     --surface-strong: Tertiary darkest surface for strong/emphatic content
+     - Used for highlighted or focused states
+     - Creates maximum contrast for important information */
+  --bg: #0d1117;                      /* Deep navy-black background */
+  --surface: rgba(20, 25, 32, 0.92);  /* Semi-transparent dark surface for glass effect */
+  --surface-soft: #161d26;             /* Lighter surface for secondary elements */
+  --surface-strong: #1d2631;           /* Even lighter for interactive states */
+
+  /* BORDER SYSTEM
+     --border: Controls the color of dividing lines between elements
+     - Semi-transparent white (8% opacity) creates subtle visual separation
+     - Used for borders on cards, inputs, panels
+     - The low opacity maintains a subtle, elegant appearance
+     - Creates hierarchy without being visually dominant */
   --border: rgba(255, 255, 255, 0.08);
-  --text: #f5f7fb;
-  --muted: #9ba7ba;
-  --accent: #46b37b;
-  --accent-rgb: 70, 179, 123;
-  --accent-strong: #2d8d5c;
-  --accent-strong-rgb: 45, 141, 92;
-  --accent-secondary: #5f96ff;
-  --accent-secondary-rgb: 95, 150, 255;
-  --accent-tertiary: #b8d9ca;
-  --accent-tertiary-rgb: 184, 217, 202;
-  --accent-contrast: #08110c;
-  --accent-soft: rgba(var(--accent-rgb), 0.14);
+
+  /* TEXT COLOR SYSTEM
+     --text: Primary text color for all readable content
+     - Light color (#f5f7fb - almost white with slight blue tint) for high contrast
+     - Ensures WCAG accessibility standards for readability
+     - Used on all body text, headings, and labels
+     
+     --muted: Secondary text color for less important information
+     - Medium gray (#9ba7ba) for captions, helper text, disabled states
+     - Used for secondary copy, metadata, inactive elements
+     - Creates visual hierarchy by de-emphasizing certain content */
+  --text: #f5f7fb;      /* Bright almost-white for primary text */
+  --muted: #9ba7ba;     /* Medium gray for secondary/helper text */
+
+  /* ACCENT COLOR SYSTEM (Green theme)
+     The accent colors are the primary brand colors used for CTAs, highlights, and focus states.
+     The application uses a green accent theme to create a distinctive, modern appearance.
+     
+     --accent: Primary brand color (medium-green)
+     - Used for primary buttons, links, hover states
+     - #46b37b is a vibrant but not too saturated green
+     - Creates positive, approachable feeling
+     
+     --accent-rgb: RGB format of accent (without the #) for use in rgba() functions
+     - Allows dynamic opacity adjustments for soft backgrounds
+     - Separated from hex value to enable rgba(var(--accent-rgb), opacity) patterns
+     
+     --accent-strong: Darker shade of accent for emphasis/depth
+     - Used for hover states on accent buttons
+     - Used for selected/active states
+     - Provides visual feedback for interactive elements
+     
+     --accent-strong-rgb: RGB format of accent-strong for rgba() adjustments */
+  --accent: #46b37b;              /* Primary green brand color */
+  --accent-rgb: 70, 179, 123;     /* RGB values of accent for rgba() usage */
+  --accent-strong: #2d8d5c;       /* Darker green for emphasis states */
+  --accent-strong-rgb: 45, 141, 92; /* RGB format of accent-strong */
+
+  /* SECONDARY ACCENT COLORS
+     Additional accent colors for variety and differentiation in UI.
+     Used for secondary actions, supplementary information, and design variety.
+     
+     --accent-secondary: Blue accent color
+     - Used for secondary buttons, info messages, alternate CTAs
+     - Provides contrast against the primary green accent
+     - Used minimally to avoid overwhelming the green theme
+     
+     --accent-tertiary: Soft teal/cyan accent
+     - Used for tertiary actions or subtle highlights
+     - Complements both primary (green) and secondary (blue) accents
+     - Creates a cohesive, multi-toned color system */
+  --accent-secondary: #5f96ff;          /* Blue accent for secondary actions */
+  --accent-secondary-rgb: 95, 150, 255; /* RGB format of accent-secondary */
+  --accent-tertiary: #b8d9ca;           /* Soft teal accent for tertiary actions */
+  --accent-tertiary-rgb: 184, 217, 202; /* RGB format of accent-tertiary */
+
+  /* ACCENT CONTRAST & SOFT VARIANTS
+     --accent-contrast: Color used for text/elements placed on top of accent backgrounds
+     - When a button or element has an accent background, text uses this color
+     - Dark green (#08110c) ensures readability on bright green background
+     - Maintains WCAG AAA contrast standards
+     
+     --accent-soft: Soft background version of accent for subtle backgrounds
+     - Created using rgba(var(--accent-rgb), 0.14) - only 14% opacity
+     - Used for background fills in accent buttons, labels, chips
+     - Creates visual association with accent without overwhelming the design */
+  --accent-contrast: #08110c;           /* Dark text color for accent backgrounds */
+  --accent-soft: rgba(var(--accent-rgb), 0.14); /* Soft green background (14% opacity) */
+
+  /* ERROR/DANGER COLOR
+     --danger: Color used for error messages, delete actions, warnings
+     - Red (#ff8d8d) communicates warnings and errors universally
+     - Used for form validation errors, delete confirmations
+     - Stands out from the green accent scheme to grab attention */
   --danger: #ff8d8d;
 }
 
+
+/* ===================================
+   DARK THEME OVERRIDE
+   
+   When the HTML element has [data-theme="dark"], these variables override the defaults.
+   This selector is more specific than :root, so these values take precedence.
+   In this application, dark is the PRIMARY theme (same values as root defaults),
+   while light theme is the alternative. This maintains consistent appearance when
+   dark theme is explicitly set or when no preference is specified.
+   ==================================== */
+
 html[data-theme="dark"] {
+  /* color-scheme: dark tells the browser to style built-in elements (scrollbars, inputs)
+     with a dark color scheme for consistency with the custom theme */
   color-scheme: dark;
   --bg: #0d1117;
   --surface: rgba(20, 25, 32, 0.92);
@@ -45,131 +173,474 @@ html[data-theme="dark"] {
   --danger: #ff8d8d;
 }
 
+/* ===================================
+   LIGHT THEME OVERRIDE
+   
+   When the HTML element has [data-theme="light"], these variables are used instead.
+   This provides a complete light theme with inverted colors for maximum contrast.
+   The color values are completely different to maintain readability in light mode:
+   - Light backgrounds instead of dark
+   - Dark text instead of light
+   - Adjusted accent colors for visibility on light surfaces
+   
+   This allows users to toggle between dark and light modes with smooth transitions.
+   The theme toggle button in the header controls this data attribute.
+   ==================================== */
+
 html[data-theme="light"] {
+  /* color-scheme: light tells the browser to use light styling for native elements */
   color-scheme: light;
-  --bg: #f3f5f7;
-  --surface: rgba(255, 255, 255, 0.94);
-  --surface-soft: #eef2f5;
-  --surface-strong: #e4ebf0;
-  --border: rgba(15, 23, 42, 0.08);
-  --text: #111827;
-  --muted: #5c6676;
-  --accent: #21865b;
-  --accent-strong: #176745;
-  --accent-rgb: 33, 134, 91;
-  --accent-strong-rgb: 23, 103, 69;
-  --accent-secondary: #4d88ef;
+  
+  /* Light mode backgrounds: inverted from dark mode
+     Light surfaces are used instead of dark ones for maximum contrast */
+  --bg: #f3f5f7;                    /* Very light gray background */
+  --surface: rgba(255, 255, 255, 0.94); /* Nearly white surface */
+  --surface-soft: #eef2f5;           /* Slightly gray surface for secondary elements */
+  --surface-strong: #e4ebf0;         /* Medium gray for emphasized surfaces */
+  
+  /* Light mode borders: much darker than dark mode for visibility
+     The high opacity (92%) ensures borders are clearly visible on light backgrounds */
+  --border: rgba(15, 23, 42, 0.08);  /* Very subtle dark border */
+  
+  /* Light mode text colors: inverted for readability
+     Dark text on light backgrounds for maximum accessibility */
+  --text: #111827;                   /* Very dark gray/black for text */
+  --muted: #5c6676;                  /* Medium gray for secondary text */
+  
+  /* Light mode accent colors: darker/more saturated versions
+     Green must be darker to maintain sufficient contrast on light backgrounds */
+  --accent: #21865b;                 /* Darker green for light mode */
+  --accent-strong: #176745;          /* Even darker green for emphasis states */
+  --accent-rgb: 33, 134, 91;         /* RGB format of light mode accent */
+  --accent-strong-rgb: 23, 103, 69;  /* RGB format of light mode accent-strong */
+  
+  /* Light mode secondary colors: adjusted for light backgrounds */
+  --accent-secondary: #4d88ef;       /* Deeper blue for light mode */
   --accent-secondary-rgb: 77, 136, 239;
-  --accent-tertiary: #b6d5c3;
+  --accent-tertiary: #b6d5c3;        /* Adjusted teal for light mode */
   --accent-tertiary-rgb: 182, 213, 195;
-  --accent-contrast: #f4fff8;
-  --accent-soft: rgba(var(--accent-rgb), 0.1);
+  
+  /* Light mode accent contrast: light color for text on dark accents
+     When an accent background is used in light mode, white/light text is placed on top */
+  --accent-contrast: #f4fff8;        /* Nearly white text on accent backgrounds */
+  
+  /* Light mode soft accent: subtle light background version
+     In light mode, the soft accent is even more transparent to maintain subtlety */
+  --accent-soft: rgba(var(--accent-rgb), 0.1); /* Very subtle green background */
+  
+  /* Light mode danger color: darker red for visibility */
   --danger: #b92f2f;
 }
 
+
+/* ===================================
+   BASE HTML ELEMENT STYLES
+   
+   This styles the <html> element itself, affecting the entire page.
+   ==================================== */
+
 html {
+  /* scroll-behavior: smooth enables smooth scrolling when using anchor links (e.g., #about-section)
+     Instead of instant jumps to sections, the page scrolls smoothly
+     Improves user experience by making navigation feel polished and intentional
+     Used throughout the application for internal navigation between sections */
   scroll-behavior: smooth;
 }
 
+/* ===================================
+   UNIVERSAL SELECTOR (*)
+   
+   The * selector targets ALL elements on the page. Properties here are inherited by everything.
+   This is used for global styling rules that should apply universally.
+   ==================================== */
+
 * {
+  /* box-sizing: border-box changes how width and height are calculated
+     By default, width includes only the content area (excluding padding/border)
+     With border-box, width includes padding and border, making layout calculations much easier
+     This is the standard for modern web development
+     Impact: Makes all components easier to style and more predictable in size */
   box-sizing: border-box;
+  
+  /* scrollbar-width: thin reduces the scrollbar width from default to thin
+     This creates a more compact, modern appearance when scrollbars appear
+     "thin" is still functional and easy to click/drag
+     Impact: Makes scrollbars less visually intrusive on the page */
   scrollbar-width: thin;
+  
+  /* scrollbar-color: colors the scrollbar to match the accent color scheme
+     Sets both the thumb (draggable part) and track (background) colors
+     - Thumb: var(--accent) - the accent green color for thumb
+     - Track: transparent - invisible track blends with background
+     Impact: Makes the scrollbar blend with the design system instead of using browser defaults
+     Creates a cohesive, polished appearance throughout the interface */
   scrollbar-color: var(--accent) transparent;
 }
 
+/* ===================================
+   BODY ELEMENT STYLES
+   
+   The <body> element is the container for all visible page content.
+   These styles set the foundation for the entire application appearance.
+   ==================================== */
+
 body {
+  /* margin: 0 removes default body margins (browsers add ~8px margins by default)
+     Reset to 0 for full-width layouts and to prevent unexpected spacing
+     Impact: Allows content to extend to the edges without unwanted gaps */
   margin: 0;
+  
+  /* min-height: 100vh ensures body takes up at least the full viewport height
+     vh = viewport height, so 100vh is the full visible window height
+     This ensures footer stays at bottom even with little content
+     Impact: Prevents gap between footer and bottom of screen on short pages */
   min-height: 100vh;
+  
+  /* background: var(--bg) sets the page background to the dark background color
+     Uses the CSS variable defined in :root to respect theme changes
+     Impact: Sets the overall canvas color for the entire page */
   background: var(--bg);
+  
+  /* color: var(--text) sets the default text color for all elements
+     Uses the light gray text color for maximum contrast in dark mode
+     Impact: Ensures all text is readable by default without needing to set color elsewhere
+     Saves repetition - all text inherits this unless specifically overridden */
   color: var(--text);
+  
+  /* font-family: var(--font-body), sans-serif sets the default typeface
+     --font-body is a custom font variable provided by Next.js
+     sans-serif is the fallback if the custom font fails to load
+     Impact: Ensures consistent typography throughout the application
+     The sans-serif typeface creates a modern, clean aesthetic */
   font-family: var(--font-body), sans-serif;
 }
 
+/* ===================================
+   ANCHOR/LINK ELEMENT STYLES
+   
+   The <a> element represents hyperlinks. This resets link styling to blend naturally.
+   ==================================== */
+
 a {
+  /* color: inherit makes links inherit the text color from their parent
+     By default, browsers style links with blue and underlines
+     This resets that, making links appear like regular text unless styled otherwise
+     Impact: Allows flexible link styling based on context (nav, buttons, inline text)
+     Prevents the jarring default blue link appearance */
   color: inherit;
+  
+  /* text-decoration: none removes the default underline from links
+     Keeps links visual uniform with surrounding text
+     Underlines can be added on hover or in specific contexts where needed
+     Impact: Creates a cleaner appearance - links are obvious from context, not from styling */
   text-decoration: none;
 }
+
+/* ===================================
+   FORM ELEMENT STYLES
+   
+   These selectors reset default styling on form inputs to allow custom styling.
+   ==================================== */
 
 button,
 input,
 select,
 textarea {
+  /* font: inherit makes form elements inherit the page's default font
+     By default, browsers use monospace (like Courier) for form fields
+     This overrides that to use the beautiful sans-serif font used elsewhere
+     Impact: Creates visual consistency - form fields match the typography of the rest of the page
+     Improves the overall polished appearance of the application */
   font: inherit;
 }
 
+/* ===================================
+   IMAGE ELEMENT STYLES
+   
+   The <img> element represents images. This resets default behavior.
+   ==================================== */
+
 img {
+  /* display: block removes the inline-block default display
+     By default, images are inline, which can add extra spacing below them (line-height issue)
+     Setting to block removes this extra space (called "descender space")
+     Impact: Prevents unexpected spacing below images, making layouts more predictable */
   display: block;
+  
+  /* max-width: 100% makes images responsive
+     Images will scale down to fit their container but never expand larger than 100%
+     This prevents images from breaking out of their containers on small screens
+     Impact: Ensures responsive design - images scale appropriately on mobile and desktop
+     Prevents horizontal scrolling caused by oversized images */
   max-width: 100%;
 }
 
+/* ===================================
+   MAIN ELEMENT STYLES
+   
+   The <main> element wraps all primary page content (not header/footer/nav).
+   This sets up the main content area's layout and spacing.
+   ==================================== */
+
 main {
+  /* min-height: calc(100vh - 80px) ensures main content area is tall enough
+     100vh = viewport height
+     80px = approximate height of the site header (navigation)
+     So main takes up the full visible space minus the header
+     The calc() function performs mathematical calculations in CSS
+     Impact: Ensures proper spacing - content doesn't hide behind header, footer positioned correctly */
   min-height: calc(100vh - 80px);
+  
+  /* padding-bottom: 88px adds space below the main content before the footer
+     This creates breathing room at the bottom of pages
+     Prevents content from running into the footer
+     88px accounts for typical footer height + extra spacing
+     Impact: Ensures content isn't cramped at the bottom, improves vertical rhythm */
   padding-bottom: 88px;
 }
 
+
+/* ===================================
+   PAGE CONTAINER STYLES
+   
+   These classes define layout containers for different sections of pages.
+   They control width, padding, and centering of content.
+   ==================================== */
+
 .page-shell {
+  /* width: 100% makes the container span full width (no max-width constraint)
+     This allows flexibility - can be full-width or constrained by parent
+     Impact: The container itself is flexible; max-width is often set on parent */
   width: 100%;
+  
+  /* padding-inline: clamp(16px, 3vw, 36px) adds horizontal (left/right) padding
+     "clamp(min, preferred, max)" is a CSS function that picks a value between min and max
+     - Minimum padding: 16px (on very small screens)
+     - Preferred: 3vw (3% of viewport width - scales with screen size)
+     - Maximum: 36px (never exceeds 36px even on huge screens)
+     This creates responsive padding that scales smoothly
+     Impact: Content is inset from edges on all screen sizes without media queries
+     Maintains breathing room on mobile (16px) while not over-padding on desktop (36px) */
   padding-inline: clamp(16px, 3vw, 36px);
+  
+  /* margin: 0 auto centers the container horizontally within its parent
+     Only works when container has a max-width defined (usually on parent)
+     Impact: Ensures centered, balanced layout with equal left/right margins */
   margin: 0 auto;
 }
 
 .site-shell {
+  /* background: var(--bg) ensures the entire site background matches the theme
+     This wraps all content and uses the background color variable
+     Impact: Any background showing through containers will be the correct theme color */
   background: var(--bg);
 }
 
+/* ===================================
+   GLASS MORPHISM COMPONENT STYLE
+   
+   The "glass" effect is a modern design trend where elements appear to be
+   made of frosted glass - semi-transparent with a blur effect showing through.
+   ==================================== */
+
 .glass-panel {
+  /* background: var(--surface) uses the semi-transparent surface color
+     This is the base layer for the glass effect
+     Impact: Provides a subtle semi-transparent background */
   background: var(--surface);
+  
+  /* backdrop-filter: blur(14px) blurs the content behind the element
+     This is the key to the "glass" effect - it creates a frosted appearance
+     The 14px blur radius is strong enough to obscure details but keep shapes visible
+     Impact: Creates the signature modern glass-morphism visual effect
+     Requires a semi-transparent background to work effectively */
   backdrop-filter: blur(14px);
+  
+  /* border: 1px solid var(--border) adds a subtle border around the panel
+     Uses the low-opacity white border color for definition
+     The 1px width is thin and refined
+     Impact: Adds visual definition to the panel edges without being prominent */
   border: 1px solid var(--border);
+  
+  /* border-radius: var(--radius-xl) rounds the corners using the extra-large radius
+     28px creates a distinctly rounded, modern look
+     Impact: Softens corners for a friendly, contemporary aesthetic */
   border-radius: var(--radius-xl);
+  
+  /* box-shadow: var(--shadow) adds the depth shadow defined in root variables
+     The shadow makes the panel appear elevated above the background
+     Impact: Creates visual hierarchy and depth perception */
   box-shadow: var(--shadow);
 }
 
+/* ===================================
+   SECTION LAYOUT & TYPOGRAPHY STYLES
+   
+   These classes structure page sections and their typography hierarchy.
+   ==================================== */
+
 .section {
+  /* padding: clamp(28px, 5vw, 72px) 0 adds vertical padding to sections
+     - Minimum: 28px (tight on mobile)
+     - Preferred: 5vw (scales with screen size)
+     - Maximum: 72px (generous on desktop)
+     The "0" means no horizontal padding (left/right are 0)
+     Impact: Creates breathing room between sections vertically
+     Sections have space between them for visual rhythm and readability */
   padding: clamp(28px, 5vw, 72px) 0;
 }
 
 .section-label {
+  /* display: inline-flex shows the element as an inline container with flex layout
+     inline means it only takes as much width as needed (doesn't stretch full width)
+     flex enables flexbox for precise control of children
+     Impact: Creates a compact pill-shaped container that fits its content */
   display: inline-flex;
+  
+  /* align-items: center vertically centers all children within the flex container
+     Impact: Items (icon + text) are vertically aligned in the middle */
   align-items: center;
+  
+  /* gap: 8px creates 8px spacing between flex children
+     In this case, space between the icon and text
+     Impact: Prevents cramping of icon and label text */
   gap: 8px;
+  
+  /* padding: 10px 14px adds internal spacing
+     10px top/bottom, 14px left/right
+     Impact: Makes the label have appropriate clickable area and breathing room */
   padding: 10px 14px;
+  
+  /* border-radius: 999px creates a fully rounded pill shape
+     999px is much larger than needed, so it just rounds fully
+     This is shorthand for "make it as round as possible"
+     Impact: Creates a distinctive pill/capsule shape for visual appeal */
   border-radius: 999px;
+  
+  /* background: var(--accent-soft) uses the soft accent background color (14% opacity green)
+     Impact: Provides a subtle green background that's related to the accent but not overwhelming */
   background: var(--accent-soft);
+  
+  /* border: 1px solid rgba(var(--accent-rgb), 0.24) adds a visible border
+     Uses the accent color at 24% opacity (stronger than the typical border)
+     This creates a defined edge for the label
+     Impact: Makes the label visually distinct and defined */
   border: 1px solid rgba(var(--accent-rgb), 0.24);
+  
+  /* color: var(--accent) makes the text use the accent green color
+     Ties the label to the accent system
+     Impact: Text appears in the brand green color */
   color: var(--accent);
+  
+  /* font-size: 0.82rem makes the text slightly smaller than normal (82% of base size)
+     Small text for labels to keep them from dominating
+     Impact: Labels are subtle and don't draw more attention than main content */
   font-size: 0.82rem;
+  
+  /* font-weight: 700 makes the text bold
+     700 is the numeric value for "bold"
+     Impact: Makes the label stand out despite the small size */
   font-weight: 700;
+  
+  /* letter-spacing: 0.08em adds space between letters
+     0.08em means 8% of the font size
+     Wider letter spacing is a design trend that creates sophistication
+     Impact: Makes the label feel more premium and easier to read at small sizes */
   letter-spacing: 0.08em;
+  
+  /* text-transform: uppercase converts all text to uppercase
+     This is done via CSS, so the HTML can have normal casing
+     Impact: Makes labels visually distinct and stands out from body text */
   text-transform: uppercase;
 }
 
 .section-title {
+  /* margin: 18px 0 14px adds space around the title
+     18px above, 14px below, 0 left/right
+     Impact: Creates proper vertical spacing between label and title */
   margin: 18px 0 14px;
+  
+  /* font-family: var(--font-display), sans-serif uses the display/heading font
+     This is different from the body font, creating visual hierarchy
+     Display fonts are typically bolder and more distinctive
+     Impact: Makes headings visually distinct from body text */
   font-family: var(--font-display), sans-serif;
+  
+  /* font-size: clamp(2.4rem, 5vw, 4.5rem) sets responsive font size
+     - Minimum: 2.4rem (96px on 16px base - large on mobile)
+     - Preferred: 5vw (5% of viewport width - scales with screen)
+     - Maximum: 4.5rem (144px on 16px base - huge on desktop)
+     Impact: Titles scale beautifully across all screen sizes
+     No media queries needed - single property handles all responsiveness */
   font-size: clamp(2.4rem, 5vw, 4.5rem);
+  
+  /* line-height: 0.95 sets the spacing between lines of text
+     0.95 means 95% of font size (tighter than normal 1.5 line-height)
+     Impact: Creates a compressed, impactful look for large headlines
+     Works well for display text but wouldn't work for body paragraphs */
   line-height: 0.95;
+  
+  /* letter-spacing: -0.05em reduces space between letters
+     Negative letter spacing brings letters closer together
+     -0.05em means -5% of font size
+     This is commonly used for large headlines to make them feel bolder
+     Impact: Creates a tight, powerful appearance for headlines */
   letter-spacing: -0.05em;
 }
 
 .section-copy,
 .muted {
+  /* color: var(--muted) makes text use the muted gray color
+     This color is used for secondary, less important text
+     Impact: De-emphasizes this text compared to the primary text color */
   color: var(--muted);
 }
 
 .section-copy {
+  /* max-width: 760px sets the maximum width for this text
+     Long lines of text are harder to read (eye travels too far)
+     750px is a good "measure" for readable line length
+     Impact: Ensures body copy is readable by limiting line length
+     Prevents excessively long, hard-to-read lines on desktop */
   max-width: 760px;
+  
+  /* font-size: 1.02rem sets the text size to 102% of base
+     Slightly larger than normal for improved readability
+     1rem is typically 16px, so this is ~16.3px
+     Impact: Makes body text more readable and prominent */
   font-size: 1.02rem;
+  
+  /* line-height: 1.75 sets line spacing to 175% of font size
+     High line height improves readability for body text
+     Standard body text uses 1.5-1.75 line height
+     Impact: Makes paragraphs breathe and easier to read
+     Text feels open and scannable rather than cramped */
   line-height: 1.75;
 }
 
 .feature-title {
+  /* Styling for secondary headings used within features/components
+     Similar to section-title but slightly smaller for hierarchical distinction */
   margin: 18px 0 12px;
   font-family: var(--font-display), sans-serif;
+  /* font-size: clamp(1.9rem, 3vw, 3rem) 
+     - Minimum: 1.9rem (76px - smaller than section titles)
+     - Preferred: 3vw (3% viewport width)
+     - Maximum: 3rem (120px - still large but smaller than main titles)
+     Impact: Creates a clear hierarchy - feature titles are smaller than section titles */
   font-size: clamp(1.9rem, 3vw, 3rem);
-  line-height: 1;
-  letter-spacing: -0.04em;
+  line-height: 1;    /* No extra line height - titles are single lines or very tight */
+  letter-spacing: -0.04em;  /* Slightly less negative than section-title */
 }
+
+
+/* ===================================
+   GRID LAYOUT SYSTEM
+   
+   These classes define various grid layouts used throughout the application.
+   Each grid serves a different purpose with different column configurations.
+   All grids share: display: grid, gap: 20px
+   ==================================== */
 
 .hero-grid,
 .marketing-grid,
@@ -179,74 +650,184 @@ main {
 .comparison-grid,
 .recommendation-grid,
 .detail-summary-grid {
+  /* display: grid enables CSS Grid layout
+     Grid is perfect for creating responsive multi-column layouts
+     Impact: Creates flexible, responsive layouts without float hacks */
   display: grid;
+  
+  /* gap: 20px sets spacing between all grid items (rows and columns)
+     20px creates breathing room between items
+     Impact: Prevents cramping - items have clear separation */
   gap: 20px;
 }
 
 .hero-grid {
+  /* grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr) creates 2 columns
+     First column: 1.15 "fraction units" - slightly larger (54.5% of space)
+     Second column: 0.85 fraction units - slightly smaller (40.5% of space)
+     minmax() function: minmax(minimum, maximum)
+     - First: minmax(0, 1.15fr) - column can shrink to 0, grow to 1.15fr
+     - Second: minmax(320px, 0.85fr) - column minimum is 320px (prevents too-narrow content)
+     This layout is typically: [Hero Content | Hero Image]
+     Impact: Creates asymmetric layout with larger content area and properly-sized image */
   grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  
+  /* align-items: stretch makes all items fill the full height
+     Default is "stretch" but explicitly set for clarity
+     Impact: Content and image have equal height, creating balanced appearance */
   align-items: stretch;
 }
 
 .marketing-grid {
+  /* grid-template-columns: repeat(2, minmax(0, 1fr)) creates 2 equal columns
+     repeat(2, ...) means "repeat this pattern 2 times"
+     minmax(0, 1fr) means each column takes equal space
+     1fr = "1 fraction of available space"
+     Impact: Creates a 2-column layout that's responsive on desktop, stacks on mobile */
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .card-grid {
+  /* grid-template-columns: repeat(3, minmax(0, 1fr)) creates 3 equal columns
+     Impact: Creates a 3-column card layout */
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .phone-grid,
 .gallery-grid {
+  /* grid-template-columns: repeat(4, minmax(0, 1fr)) creates 4 equal columns
+     Impact: Creates a 4-column grid for products/images (like a storefront) */
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .comparison-grid {
+  /* grid-template-columns: repeat(2, minmax(0, 1fr)) creates 2 equal columns
+     Used for side-by-side comparison of two items
+     Impact: Creates a balanced 2-column comparison view */
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .recommendation-grid {
+  /* grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) creates flexible columns
+     repeat(auto-fit, ...) automatically creates as many columns as fit the container
+     minmax(250px, 1fr) means each column is minimum 250px wide, grows to equal width
+     This is the key to "true" responsive layout - no media queries needed
+     If container is 1000px: 4 columns (250px each)
+     If container is 800px: 3 columns (267px each) 
+     If container is 500px: 2 columns (250px each)
+     Impact: Creates highly responsive layout that adapts seamlessly to any screen size */
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
 .detail-summary-grid {
+  /* grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)) creates flexible columns
+     Similar to recommendation-grid but with 170px minimum (smaller items)
+     Impact: Creates flexible grid for detailed specs/summaries that stack nicely */
   grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
 }
+
+/* ===================================
+   COMPONENT PADDING SYSTEM
+   
+   These classes define the internal padding (spacing) for various components.
+   ==================================== */
 
 .hero-panel,
 .card,
 .phone-card,
 .sidebar-card {
+  /* padding: 24px adds 24px internal spacing on all sides
+     This creates breathing room inside containers
+     Impact: Content isn't cramped against edges - feels spacious and readable */
   padding: 24px;
 }
 
 .hero-panel {
+  /* min-height: 520px ensures hero panels are tall/prominent
+     520px = ~7.2 inches on a standard screen
+     Large height makes the hero section feel important and engaging
+     Impact: Creates a prominent hero section that captures attention */
   min-height: 520px;
 }
 
+/* ===================================
+   FLEX LAYOUT CLASSES
+   
+   These classes use flexbox for one-dimensional layouts (rows or columns).
+   ==================================== */
+
 .hero-stack,
 .stack {
+  /* display: grid creates a vertical stack layout
+     Grid with no explicit columns defaults to single column (stack)
+     Impact: Creates vertical stacking of elements */
   display: grid;
+  
+  /* gap: 18px sets vertical spacing between stacked items
+     18px creates breathing room between stacked items
+     Impact: Prevents cramped vertical layouts */
   gap: 18px;
 }
 
 .pill-row,
 .chip-row,
 .button-row {
+  /* display: flex creates a horizontal layout
+     Flexbox is perfect for rows of items
+     Impact: Items flow horizontally in a row */
   display: flex;
+  
+  /* flex-wrap: wrap allows items to wrap to next line if they don't fit
+     Without wrap, items would shrink or overflow
+     With wrap, row breaks to new line when full
+     Impact: Makes rows responsive - items wrap on small screens */
   flex-wrap: wrap;
+  
+  /* gap: 12px sets spacing between items in the row
+     12px is compact but still provides separation
+     Impact: Items are close together but not touching */
   gap: 12px;
 }
+
+/* ===================================
+   INTERACTIVE ELEMENT STYLES
+   
+   These classes style buttons, pills, chips, and the theme toggle.
+   They create a cohesive interactive element design system.
+   ==================================== */
 
 .pill,
 .chip,
 .theme-toggle {
+  /* display: inline-flex makes element inline but with flex layout inside
+     inline means it only takes as much width as needed (doesn't stretch)
+     flex allows control of internal item arrangement
+     Impact: Creates compact, inline elements like pills/badges */
   display: inline-flex;
+  
+  /* align-items: center vertically centers content
+     Impact: Content inside is vertically centered */
   align-items: center;
+  
+  /* gap: 8px adds spacing between internal items (icon + text)
+     Impact: Prevents cramping of combined content */
   gap: 8px;
+  
+  /* border-radius: 999px creates fully rounded pill shape
+     Impact: Creates distinctive pill/badge appearance */
   border-radius: 999px;
+  
+  /* padding: 10px 14px adds internal spacing
+     10px vertical, 14px horizontal
+     Impact: Gives pills appropriate size and clickable area */
   padding: 10px 14px;
+  
+  /* background: var(--surface-soft) uses light surface background
+     Impact: Pills blend with the UI but are still distinct */
   background: var(--surface-soft);
+  
+  /* border: 1px solid var(--border) adds subtle definition
+     Impact: Adds edge definition without being overwhelming */
   border: 1px solid var(--border);
 }
 
@@ -254,115 +835,187 @@ main {
 .button-secondary,
 .button-ghost,
 .theme-toggle {
+  /* Common styling for all button variants */
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  border: 1px solid transparent;
+  justify-content: center;  /* Centers content horizontally AND vertically */
+  border: 1px solid transparent;  /* Start with no visible border */
   border-radius: 999px;
+  /* cursor: pointer changes cursor to hand pointer on hover
+     Signals to users that element is clickable
+     Impact: Improves perceived interactivity */
   cursor: pointer;
+  /* transition: ... enables smooth animations on state changes
+     Smooth transitions make interactions feel less harsh/janky
+     160ms = quarter-second animation
+     ease = natural easing curve
+     Impact: Professional, polished feel when buttons change state */
   transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
 }
 
 .button,
 .button-secondary,
 .button-ghost {
+  /* Padding for all button variants - slightly larger than pills
+     13px vertical, 18px horizontal
+     Buttons should be easy to click/tap
+     Impact: Appropriate size for touch-friendly interface */
   padding: 13px 18px;
 }
 
 .button {
-  background: var(--accent);
-  color: var(--accent-contrast);
-  font-weight: 700;
+  /* Primary button (most important action - e.g., "Buy", "Save")
+     These are the primary way users take main actions */
+  background: var(--accent);      /* Bright green background */
+  color: var(--accent-contrast);  /* Dark text on green for contrast */
+  font-weight: 700;               /* Bold text */
 }
 
 .button-secondary {
-  background: var(--surface-soft);
-  border-color: var(--border);
-  color: var(--text);
+  /* Secondary button (less important than primary, but still actionable)
+     Examples: "Cancel", "Preview", "Learn More"
+     Visually similar to form inputs to indicate interaction */
+  background: var(--surface-soft);  /* Subtle background */
+  border-color: var(--border);      /* Visible border */
+  color: var(--text);               /* Standard text color */
 }
 
 .button-ghost {
-  background: transparent;
-  border-color: var(--border);
-  color: var(--muted);
+  /* Ghost button (least prominent, for optional/exploratory actions)
+     Examples: "View Details", "Learn More", "Advanced Options"
+     Almost invisible until hover, then becomes more prominent */
+  background: transparent;         /* No background fill */
+  border-color: var(--border);     /* Subtle border only */
+  color: var(--muted);             /* Muted text color */
 }
 
 .theme-toggle {
+  /* Special styling for the theme toggle button
+     Different from regular buttons because it's UI chrome, not content action */
   background: var(--surface-soft);
   color: var(--text);
-  padding: 10px 14px;
+  padding: 10px 14px;  /* Slightly smaller than regular buttons */
 }
 
 .theme-toggle-shell {
+  /* Container for the theme toggle button and dropdown
+     Position: relative allows absolute positioning of children
+     Impact: Enables dropdown menu positioning relative to toggle button */
   position: relative;
 }
 
 .theme-toggle.is-open {
-  border-color: rgba(var(--accent-rgb), 0.28);
-  box-shadow: 0 0 0 1px rgba(var(--accent-rgb), 0.12);
+  /* Styling when the theme dropdown is open
+     Different visual state to indicate menu is active */
+  border-color: rgba(var(--accent-rgb), 0.28);  /* Accent-colored border */
+  box-shadow: 0 0 0 1px rgba(var(--accent-rgb), 0.12);  /* Subtle glow */
 }
 
 .theme-toggle-preview {
+  /* Container for the preview swatches inside the toggle
+     Flexbox for horizontal arrangement of color swatches */
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  margin-left: 2px;
+  gap: 6px;      /* Small gap between swatches */
+  margin-left: 2px;  /* Slight offset for visual balance */
 }
 
 .theme-toggle-preview span,
 .theme-option-swatches span {
+  /* Small circular color swatches
+     Display the accent color of each theme */
   width: 12px;
   height: 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;  /* Makes small circles */
+  border: 1px solid rgba(255, 255, 255, 0.14);  /* Subtle white border */
 }
 
+
+/* ===================================
+   THEME PANEL (DROPDOWN MENU)
+   
+   The theme panel is the dropdown menu shown when the theme toggle is clicked.
+   It displays theme options and allows users to switch themes.
+   ==================================== */
+
 .theme-panel {
+  /* position: absolute removes element from normal document flow
+     Allows it to be positioned anywhere, overlapping other content
+     Impact: Dropdown appears on top of other content */
   position: absolute;
+  
+  /* top: calc(100% + 12px) positions the dropdown below the toggle button
+     100% = the height of the parent (toggle button)
+     +12px = 12px gap between button and dropdown
+     Impact: Dropdown appears directly below toggle with spacing */
   top: calc(100% + 12px);
+  
+  /* right: 0 aligns the dropdown to the right edge of the toggle button
+     Impact: Dropdown menu aligned to right, which is typical for top-right menus */
   right: 0;
+  
+  /* width: min(94vw, 430px) makes the dropdown responsive
+     94vw = 94% of viewport width (leaves 3% margin on each side on mobile)
+     430px = maximum width on large screens
+     min() picks the smaller value
+     Impact: Dropdown is nearly full-width on mobile but caps at 430px on desktop */
   width: min(94vw, 430px);
+  
+  /* padding: 18px adds internal spacing
+     Impact: Content inside dropdown has breathing room */
   padding: 18px;
+  
+  /* z-index: 80 makes the dropdown appear on top of other content
+     Higher number = appears on top
+     80 is high enough for most content (modals typically use 1000+)
+     Impact: Ensures dropdown menu is visible above other page content */
   z-index: 80;
 }
 
 .theme-panel-header p {
-  margin: 8px 0 0;
-  line-height: 1.5;
+  /* Paragraph element inside the header of the theme panel
+     Typically contains instructions or descriptions */
+  margin: 8px 0 0;  /* 8px top margin, 0 bottom/left/right - aligns with content above */
+  line-height: 1.5; /* Normal line height for body text */
 }
 
 .theme-mode-row {
+  /* Container for theme mode buttons (Light/Dark/Auto mode selection) */
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin-top: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));  /* 2 equal columns */
+  gap: 10px;    /* 10px spacing between buttons */
+  margin-top: 16px;  /* Space from content above */
 }
 
 .theme-mode-button {
+  /* Individual mode button inside the mode row */
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 12px 14px;
-  border-radius: 16px;
-  border: 1px solid var(--border);
-  background: var(--surface-soft);
-  color: var(--muted);
+  gap: 8px;      /* Space between icon and text */
+  padding: 12px 14px;  /* Comfortable button padding */
+  border-radius: 16px;  /* Slightly rounded corners (less rounded than pills) */
+  border: 1px solid var(--border);  /* Subtle border */
+  background: var(--surface-soft);  /* Light background */
+  color: var(--muted);  /* Muted text (appears disabled) */
   cursor: pointer;
 }
 
 .theme-mode-button.is-active {
-  color: var(--text);
-  border-color: rgba(var(--accent-rgb), 0.26);
-  background: rgba(var(--accent-rgb), 0.12);
+  /* Styling when mode button is active/selected */
+  color: var(--text);           /* Switch to primary text color */
+  border-color: rgba(var(--accent-rgb), 0.26);  /* Accent-colored border */
+  background: rgba(var(--accent-rgb), 0.12);    /* Subtle accent background */
 }
 
 .theme-search {
+  /* Search input container in theme panel
+     Allows users to filter theme options */
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-top: 14px;
-  padding: 12px 14px;
+  gap: 10px;    /* Space between icon and input */
+  margin-top: 14px;  /* Space from content above */
+  padding: 12px 14px;  /* Internal spacing */
   border-radius: 16px;
   background: var(--surface-soft);
   border: 1px solid var(--border);
@@ -370,88 +1023,119 @@ main {
 }
 
 .theme-search input {
-  width: 100%;
-  border: 0;
-  outline: 0;
-  background: transparent;
-  color: var(--text);
+  /* The actual text input field inside search container */
+  width: 100%;  /* Take up all available space */
+  border: 0;    /* No border (inherited from parent) */
+  outline: 0;   /* No outline on focus (styled by parent) */
+  background: transparent;  /* No background (inherited from parent) */
+  color: var(--text);  /* Text appears in primary color */
 }
 
 .theme-panel-list {
+  /* Container for the scrollable list of theme options */
   display: grid;
-  gap: 6px;
-  max-height: min(56vh, 420px);
-  overflow-y: auto;
-  margin-top: 14px;
-  padding-right: 4px;
+  gap: 6px;     /* Tight spacing between options */
+  max-height: min(56vh, 420px);  /* Max height with fallback
+     56vh = 56% of viewport height (leaves space for other UI)
+     420px = fallback maximum (about 7 theme options visible)
+     min() picks the smaller value */
+  overflow-y: auto;  /* Enables vertical scrolling when list exceeds max-height */
+  margin-top: 14px;  /* Space from content above */
+  padding-right: 4px;  /* Slight padding to prevent scrollbar from touching content */
 }
 
 .theme-option {
+  /* Individual theme option in the list
+     Allows user to select a specific preset theme */
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 12px 12px 12px 10px;
+  justify-content: space-between;  /* Name on left, swatches on right */
+  gap: 12px;    /* Space between name and swatches */
+  padding: 12px 12px 12px 10px;  /* Comfortable padding (slightly more left) */
   border-radius: 14px;
-  border: 1px solid transparent;
+  border: 1px solid transparent;  /* No border by default */
   background: transparent;
-  color: var(--muted);
+  color: var(--muted);  /* Muted text when not hovered/selected */
   cursor: pointer;
   text-align: left;
 }
 
 .theme-option:hover,
 .theme-option.is-active {
-  color: var(--text);
+  /* Styling for hovered or selected theme options
+     Makes active option obvious */
+  color: var(--text);  /* Bright text */
   background: color-mix(in srgb, var(--surface-soft) 84%, rgba(var(--accent-rgb), 0.08));
+  /* color-mix blends two colors together
+     84% var(--surface-soft) + 8% accent-rgb
+     Creates a subtle highlight with accent tint */
 }
 
 .theme-option.is-active {
-  border-color: rgba(var(--accent-rgb), 0.22);
+  /* Additional styling only for active/selected option */
+  border-color: rgba(var(--accent-rgb), 0.22);  /* Visible accent border */
 }
 
 .theme-option-name {
+  /* Container for the theme name and optional icon */
   display: inline-flex;
   align-items: center;
   gap: 10px;
 }
 
 .theme-option-spacer {
+  /* Placeholder element when there's no icon
+     Maintains consistent spacing in .theme-option-name */
   width: 14px;
   height: 14px;
 }
 
 .theme-option-swatches {
+  /* Container showing color swatches for the theme
+     Quick visual preview of theme colors */
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 5px 8px;
-  border-radius: 999px;
+  gap: 6px;     /* Space between individual swatches */
+  padding: 5px 8px;  /* Compact padding for swatches */
+  border-radius: 999px;  /* Pill-shaped container */
   background: color-mix(in srgb, var(--surface-soft) 92%, transparent);
   border: 1px solid var(--border);
 }
 
+/* ===================================
+   THEME SETTINGS PANELS
+   
+   These classes style the advanced theme customization/settings views.
+   Allows granular control over individual theme colors and properties.
+   ==================================== */
+
 .theme-settings-panel {
+  /* Main container for advanced theme settings */
   display: grid;
-  gap: 16px;
+  gap: 16px;    /* Space between setting sections */
 }
 
 .theme-mode-row-three {
+  /* Special variant of theme mode row with 3 columns instead of 2
+     Used when there are 3 mode options (Light, Dark, Auto) */
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin-top: 0;
 }
 
 .theme-settings-surface-grid {
+  /* Grid layout for surface color selection cards */
   display: grid;
-  gap: 12px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;    /* Space between cards */
+  grid-template-columns: repeat(2, minmax(0, 1fr));  /* 2 equal columns */
 }
 
 .theme-settings-surface {
+  /* Individual surface color selection card
+     Shows a surface style option the user can select */
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 12px;
+  gap: 12px;    /* Space between content and selection indicator */
   padding: 16px;
   border-radius: 18px;
   border: 1px solid var(--border);
@@ -462,80 +1146,112 @@ main {
 }
 
 .theme-settings-surface.is-active {
+  /* Styling when a surface option is selected */
   border-color: rgba(var(--accent-rgb), 0.28);
   box-shadow: 0 0 0 1px rgba(var(--accent-rgb), 0.12);
   background: color-mix(in srgb, var(--surface-soft) 84%, rgba(var(--accent-rgb), 0.08));
 }
 
 .theme-settings-surface-copy {
+  /* Text content container inside surface card
+     Holds name, description, and other metadata */
   display: grid;
-  gap: 4px;
+  gap: 4px;     /* Tight spacing between lines */
 }
 
 .theme-settings-surface-copy span,
 .theme-settings-summary-copy span {
+  /* Secondary text/metadata in settings
+     Smaller, muted text for descriptions */
   color: var(--muted);
   font-size: 0.82rem;
 }
 
 .theme-settings-surface-copy strong,
 .theme-settings-summary-copy strong {
+  /* Primary text/title in settings
+     Bold, larger text for main information */
   font-size: 1rem;
   letter-spacing: -0.02em;
 }
 
 .theme-settings-surface-copy small {
+  /* Extra small text for additional details
+     Even smaller than span elements */
   color: var(--muted);
   line-height: 1.45;
 }
 
 .theme-settings-section {
+  /* Container for a section of settings
+     Groups related settings together */
   display: grid;
-  gap: 14px;
+  gap: 14px;    /* Space between items in section */
   padding: 16px;
   border-radius: 22px;
   background: color-mix(in srgb, var(--surface-soft) 88%, rgba(255, 255, 255, 0.03));
   border: 1px solid color-mix(in srgb, var(--border) 88%, rgba(255, 255, 255, 0.03));
 }
 
+/* ===================================
+   ADVANCED THEME SETTINGS INTERFACE
+   
+   These classes style the advanced customization panels where users can fine-tune
+   individual theme properties. They provide granular control over design tokens.
+   ==================================== */
+
 .theme-settings-section-header {
+  /* Header container for a settings section
+     Flexbox with space-between allows label on left, badge/status on right */
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
+  align-items: flex-start;  /* Align to top in case content heights differ */
+  justify-content: space-between;  /* Push children to opposite edges */
+  gap: 16px;    /* Space between header text and any badge/status */
 }
 
 .theme-settings-section-header p {
-  margin-top: 8px;
-  line-height: 1.5;
+  /* Paragraph in section header (typically instructions or descriptions) */
+  margin-top: 8px;  /* Align with other content below */
+  line-height: 1.5; /* Normal line height for readability */
 }
 
 .theme-settings-badge {
+  /* Badge showing status/metadata (e.g., "3 colors", "Premium")
+     Pill-shaped container with accent color */
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 34px;
-  padding: 8px 12px;
-  border-radius: 999px;
-  background: rgba(var(--accent-rgb), 0.12);
-  color: var(--accent);
-  font-size: 0.8rem;
-  font-weight: 700;
+  min-height: 34px;  /* Ensures minimum clickable area */
+  padding: 8px 12px;  /* Comfortable spacing for badge content */
+  border-radius: 999px;  /* Fully rounded pill shape */
+  background: rgba(var(--accent-rgb), 0.12);  /* Subtle accent background */
+  color: var(--accent);   /* Accent-colored text */
+  font-size: 0.8rem;      /* Smaller text for badge */
+  font-weight: 700;       /* Bold for emphasis */
 }
 
+
 .theme-settings-list {
+  /* Scrollable list of options in theme settings
+     Limits height to prevent overwhelming the screen */
   margin-top: 0;
-  max-height: min(40vh, 280px);
+  max-height: min(40vh, 280px);  /* Responsive max-height with fallback
+     40vh = 40% of viewport height (leaves room for buttons below)
+     280px = fallback for small viewports
+     Impact: List scrolls within bounded area, keeping controls visible */
 }
 
 .theme-settings-summary-section {
-  gap: 12px;
+  /* Container for a summary section (different styling than regular sections) */
+  gap: 12px;  /* Tighter gap between summary items than regular settings */
 }
 
 .theme-settings-summary-row {
+  /* Individual row in a summary display
+     Shows a setting and its preview/value side-by-side */
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between;  /* Label on left, value/preview on right */
   gap: 14px;
   padding: 12px 14px;
   border-radius: 16px;
@@ -543,343 +1259,523 @@ main {
   border: 1px solid color-mix(in srgb, var(--border) 88%, rgba(255, 255, 255, 0.03));
 }
 
+/* ===================================
+   BUTTON & INTERACTIVE HOVER STATES
+   
+   These selectors define what happens when users hover/interact with buttons.
+   Provides visual feedback that elements are interactive.
+   ==================================== */
+
 .button:hover,
 .button-secondary:hover,
 .button-ghost:hover,
 .theme-toggle:hover {
+  /* translateY(-1px) moves element up by 1 pixel, creating "lift" effect
+     Makes button appear to raise up on hover - gives interactive feel
+     Impact: Provides visual feedback that button is interactive and responsive */
   transform: translateY(-1px);
 }
 
 .button-row-stack .button,
 .button-row-stack .button-secondary,
 .button-row-stack .button-ghost {
+  /* Buttons in a vertical stack (button-row-stack) should be full-width
+     Stacked buttons usually span the full container width
+     This ensures consistent sizing when buttons are stacked vertically */
   width: 100%;
-  justify-content: center;
+  justify-content: center;  /* Centers text/content within button */
 }
 
+/* ===================================
+   FORM ELEMENT STYLES
+   
+   These classes style form fields (inputs, selects, textareas).
+   They create a cohesive form input design.
+   ==================================== */
+
 .field {
+  /* Container for a form field (label + input)
+     Uses grid to stack label above input */
   display: grid;
-  gap: 10px;
+  gap: 10px;  /* Space between label and input field */
 }
 
 .field label {
-  color: var(--muted);
-  font-size: 0.92rem;
+  /* Label text for form fields
+     Styled to be smaller and muted to de-emphasize */
+  color: var(--muted);    /* Gray color for secondary information */
+  font-size: 0.92rem;     /* Slightly smaller than body text */
 }
 
 .input,
 .select,
 .textarea {
-  width: 100%;
-  padding: 13px 14px;
-  border-radius: 18px;
-  border: 1px solid var(--border);
-  background: var(--surface-soft);
-  color: var(--text);
+  /* All form input styles unified for consistency
+     Creates cohesive form appearance across different input types */
+  width: 100%;           /* Takes full width of container */
+  padding: 13px 14px;    /* Comfortable internal spacing for typing */
+  border-radius: 18px;   /* Rounded corners for modern look */
+  border: 1px solid var(--border);  /* Subtle border definition */
+  background: var(--surface-soft);  /* Light background for distinction */
+  color: var(--text);    /* Primary text color for readability */
 }
 
 .textarea {
-  min-height: 140px;
-  resize: vertical;
+  /* Additional properties specific to textarea elements
+     Textareas are taller and user-resizable */
+  min-height: 140px;     /* Tall enough for meaningful text entry */
+  resize: vertical;      /* Users can resize vertically but not horizontally */
 }
 
+/* ===================================
+   SITE HEADER & FOOTER STRUCTURES
+   
+   These classes define the main header/footer layout and styling.
+   The header and footer have similar structure but different purposes.
+   ==================================== */
+
 .site-header {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--border);
+  /* Main site header (typically contains logo, nav, auth controls)
+     Sticky positioning makes it stay at top while scrolling */
+  position: sticky;   /* Stays at top of viewport while scrolling */
+  top: 0;            /* Position at very top */
+  z-index: 50;       /* High z-index ensures header stays above content */
+  background: color-mix(in srgb, var(--bg) 88%, transparent);  /* Slightly transparent */
+  backdrop-filter: blur(14px);  /* Glass morphism effect blurs content behind */
+  border-bottom: 1px solid var(--border);  /* Divider line below header */
 }
 
 .header-inner,
 .footer-inner {
+  /* Inner container for header/footer content
+     Provides consistent padding and layout */
   width: 100%;
-  padding-inline: clamp(16px, 3vw, 36px);
-  margin: 0 auto;
+  padding-inline: clamp(16px, 3vw, 36px);  /* Responsive horizontal padding */
+  margin: 0 auto;   /* Center horizontally */
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  padding-block: 16px;
+  align-items: center;  /* Vertically center items */
+  justify-content: space-between;  /* Spread items to edges (logo|nav|auth) */
+  gap: 18px;    /* Space between flex items */
+  padding-block: 16px;  /* Vertical padding (top/bottom) */
 }
 
 .brand-lockup {
+  /* Container for logo and brand name together
+     Creates visual grouping of brand identity */
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 12px;  /* Space between logo badge and brand text */
 }
 
 .brand-badge {
+  /* Square container for the brand mark/logo
+     Typically the icon or symbol of the brand */
   width: 42px;
   height: 42px;
-  position: relative;
+  position: relative;  /* Allows absolute positioning of children */
   display: block;
-  border-radius: 14px;
+  border-radius: 14px;  /* Slightly rounded corners for icon container */
   background: var(--surface-soft);
   border: 1px solid var(--border);
-  overflow: hidden;
+  overflow: hidden;  /* Clips any content that extends beyond edges */
 }
 
 .brand-mark-frame,
 .brand-mark-signal {
+  /* SVG-like elements creating the brand mark icon
+     Frame represents phone outline, signal represents connectivity */
   position: absolute;
   display: block;
 }
 
 .brand-mark-frame {
+  /* Phone frame part of the logo (vertical rectangle)
+     Used to create a stylized phone icon for the brand */
   width: 14px;
   height: 22px;
-  border-radius: 8px;
-  border: 1.8px solid var(--text);
+  border-radius: 8px;   /* Rounded rectangle like a phone */
+  border: 1.8px solid var(--text);  /* Outline in text color */
 }
 
 .brand-mark-back {
+  /* Back/background phone frame (rotated for depth)
+     Creates 3D stacked phone effect */
   left: 10px;
   top: 9px;
-  opacity: 0.48;
-  transform: rotate(-12deg);
+  opacity: 0.48;        /* Semi-transparent for depth effect */
+  transform: rotate(-12deg);  /* Rotated for 3D perspective */
 }
 
 .brand-mark-front {
+  /* Front/foreground phone frame (rotated opposite direction)
+     Appears in front of the back frame */
   left: 18px;
   top: 10px;
-  border-color: var(--accent);
-  transform: rotate(8deg);
+  border-color: var(--accent);  /* Accent color to highlight it */
+  transform: rotate(8deg);   /* Rotated opposite to back frame */
 }
 
 .brand-mark-signal {
+  /* Signal bars indicator showing connectivity/network status
+     Completes the phone icon with signal visualization */
   width: 12px;
   height: 2px;
   left: 14px;
   top: 21px;
-  border-radius: 999px;
+  border-radius: 999px;  /* Fully rounded = line shape */
   background: var(--text);
   box-shadow: 0 5px 0 color-mix(in srgb, var(--accent) 92%, transparent);
-  transform: rotate(-6deg);
+  /* box-shadow creates stacked signal bars effect */
+  transform: rotate(-6deg);  /* Slight tilt */
 }
 
 .brand-text strong {
+  /* Brand name (main text)
+     Displayed prominently above tagline */
   display: block;
-  font-family: var(--font-display), sans-serif;
-  letter-spacing: -0.04em;
+  font-family: var(--font-display), sans-serif;  /* Use display font for branding */
+  letter-spacing: -0.04em;  /* Tight letter spacing for impact */
 }
 
 .brand-text span {
+  /* Brand tagline/subtext
+     Smaller secondary text below brand name */
   display: block;
-  color: var(--muted);
-  font-size: 0.84rem;
+  color: var(--muted);      /* De-emphasized with muted color */
+  font-size: 0.84rem;       /* Smaller than brand name */
 }
 
+
+/* ===================================
+   NAVIGATION STYLING
+   
+   These classes style the navigation menu and links throughout the site.
+   ==================================== */
+
 .nav-row {
+  /* Container for horizontal navigation links
+     Flexbox arranges links in a row that wraps on small screens */
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 16px;    /* Space between nav links */
 }
 
 .nav-link {
-  color: var(--muted);
+  /* Individual navigation link
+     Uses color transitions and underline animation for interaction */
+  color: var(--muted);  /* Starts in muted gray color */
 }
 
 .nav-link:hover {
-  color: var(--text);
+  /* Hover state: link becomes brighter
+     Signals to user that element is interactive */
+  color: var(--text);   /* Switches to primary text color */
 }
+
+/* ===================================
+   HEADER ACTION GROUPS
+   
+   These classes organize buttons/actions in the header (usually auth, theme toggle, etc.)
+   ==================================== */
 
 .header-actions,
 .header-auth-group {
+  /* Container for action buttons in header
+     Usually contains theme toggle, login, favorites, etc. */
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 12px;    /* Space between action buttons */
 }
 
 .header-auth-group {
+  /* Specific group for authentication-related actions
+     May wrap and right-align depending on context */
   flex-wrap: wrap;
-  justify-content: flex-end;
+  justify-content: flex-end;  /* Align auth buttons to the right */
 }
 
 .header-auth-button {
-  gap: 8px;
+  /* Button styling for auth buttons (login, signup, profile)
+     May include icon + text */
+  gap: 8px;     /* Space between icon and text inside button */
 }
 
 .header-auth-count {
+  /* Badge showing count (e.g., favorites count, notification count)
+     Small circular badge with count inside */
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 24px;
+  min-width: 24px;     /* Minimum size for single digit */
   min-height: 24px;
-  padding-inline: 7px;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--accent) 18%, transparent);
-  color: var(--accent);
-  font-size: 0.84rem;
-  font-weight: 700;
+  padding-inline: 7px; /* Extra padding for multiple digits */
+  border-radius: 999px; /* Circular badge */
+  background: color-mix(in srgb, var(--accent) 18%, transparent);  /* Subtle accent background */
+  color: var(--accent);     /* Accent color for visibility */
+  font-size: 0.84rem;       /* Smaller text for badge */
+  font-weight: 700;         /* Bold for emphasis */
 }
 
 .muted-chip {
+  /* Chip (small label) styled in muted color
+     Used for secondary information like category, status */
   color: var(--muted);
 }
 
+/* ===================================
+   SCORE & RATING DISPLAY
+   
+   These classes display ratings, scores, and badges throughout the site.
+   ==================================== */
+
 .score-badge {
+  /* Badge showing a score/rating (e.g., "4.5/5", "92 points")
+     Pill-shaped with accent styling */
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 72px;
+  min-width: 72px;    /* Wide enough for scores like "8.5" */
   padding: 10px 14px;
   border-radius: 999px;
-  background: var(--accent-soft);
-  border: 1px solid rgba(70, 179, 123, 0.24);
-  color: var(--accent);
-  font-weight: 700;
+  background: var(--accent-soft);     /* Soft accent background */
+  border: 1px solid rgba(70, 179, 123, 0.24);  /* Accent border */
+  color: var(--accent);    /* Accent text color */
+  font-weight: 700;        /* Bold for prominence */
 }
 
+
+/* ===================================
+   DASHBOARD LAYOUT
+   
+   These classes create the dashboard page structure with sidebar navigation
+   and main content area. Commonly used on admin/user dashboard pages.
+   ==================================== */
+
 .dashboard-layout {
+  /* Two-column layout: narrow sidebar + wide content area
+     Sidebar is sticky (stays in view), content scrolls independently */
   display: grid;
-  grid-template-columns: minmax(290px, 340px) minmax(0, 1fr);
-  gap: 24px;
-  align-items: start;
+  grid-template-columns: minmax(290px, 340px) minmax(0, 1fr);  /* Fixed sidebar + flexible content */
+  gap: 24px;    /* Generous space between sidebar and content */
+  align-items: start;  /* Top-align both columns */
 }
 
 .sidebar {
+  /* Navigation/filter sidebar for dashboard
+     Sticky positioning keeps it visible while scrolling content */
   position: sticky;
-  top: 94px;
-  height: calc(100vh - 118px);
+  top: 94px;    /* Position below header (94px height + gap) */
+  height: calc(100vh - 118px);  /* Take remaining viewport height */
   display: grid;
-  gap: 18px;
-  align-content: start;
+  gap: 18px;    /* Space between sidebar sections */
+  align-content: start;  /* Stack sections from top */
 }
 
 .sidebar-scroll {
-  max-height: calc((100vh - 138px) / 2);
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 8px;
-  scrollbar-gutter: stable;
-  overscroll-behavior: contain;
+  /* Scrollable section within sidebar
+     Limits height so other sidebar content isn't pushed off screen */
+  max-height: calc((100vh - 138px) / 2);  /* Half of available height */
+  overflow-y: auto;       /* Enable vertical scrolling */
+  overflow-x: hidden;     /* No horizontal scroll */
+  padding-right: 8px;     /* Space for scrollbar */
+  scrollbar-gutter: stable;  /* Reserve space for scrollbar (no layout shift) */
+  overscroll-behavior: contain;  /* Prevent scroll bounce/pull-to-refresh */
 }
 
 .sidebar-scroll::-webkit-scrollbar {
-  width: 10px;
+  /* Custom scrollbar styling (WebKit browsers: Chrome, Safari, Edge) */
+  width: 10px;   /* Scrollbar thickness */
 }
 
 .sidebar-scroll::-webkit-scrollbar-track {
-  margin-block: 14px;
-  background: transparent;
+  /* Background area of scrollbar */
+  margin-block: 14px;  /* Padding at top/bottom */
+  background: transparent;  /* Invisible track */
 }
 
 .sidebar-scroll::-webkit-scrollbar-thumb {
+  /* Draggable portion of scrollbar
+     Styled to match design system */
   border: 2px solid transparent;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--accent) 78%, transparent);
-  background-clip: padding-box;
+  background: color-mix(in srgb, var(--accent) 78%, transparent);  /* Solid accent */
+  background-clip: padding-box;  /* Respect border space */
 }
 
+/* ===================================
+   DASHBOARD TYPOGRAPHY & CONTENT
+   
+   These classes style the dashboard's text hierarchy and content areas.
+   ==================================== */
+
 .dashboard-title {
+  /* Main heading on dashboard pages
+     Large, bold, with tightened letter spacing */
   margin: 0;
   font-family: var(--font-display), sans-serif;
-  font-size: clamp(2rem, 3vw, 3.2rem);
-  line-height: 1;
-  letter-spacing: -0.05em;
+  font-size: clamp(2rem, 3vw, 3.2rem);  /* Responsive title size */
+  line-height: 1;       /* Tight line height for impact */
+  letter-spacing: -0.05em;  /* Tight letter spacing */
 }
 
 .dashboard-copy {
-  max-width: 720px;
+  /* Descriptive text/paragraph on dashboard
+     Longer form content with good readability */
+  max-width: 720px;  /* Optimal line length for reading */
   margin: 0;
-  line-height: 1.7;
+  line-height: 1.7;  /* Generous line height for readability */
 }
 
+/* ===================================
+   DASHBOARD LAYOUT SECTIONS
+   
+   These organize the dashboard into logical regions with specific purposes.
+   ==================================== */
+
 .dashboard-topbar {
+  /* Top bar of dashboard (above main content)
+     Often contains filters, search, sort options */
   display: block;
 }
 
 .dashboard-topbar-split {
+  /* Split layout for topbar (header on left, actions on right) */
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 18px;
+  align-items: flex-end;  /* Align items to bottom edge */
+  justify-content: space-between;  /* Push to opposite sides */
+  gap: 18px;    /* Space between left and right sections */
 }
 
 .dashboard-cta-row {
-  justify-content: flex-end;
+  /* Row containing call-to-action buttons (e.g., "Add Item", "Import") */
+  justify-content: flex-end;  /* Align buttons to the right */
 }
 
 .dashboard-mobile-actions {
+  /* Action buttons that only show on mobile
+     Hidden on desktop, used to preserve space */
   display: none;
-  gap: 12px;
+  gap: 12px;    /* Space between action buttons */
 }
 
 .dashboard-summary-card {
-  padding-block: 18px;
+  /* Card showing dashboard summary info (stats, key metrics)
+     Has different padding than regular cards */
+  padding-block: 18px;  /* Vertical padding only */
 }
 
 .sidebar-filter-stack {
-  align-content: start;
+  /* Stack of filter options in sidebar
+     Organized vertically */
+  align-content: start;  /* Stack from top */
 }
 
 .results-stack {
+  /* Main results area containing grid of items
+     Creates a column of items with consistent spacing */
   display: grid;
-  gap: 24px;
-  min-width: 0;
+  gap: 24px;    /* Large gap between result items */
+  min-width: 0; /* Allows content to shrink below grid minmax */
 }
 
 .status-card {
+  /* Card showing status information
+     Similar padding to summary-card */
   padding-block: 18px;
 }
 
+/* ===================================
+   METRIC DISPLAY GRID
+   
+   These classes display key metrics/stats (number + label pairs)
+   ==================================== */
+
 .metric-grid {
+  /* Grid of small metric displays
+     Shows key stats in a compact, organized way */
   display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;    /* Tight spacing between metrics */
+  grid-template-columns: repeat(2, minmax(0, 1fr));  /* 2 columns */
 }
 
 .metric {
+  /* Individual metric item (e.g., "8.5 Rating" or "256GB Storage")
+     Small container with stat value and label */
   padding: 12px;
   border-radius: 18px;
   background: var(--surface-soft);
 }
 
 .metric span {
+  /* Label text in metric (e.g., "Rating", "Storage")
+     Secondary, smaller text */
   display: block;
   color: var(--muted);
   font-size: 0.84rem;
-  margin-bottom: 6px;
+  margin-bottom: 6px;  /* Space before value */
 }
 
+
+/* ===================================
+   PRODUCT/RECOMMENDATION CARDS
+   
+   These classes style the product display cards showing individual items.
+   ==================================== */
+
 .recommendation-card {
+  /* Container for a recommendation item card
+     Should fill available height */
   height: 100%;
 }
 
 .phone-card {
+  /* Main product card displaying a phone
+     Complex component with image, stats, actions */
   display: grid;
-  gap: 18px;
-  min-width: 0;
+  gap: 18px;    /* Space between card sections */
+  min-width: 0; /* Allows content to shrink properly in grid */
 }
 
 .phone-card-top {
+  /* Top section of card with badges/pills and favorite button
+     Arranged horizontally */
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between;  /* Badges on left, favorite on right */
   align-items: center;
   gap: 12px;
 }
 
+/* ===================================
+   PHONE MEDIA/IMAGE AREA
+   
+   Styles for displaying phone images prominently in cards.
+   ==================================== */
+
 .phone-media {
+  /* Container for the phone product image
+     Provides background and borders for image display */
   width: 100%;
-  height: 220px;
+  height: 220px;  /* Fixed height creates consistent card appearance */
   border-radius: 22px;
   background: var(--surface-soft);
   border: 1px solid var(--border);
-  overflow: hidden;
+  overflow: hidden;  /* Clips image to rounded corners */
   display: grid;
-  place-items: center;
+  place-items: center;  /* Centers image both horizontally and vertically */
 }
 
 .phone-media img,
 .phone-detail-media img {
+  /* Image inside media container
+     object-fit: contain prevents distortion */
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: contain;  /* Scales image to fit without cropping */
 }
 
 .phone-media-placeholder {
+  /* Fallback when no image available
+     Shows emoji or icon instead */
   width: 84px;
   height: 84px;
   display: grid;
@@ -891,50 +1787,84 @@ main {
   font-size: 2rem;
 }
 
+/* ===================================
+   PHONE CARD CONTENT & BODY
+   
+   Styles for the text content within phone cards.
+   ==================================== */
+
 .phone-card-body {
+  /* Main content area of card (title, specs, description)
+     Organized vertically with consistent spacing */
   display: grid;
   gap: 16px;
 }
 
 .phone-headline {
+  /* Container for phone title/heading
+     May contain name, subtitle, and metadata */
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between;  /* Title on left, metadata on right */
   gap: 12px;
 }
 
 .phone-card h3 {
+  /* Product name/title
+     Prominent text but not as large as page titles */
   margin: 0 0 8px;
   font-size: 1.35rem;
   line-height: 1.15;
 }
 
+/* ===================================
+   PHONE SPECIFICATIONS & DETAILS
+   
+   Display detailed specs and features of the phone.
+   ==================================== */
+
 .spec-summary-list {
+  /* List of key specs displayed in card
+     Shows brief feature list */
   list-style: none;
   padding: 0;
   margin: 0;
   display: grid;
-  gap: 8px;
+  gap: 8px;    /* Space between spec items */
 }
 
 .spec-summary-list li {
+  /* Individual spec item
+     Styled as small pill/badge */
   padding: 10px 12px;
   border-radius: 14px;
   background: var(--surface-soft);
 }
 
+/* ===================================
+   PHONE CARD ACTIONS
+   
+   Buttons and interactive elements in phone cards.
+   ==================================== */
+
 .phone-card-actions {
+  /* Container for action buttons (View, Compare, Favorite, etc.)
+     Usually 2-3 buttons in a row */
   display: grid;
   gap: 12px;
-  margin-top: 4px;
+  margin-top: 4px;  /* Space before buttons */
 }
 
 .card-primary-actions {
+  /* Primary actions in a 2-column layout
+     Typically "View Details" and "Compare" */
   display: grid;
   gap: 12px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));  /* 2 equal columns */
 }
 
 .marketplace-actions {
+  /* Marketplace-specific actions (Buy, Add to Cart, etc.)
+     2-column layout similar to card-primary-actions */
   display: grid;
   gap: 12px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -945,79 +1875,111 @@ main {
 .marketplace-actions .button,
 .marketplace-actions .button-secondary,
 .marketplace-actions .button-ghost {
+  /* Buttons in card actions should be full-width
+     Ensures all buttons have consistent size */
   width: 100%;
 }
 
 .favorite-button {
+  /* Like/favorite/save button
+     Toggles favorited state with visual feedback */
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 8px;     /* Space between icon and text */
   padding: 11px 14px;
   border-radius: 999px;
   border: 1px solid var(--border);
   background: var(--surface-soft);
   color: var(--text);
   cursor: pointer;
+  /* Multiple transition properties for smooth state changes */
   transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, color 160ms ease;
 }
 
 .favorite-button:hover {
+  /* Hover state shows lift effect */
   transform: translateY(-1px);
 }
 
 .favorite-button.is-active {
+  /* Favorited state: accent colors show it's selected */
   background: var(--accent-soft);
-  border-color: rgba(70, 179, 123, 0.28);
-  color: var(--accent);
+  border-color: rgba(70, 179, 123, 0.28);  /* Accent border */
+  color: var(--accent);    /* Accent text color */
 }
 
 .favorite-button:disabled {
+  /* Disabled state while action is processing
+     Prevents duplicate clicks */
   opacity: 0.7;
-  cursor: wait;
+  cursor: wait;   /* Shows loading cursor */
 }
 
 .favorite-button-full {
+  /* Full-width variant of favorite button
+     Used in specific contexts */
   min-width: 112px;
 }
 
 .card-meta-note {
+  /* Small note/metadata at bottom of card
+     e.g., "In stock", "Last checked 2 hours ago" */
   margin: 0;
   font-size: 0.88rem;
 }
 
+
 .gallery-card .metric-grid {
+  /* Hide metrics in gallery view (space-saving variant of card) */
   display: none;
 }
 
 .gallery-card .phone-media {
-  height: 240px;
+  /* Gallery card images are taller for better showcase */
+  height: 240px;  /* 20px taller than regular phone-card images */
 }
 
 .gallery-grid {
-  gap: 18px;
+  /* Gallery of phone cards (image-focused layout)
+     Shows cards in 4-column grid */
+  gap: 18px;  /* Slightly larger gap for breathing room */
 }
 
 .empty-state {
-  grid-column: 1 / -1;
+  /* Message displayed when no results/items available
+     Spans full grid width and centers content */
+  grid-column: 1 / -1;  /* Span all columns */
   padding: 42px 24px;
   text-align: center;
   color: var(--muted);
 }
 
+/* ===================================
+   PHONE DETAIL PAGE LAYOUT
+   
+   Styles for the individual phone detail/specifications page.
+   ==================================== */
+
 .phone-detail-layout {
+  /* Main layout container for phone detail page
+     Stacks sections vertically */
   display: grid;
   gap: 24px;
 }
 
 .phone-detail-hero {
+  /* Hero section at top of detail page
+     Shows large image + key info side-by-side */
   display: grid;
-  grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
+  grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);  /* Image + details */
   gap: 28px;
   padding: 28px;
 }
 
 .phone-detail-media {
+  /* Large image container on detail page
+     Bigger than card images for detailed viewing */
   min-height: 360px;
   border-radius: 26px;
   background: var(--surface-soft);
@@ -1028,61 +1990,92 @@ main {
 }
 
 .phone-detail-title {
+  /* Product name/title on detail page
+     Large, prominent heading */
   margin: 0;
   font-family: var(--font-display), sans-serif;
-  font-size: clamp(2rem, 4vw, 4rem);
+  font-size: clamp(2rem, 4vw, 4rem);  /* Responsive size */
   line-height: 0.95;
   letter-spacing: -0.05em;
 }
 
 .phone-detail-actions {
+  /* Action buttons on detail page (View, Compare, Add to Cart, etc.)
+     Organized vertically with primary actions in 2-column layout */
   display: grid;
   gap: 12px;
 }
 
 .phone-detail-actions .card-primary-actions {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));  /* 2 columns for primary actions */
 }
 
 .phone-detail-actions > .button-secondary,
 .phone-detail-actions .marketplace-actions {
+  /* Secondary button and marketplace group should be full-width */
   width: 100%;
 }
 
+/* ===================================
+   AUTHENTICATION PAGES
+   
+   Styles for login, signup, and other auth-related pages.
+   ==================================== */
+
 .auth-shell {
+  /* Container for auth pages (login, signup, forgot password)
+     Centers content both horizontally and vertically */
   display: grid;
-  place-items: center;
+  place-items: center;  /* Centers in all directions */
 }
 
 .auth-card {
+  /* Card wrapper for auth form
+     Responsive width that never exceeds 560px */
   width: min(100%, 560px);
-  padding: clamp(22px, 4vw, 32px);
+  padding: clamp(22px, 4vw, 32px);  /* Responsive internal padding */
 }
 
 .auth-submit {
+  /* Submit button in auth form
+     Full-width with space for icon+text */
   width: 100%;
-  gap: 8px;
+  gap: 8px;     /* Space between icon and text */
 }
 
 .auth-message {
+  /* Status message displayed during auth process
+     e.g., "Email sent!", "Password reset successfully" */
   padding: 14px 16px;
   border-radius: 18px;
   border: 1px solid transparent;
 }
 
 .auth-message-error {
-  background: color-mix(in srgb, var(--danger) 16%, transparent);
-  border-color: color-mix(in srgb, var(--danger) 34%, transparent);
-  color: var(--text);
+  /* Error message styling (red/danger color)
+     Shows auth errors prominently */
+  background: color-mix(in srgb, var(--danger) 16%, transparent);  /* Subtle danger background */
+  border-color: color-mix(in srgb, var(--danger) 34%, transparent);  /* Danger border */
+  color: var(--text);  /* Text readable against background */
 }
 
 .inline-link {
+  /* Link within text content (not standalone nav link)
+     Emphasized in accent color */
   color: var(--accent);
   font-weight: 700;
 }
 
+/* ===================================
+   COMPARISON PAGE LAYOUT
+   
+   Styles for the phone comparison feature allowing side-by-side comparison.
+   ==================================== */
+
 .compare-page,
 .compare-sections {
+  /* Main containers for comparison page structure
+     Stack sections vertically */
   display: grid;
   gap: 24px;
 }
@@ -1091,24 +2084,34 @@ main {
 .compare-hero-card,
 .compare-score-card,
 .compare-section-card {
+  /* Various card types on comparison page
+     All need overflow hidden for proper card styling */
   overflow: hidden;
 }
 
 .compare-selector-card {
+  /* Card for selecting phones to compare
+     Contains dropdowns or search inputs */
   display: grid;
   gap: 22px;
 }
 
 .compare-selector-copy h2,
 .compare-section-card h2 {
+  /* Heading in comparison cards
+     No default margin */
   margin: 0;
 }
 
 .compare-selector-copy p {
+  /* Paragraph in selection section
+     Add space above with margin */
   margin-top: 10px;
 }
 
 .compare-selector-grid {
+  /* Grid of selector inputs (dropdowns/searchboxes)
+     Typically 2 columns for selecting 2 phones */
   display: grid;
   gap: 16px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1116,22 +2119,36 @@ main {
 }
 
 .compare-selector-submit {
+  /* Compare/Submit button
+     Width determined by content (not full-width) */
   width: fit-content;
 }
 
+
+/* ===================================
+   COMPARISON DISPLAY SECTIONS
+   
+   These classes display the comparison results visually.
+   ==================================== */
+
 .compare-hero-card {
+  /* Hero section showing the two phones being compared
+     Contains images, names, and key scores */
   position: relative;
-  padding: clamp(20px, 3vw, 32px);
+  padding: clamp(20px, 3vw, 32px);  /* Responsive padding */
 }
 
 .compare-hero-phones,
 .compare-highlights-grid {
+  /* Grid showing phone cards side-by-side for comparison */
   display: grid;
   gap: 20px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));  /* 2 equal columns */
 }
 
 .compare-phone-hero {
+  /* Individual phone card in comparison view
+     Shows phone details in compact format */
   display: grid;
   gap: 16px;
   padding: 22px;
@@ -1141,6 +2158,8 @@ main {
 }
 
 .compare-phone-hero h2 {
+  /* Phone name in comparison card
+     Large enough to stand out */
   margin: 0;
   font-size: clamp(1.5rem, 2.4vw, 2.1rem);
   line-height: 1.05;
@@ -1148,6 +2167,8 @@ main {
 }
 
 .compare-phone-label {
+  /* Label under phone name (e.g., "Smartphone", "5G Phone")
+     Small, muted, uppercase */
   color: var(--muted);
   font-size: 0.82rem;
   font-weight: 700;
@@ -1156,6 +2177,8 @@ main {
 }
 
 .compare-hero-score {
+  /* Score badge in comparison card
+     Prominent display of overall score */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1170,6 +2193,8 @@ main {
 }
 
 .compare-phone-media {
+  /* Phone image in comparison card
+     Larger than typical card images for better visibility */
   height: 260px;
   border-radius: 24px;
   background: color-mix(in srgb, var(--surface-strong) 82%, transparent);
@@ -1186,30 +2211,38 @@ main {
 }
 
 .compare-phone-price {
+  /* Price display in comparison card
+     Negative margin adjusts spacing */
   margin: -8px 0 0;
   font-size: 1rem;
 }
 
 .compare-phone-pills {
+  /* Row of pills/badges showing features/specs
+     Wraps to new line if needed */
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
 
 .compare-phone-link {
+  /* Link to individual phone detail page
+     Width: fit-content means it's only as wide as needed */
   width: fit-content;
 }
 
 .compare-versus-badge {
+  /* Large "VS" badge between the two phones
+     Creates visual separation and emphasis */
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);  /* Center perfectly */
   width: 88px;
   height: 88px;
   display: grid;
   place-items: center;
-  border-radius: 999px;
+  border-radius: 999px;  /* Circular */
   background: var(--surface);
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
@@ -1219,20 +2252,34 @@ main {
 }
 
 .compare-highlight-card h3 {
+  /* Heading in highlight card section
+     Margin creates space from content above */
   margin: 16px 0 0;
 }
 
+/* ===================================
+   COMPARISON SCORE DISPLAY
+   
+   Shows detailed score comparisons in rows.
+   ==================================== */
+
 .compare-score-card {
+  /* Card showing score breakdown/comparison
+     Displays side-by-side scores with winner indication */
   padding: 24px;
 }
 
 .compare-score-rows {
+  /* Container for multiple score comparison rows
+     Stacked vertically */
   display: grid;
   gap: 12px;
-  margin-top: 18px;
+  margin-top: 18px;  /* Space from content above */
 }
 
 .compare-score-row {
+  /* Single row comparing one metric between phones
+     3 columns: left phone | label/metric | right phone */
   display: grid;
   gap: 12px;
   grid-template-columns: minmax(0, 1fr) 160px minmax(0, 1fr);
@@ -1242,6 +2289,8 @@ main {
 .compare-score-cell,
 .compare-label-cell,
 .compare-value-cell {
+  /* Generic cell styling for score tables
+     All use similar padding and border styling */
   padding: 14px 16px;
   border-radius: 18px;
   background: var(--surface-soft);
@@ -1249,11 +2298,15 @@ main {
 }
 
 .compare-score-cell {
+  /* Score display cell (center column)
+     Bold text, centered alignment */
   font-weight: 700;
   text-align: center;
 }
 
 .compare-score-label {
+  /* Label for the metric being compared
+     Smaller text, centered, uppercase */
   color: var(--muted);
   text-align: center;
   font-size: 0.88rem;
@@ -1264,37 +2317,58 @@ main {
 
 .compare-score-cell.is-winner,
 .compare-value-cell.is-winner {
+  /* Styling when a phone wins in this category
+     Uses accent colors to highlight winner */
   border-color: rgba(70, 179, 123, 0.28);
   background: color-mix(in srgb, var(--accent) 16%, transparent);
 }
 
 .compare-value-cell.is-different:not(.is-winner) {
+  /* Styling when values differ but no clear winner
+     Subtle highlighting without accent color */
   border-color: var(--border);
   background: color-mix(in srgb, var(--surface-strong) 82%, transparent);
 }
 
+
+/* ===================================
+   COMPARISON TABLE LAYOUT
+   
+   Detailed specifications comparison in table format.
+   ==================================== */
+
 .compare-section-card {
+  /* Card containing a comparison table section
+     Organized layout for specs */
   display: grid;
 }
 
 .compare-section-header {
+  /* Header of comparison section
+     Contains title, description */
   padding: 24px 24px 0;
 }
 
 .compare-table,
 .compare-table-row {
+  /* Main table and row containers
+     Grid layout for proper alignment */
   display: grid;
   gap: 14px;
   grid-template-columns: minmax(180px, 0.8fr) repeat(2, minmax(0, 1fr));
-  align-items: stretch;
+  align-items: stretch;  /* Rows stretch to full height */
 }
 
 .compare-table-header {
+  /* Header row of comparison table
+     Contains column headings */
   padding: 20px 24px 0;
 }
 
 .compare-table-header .compare-label-cell,
 .compare-table-header .compare-value-cell {
+  /* Header cells are styled differently than data cells
+     Smaller, uppercase, muted text */
   color: var(--muted);
   font-size: 0.84rem;
   font-weight: 700;
@@ -1303,24 +2377,32 @@ main {
 }
 
 .compare-table-body {
+  /* Body section containing all data rows
+     Organized with consistent padding */
   display: grid;
   gap: 14px;
   padding: 20px 24px 24px;
 }
 
 .compare-label-cell {
+  /* Left column: spec name/label (e.g., "Display Size", "Camera")
+     Muted color for secondary information */
   color: var(--muted);
   font-weight: 600;
 }
 
 .compare-value-cell {
+  /* Right columns: spec values from each phone
+     Displays the actual spec values */
   display: grid;
   gap: 6px;
   align-content: center;
-  line-height: 1.55;
+  line-height: 1.55;  /* Generous line height for readability */
 }
 
 .compare-mobile-name {
+  /* Phone name label shown on mobile (hidden on desktop)
+     Helps identify which column belongs to which phone */
   display: none;
   color: var(--muted);
   font-size: 0.78rem;
@@ -1329,120 +2411,175 @@ main {
   text-transform: uppercase;
 }
 
+/* ===================================
+   SPECIFICATIONS TABLE
+   
+   Detailed specifications presented in table format.
+   ==================================== */
+
 .specs-table-card {
+  /* Card wrapper for specifications table */
   overflow: hidden;
 }
 
 .specs-table {
+  /* Main container for specs table
+     Organized as a grid */
   display: grid;
 }
 
 .specs-section {
+  /* Section grouping related specs (e.g., "Display", "Camera", "Performance")
+     2-column layout: section title + specs */
   display: grid;
   grid-template-columns: 220px minmax(0, 1fr);
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--border);  /* Divider above each section */
 }
 
 .specs-section:first-child {
+  /* First section has no top border (already at card edge) */
   border-top: 0;
 }
 
 .specs-section-title {
+  /* Title of specs section (e.g., "Display Features")
+     Left column with distinct background */
   padding: 18px 24px;
   background: var(--surface-soft);
-  border-right: 1px solid var(--border);
+  border-right: 1px solid var(--border);  /* Right divider */
   font-family: var(--font-display), sans-serif;
   font-size: 1rem;
   letter-spacing: 0.01em;
 }
 
 .spec-row {
+  /* Individual specification row (e.g., "Display Size: 6.1 inches")
+     2 columns: label + value */
   display: grid;
   grid-template-columns: 180px minmax(0, 1fr);
   gap: 18px;
   padding: 16px 24px;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--border);  /* Divider above each row */
 }
 
 .spec-row:first-child {
+  /* First row in section has no top border */
   border-top: 0;
 }
 
 .spec-label {
+  /* Label for a spec (e.g., "Display Size", "Main Camera")
+     Muted color for secondary importance */
   color: var(--muted);
 }
 
 .spec-value {
-  white-space: pre-wrap;
-  line-height: 1.65;
+  /* Value for a spec (e.g., "6.1 inches", "48MP f/1.8")
+     May contain multiple lines */
+  white-space: pre-wrap;  /* Preserves line breaks and spaces */
+  line-height: 1.65;      /* Generous spacing for readability */
 }
 
+/* ===================================
+   FOOTER & UTILITIES
+   
+   Miscellaneous utility classes and footer styling.
+   ==================================== */
+
 .footer-note {
+  /* Small note/disclaimer text in footer
+     De-emphasized with muted color and small size */
   color: var(--muted);
   font-size: 0.92rem;
 }
 
 .desktop-nav {
-  margin-left: auto;
-  margin-right: 18px;
+  /* Navigation that only shows on desktop
+     Hidden on mobile to save space */
+  margin-left: auto;    /* Push to right side */
+  margin-right: 18px;   /* Space before actions */
 }
 
+/* ===================================
+   MOBILE BOTTOM NAVIGATION
+   
+   Fixed bottom navigation bar for mobile devices.
+   ==================================== */
+
 .mobile-tabbar {
+  /* Fixed position bottom navigation for mobile
+     Shows tabbed navigation for main sections */
   position: fixed;
   left: 16px;
   right: 16px;
   bottom: 16px;
-  z-index: 45;
-  display: none;
+  z-index: 45;      /* High z-index but below modals (60) */
+  display: none;    /* Hidden by default, shown in mobile media query */
   align-items: center;
   justify-content: space-between;
   gap: 8px;
   padding: 10px 12px;
-  border-radius: 24px;
-  background: color-mix(in srgb, var(--surface) 96%, transparent);
+  border-radius: 24px;  /* Rounded pill shape */
+  background: color-mix(in srgb, var(--surface) 96%, transparent);  /* Slightly opaque */
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
-  backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);  /* Glass morphism */
 }
 
 .mobile-tablink {
+  /* Individual tab link in mobile navigation
+     Icon over text, centered */
   flex: 1;
   display: grid;
-  justify-items: center;
-  gap: 4px;
+  justify-items: center;  /* Center children horizontally */
+  gap: 4px;     /* Small space between icon and label */
   padding: 8px 6px;
-  color: var(--muted);
-  font-size: 0.74rem;
+  color: var(--muted);  /* Muted by default */
+  font-size: 0.74rem;   /* Very small text for tabs */
 }
 
+/* ===================================
+   MODAL/SHEET OVERLAY
+   
+   Bottom sheet and modal dialogs.
+   ==================================== */
+
 .sheet-overlay {
+  /* Full-screen overlay backdrop for modals
+     Semi-transparent dark background */
   position: fixed;
-  inset: 0;
-  z-index: 60;
+  inset: 0;        /* Covers entire screen */
+  z-index: 60;     /* Below modal but above page content */
   display: grid;
-  align-items: end;
-  background: rgba(8, 10, 14, 0.48);
+  align-items: end;  /* Position sheet at bottom */
+  background: rgba(8, 10, 14, 0.48);  /* Dark semi-transparent */
 }
 
 .sheet-panel {
+  /* Bottom sheet/modal panel content
+     Slides up from bottom of screen */
   width: 100%;
-  max-height: min(82vh, 760px);
-  overflow-y: auto;
+  max-height: min(82vh, 760px);  /* 82% viewport or 760px, whichever is smaller */
+  overflow-y: auto;    /* Scrollable if content exceeds height */
   padding: 20px;
-  border-radius: 28px 28px 0 0;
+  border-radius: 28px 28px 0 0;  /* Rounded top only */
   background: var(--surface);
   border-top: 1px solid var(--border);
 }
 
 .sheet-header {
+  /* Header within sheet panel
+     Contains title and close button */
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between;  /* Title on left, close on right */
   gap: 16px;
   margin-bottom: 16px;
 }
 
 .insight-list {
+  /* List of insights/tips/information items
+     Styled as individual items with spacing */
   display: grid;
   gap: 12px;
   padding: 0;
@@ -1451,84 +2588,135 @@ main {
 }
 
 .insight-list li {
+  /* Individual insight item
+     Styled similarly to other cards */
   padding: 14px 16px;
   border-radius: 18px;
   background: var(--surface-soft);
   border: 1px solid var(--border);
 }
 
+
+/* ===================================
+   ANIMATION & KEYFRAMES
+   
+   Defines reusable animations for loading states and effects.
+   ==================================== */
+
 .spin {
+  /* Applies continuous spinning animation
+     Used for loading spinners, refresh icons */
   animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
+  /* Defines the 360-degree rotation animation
+     Used for loading indicators, spinner icons */
   from {
-    transform: rotate(0deg);
+    transform: rotate(0deg);   /* Start position */
   }
 
   to {
-    transform: rotate(360deg);
+    transform: rotate(360deg); /* Full 360-degree rotation */
   }
 }
 
+/* ===================================
+   RESPONSIVE BREAKPOINTS - LARGE SCREENS
+   
+   Media queries for tablets and smaller desktops (max-width: 1180px).
+   Adjusts grid columns and layout for screens smaller than 1180px.
+   ==================================== */
+
 @media (max-width: 1180px) {
+  /* When screen width is 1180px or less, apply these overrides */
+  
   .hero-grid,
   .marketing-grid {
+    /* Stack to single column instead of multi-column
+       Makes content more readable on narrower screens */
     grid-template-columns: 1fr;
   }
 
   .card-grid {
+    /* Reduce from 3 columns to 2 columns
+       Maintains good card sizing while fitting screen */
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .phone-grid,
   .gallery-grid {
+    /* Reduce from 4 columns to 3 columns
+       Still shows multiple items but less cramped */
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
+/* ===================================
+   RESPONSIVE BREAKPOINTS - TABLETS
+   
+   Media queries for tablets (max-width: 1024px).
+   Significant layout changes for single-column dashboard layout.
+   ==================================== */
+
 @media (max-width: 1024px) {
   .dashboard-layout {
+    /* Stack sidebar and content vertically
+       More suitable for tablet width */
     grid-template-columns: 1fr;
   }
 
   .desktop-sidebar {
+    /* Hide desktop sidebar, will show mobile version instead */
     display: none;
   }
 
   .dashboard-mobile-actions {
+    /* Show mobile-specific action buttons
+       More compact and touch-friendly */
     display: flex;
   }
 
   .comparison-grid,
   .card-grid {
+    /* Stack to single column
+       Clearer content for smaller screens */
     grid-template-columns: 1fr;
   }
 
   .phone-grid,
   .gallery-grid {
+    /* Reduce to 2 columns from 3
+       Balances spacing and content density */
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .phone-detail-hero {
+    /* Stack image and content vertically
+       Image first, then details below */
     grid-template-columns: 1fr;
   }
 
   .phone-media,
   .gallery-card .phone-media {
+    /* Reduce image height for smaller screens
+       Saves vertical space */
     height: 168px;
-    border-radius: 18px;
+    border-radius: 18px;  /* Slightly less rounded */
   }
 
   .phone-card {
+    /* Tighter padding for tablet screens */
     padding: 16px;
-    gap: 12px;
+    gap: 12px;  /* Reduced gap between sections */
     border-radius: 24px;
   }
 
   .phone-card-top {
+    /* Change to column layout (stack vertically)
+       Better for narrower screens */
     flex-direction: column;
-    align-items: stretch;
+    align-items: stretch;  /* Stretch items full width */
     gap: 10px;
   }
 
@@ -1539,43 +2727,46 @@ main {
   }
 
   .phone-card-top .pill {
-    flex: 1 1 auto;
-    min-width: 0;
+    flex: 1 1 auto;  /* Grow to fill available space */
+    min-width: 0;    /* Allow shrinking below normal size */
     justify-content: center;
     padding: 8px 10px;
     font-size: 0.76rem;
     line-height: 1.2;
     text-align: center;
-    white-space: normal;
+    white-space: normal;  /* Allow text wrapping */
   }
 
   .phone-card-top .score-badge {
-    flex: 0 0 auto;
+    flex: 0 0 auto;  /* Don't grow or shrink */
     min-width: 58px;
     padding: 8px 10px;
     font-size: 0.92rem;
   }
 
   .favorite-button {
-    width: 100%;
+    width: 100%;  /* Full-width on tablet */
   }
 
   .phone-card-body {
-    gap: 10px;
+    gap: 10px;  /* Tighter spacing */
   }
 
   .phone-headline {
-    display: block;
+    display: block;  /* Stack headline elements */
   }
 
   .phone-card h3 {
+    /* Responsive title sizing
+       Clamp between 1rem-1.16rem, scales with viewport */
     font-size: clamp(1rem, 2vw, 1.16rem);
     line-height: 1.15;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
+    display: -webkit-box;        /* Enable line clamping */
+    -webkit-line-clamp: 2;       /* Limit to 2 lines max */
+    line-clamp: 2;               /* Standard property for compatibility */
     -webkit-box-orient: vertical;
-    overflow: hidden;
-    min-height: 2.3em;
+    overflow: hidden;            /* Hide overflow text */
+    min-height: 2.3em;           /* Reserve space for 2 lines */
   }
 
   .phone-headline .muted {
@@ -1585,70 +2776,88 @@ main {
   .dashboard-card .metric-grid,
   .phone-summary-block,
   .marketplace-actions {
+    /* Hide these on tablet to save space */
     display: none;
   }
 
   .phone-card-actions,
   .card-primary-actions {
-    gap: 8px;
+    gap: 8px;  /* Tighter spacing */
   }
 
   .card-primary-actions {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr;  /* Stack buttons vertically */
   }
 
   .phone-card-actions .button-secondary,
   .phone-card-actions .button {
-    padding: 11px 12px;
+    padding: 11px 12px;  /* Slightly smaller buttons */
     font-size: 0.9rem;
   }
 
   .compare-selector-grid,
   .compare-highlights-grid,
   .compare-hero-phones {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr;  /* Stack all comparison items */
   }
 
   .compare-versus-badge {
-    position: static;
-    transform: none;
-    margin: 18px auto 0;
+    position: static;    /* Remove absolute positioning */
+    transform: none;     /* Remove centering transform */
+    margin: 18px auto 0; /* Center with margins instead */
   }
 
   .compare-score-row {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));  /* 2 columns instead of 3 */
   }
 
   .compare-score-label {
-    grid-column: 1 / -1;
-    order: -1;
+    grid-column: 1 / -1;  /* Span both columns */
+    order: -1;            /* Move to top */
   }
 }
 
+
+/* ===================================
+   RESPONSIVE BREAKPOINTS - MOBILE
+   
+   Media queries for mobile phones (max-width: 768px).
+   Major layout changes for small screens and touch devices.
+   ==================================== */
+
 @media (max-width: 768px) {
   main {
+    /* Increase bottom padding for mobile bottom nav bar
+       Footer space account for fixed mobile tab bar */
     padding-bottom: 110px;
   }
 
   .header-inner,
   .footer-inner {
+    /* Center-align items on mobile for balance */
     align-items: center;
   }
 
   .desktop-nav,
   .footer-note {
+    /* Hide desktop navigation and footer notes on mobile
+       Space is too limited */
     display: none;
   }
 
   .mobile-tabbar {
+    /* Show mobile bottom navigation on smaller screens */
     display: flex;
   }
 
   .header-inner {
+    /* Allow header items to wrap if needed */
     flex-wrap: wrap;
   }
 
   .section {
+    /* Adjust section padding for mobile
+       Tighter top padding (24px), more bottom padding (36px) */
     padding: 24px 0 36px;
   }
 
@@ -1656,40 +2865,52 @@ main {
   .comparison-grid,
   .recommendation-grid,
   .detail-summary-grid {
+    /* Stack all cards to single column on mobile */
     grid-template-columns: 1fr;
   }
 
   .phone-grid,
   .gallery-grid {
+    /* 2 columns on mobile (narrower than tablet's 3)
+       Tighter gap for more compact layout */
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
+    gap: 12px;  /* Reduced gap on mobile */
   }
 
   .theme-toggle span,
   .brand-text span {
+    /* Hide secondary text on mobile
+       Space is limited, show only essentials */
     display: none;
   }
 
   .phone-detail-media {
+    /* Reduce image height on mobile */
     min-height: 280px;
   }
 
   .phone-detail-actions {
+    /* Stack action buttons vertically on mobile */
     grid-template-columns: 1fr;
   }
 
   .specs-section {
+    /* Stack spec section vertically
+       Single column layout */
     grid-template-columns: 1fr;
   }
 
   .specs-section-title {
+    /* Remove right border, add bottom border instead */
     border-right: 0;
     border-bottom: 1px solid var(--border);
   }
 
   .spec-row {
+    /* Stack spec rows vertically
+       Label above value */
     grid-template-columns: 1fr;
-    gap: 8px;
+    gap: 8px;  /* Reduced gap */
   }
 
   .compare-hero-card,
@@ -1697,146 +2918,237 @@ main {
   .compare-section-header,
   .compare-table-header,
   .compare-table-body {
+    /* Adjust padding for mobile screens */
     padding-inline: 16px;
   }
 
   .compare-phone-hero {
-    padding: 18px;
+    padding: 18px;  /* Slightly reduced padding */
   }
 
   .compare-phone-media {
+    /* Reduce image height on mobile */
     height: 220px;
   }
 
   .compare-table-header {
+    /* Hide table header on mobile (not enough space)
+       Will show mobile-name labels instead */
     display: none;
   }
 
   .compare-table-row {
+    /* Single column layout for comparison rows on mobile */
     grid-template-columns: 1fr;
   }
 
   .compare-label-cell {
+    /* Remove background from label on mobile
+       More compact appearance */
     background: transparent;
     border: 0;
-    padding: 0 0 4px;
+    padding: 0 0 4px;  /* Just a small gap before value */
   }
 
   .compare-mobile-name {
+    /* Show mobile-specific phone name labels
+       Identifies which phone each value belongs to */
     display: block;
   }
 
   .compare-selector-submit,
   .compare-phone-link {
+    /* Full-width buttons on mobile */
     width: 100%;
   }
 }
 
+/* ===================================
+   RESPONSIVE BREAKPOINTS - EXTRA SMALL SCREENS
+   
+   Media queries for very small phones (max-width: 430px).
+   Fine-tuning for the smallest mobile devices.
+   ==================================== */
+
 @media (max-width: 430px) {
   .phone-card {
+    /* Minimum padding for very small screens */
     padding: 12px;
   }
 
   .phone-media,
   .gallery-card .phone-media {
+    /* Shorter images to fit more content */
     height: 138px;
   }
 
   .phone-card-top .pill {
+    /* Extra small pills for tiny screens */
     font-size: 0.72rem;
     padding: 8px 9px;
   }
 
   .phone-card-top .score-badge {
+    /* Extra small score badge */
     min-width: 54px;
     padding: 8px 9px;
     font-size: 0.88rem;
   }
 
   .favorite-button {
+    /* Smaller favorite button text */
     font-size: 0.88rem;
   }
 }
 
+
+/* ===================================
+   BODY BACKGROUND EFFECTS
+   
+   Advanced visual effects applied to the page background.
+   Creates depth and visual richness through layered gradients and patterns.
+   ==================================== */
+
 body {
+  /* Override previous body styles with enhanced visual effects
+     Adds layered gradients and patterns for premium appearance */
   position: relative;
-  overflow-x: hidden;
+  overflow-x: hidden;  /* Prevent horizontal scrollbar from effects */
   background:
+    /* Radial gradient: accent green at top-left corner
+       Creates a glowing effect in the corner */
     radial-gradient(circle at top left, rgba(70, 179, 123, 0.18), transparent 34%),
+    /* Radial gradient: secondary blue at top-right corner
+       Complements the green with blue accent */
     radial-gradient(circle at top right, rgba(64, 148, 255, 0.14), transparent 28%),
+    /* Linear gradient: overall color progression from top to bottom
+       Blends dark blue at top with darker tones at bottom */
     linear-gradient(180deg, color-mix(in srgb, var(--bg) 86%, #020407 14%) 0%, var(--bg) 48%, #0b1016 100%);
 }
 
 body::before,
 body::after {
+  /* Pseudo-elements for additional effects
+     Both are fixed overlays that don't interfere with content (pointer-events: none) */
   content: "";
   position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
+  inset: 0;                /* Cover entire screen */
+  pointer-events: none;    /* Don't block clicks/interactions */
+  z-index: -1;            /* Behind all page content */
 }
 
 body::before {
+  /* Grid pattern overlay
+     Creates a subtle "scanline" or grid texture on the background */
   background:
+    /* Vertical grid lines (repeating along Y-axis) */
     linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    /* Horizontal grid lines (repeating along X-axis) */
     linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
-  background-size: 48px 48px;
+  background-size: 48px 48px;  /* Grid cell size */
+  /* Fade out the grid toward bottom with mask-image
+     Creates a subtle effect that fades away */
   mask-image: linear-gradient(180deg, rgba(255, 255, 255, 0.4), transparent 88%);
 }
 
 body::after {
+  /* Blurred radial gradients overlay
+     Creates soft glowing effects in specific areas */
   background:
+    /* Glow at 18% left, 12% top (upper left)
+       Accent green glow */
     radial-gradient(circle at 18% 12%, rgba(var(--accent-rgb), 0.18), transparent 22%),
+    /* Glow at 82% left, 18% top (upper right)
+       Secondary blue glow */
     radial-gradient(circle at 82% 18%, rgba(var(--accent-secondary-rgb), 0.16), transparent 20%),
+    /* Glow at 50% left, 100% top (bottom center)
+       Subtle white glow at bottom */
     radial-gradient(circle at 50% 100%, rgba(255, 255, 255, 0.04), transparent 32%);
-  filter: blur(40px);
-  opacity: 0.9;
+  filter: blur(40px);  /* Heavy blur for soft glow effect */
+  opacity: 0.9;        /* 90% visible */
 }
 
 main {
+  /* Ensure main content appears above background effects */
   position: relative;
 }
 
+/* ===================================
+   CURSOR AURA EFFECT
+   
+   Interactive glow that follows the cursor/mouse position.
+   Creates a dynamic, immersive visual experience.
+   ==================================== */
+
 .cursor-aura {
+  /* Interactive effect that appears under cursor
+     Glows softly, follows mouse movement */
   position: fixed;
   left: 0;
   top: 0;
   width: 520px;
   height: 520px;
+  /* CSS variables for cursor position (set by JavaScript)
+     --cursor-x and --cursor-y are updated on mousemove */
   transform: translate(calc(var(--cursor-x, -520px) - 50%), calc(var(--cursor-y, -520px) - 50%));
   border-radius: 999px;
-  pointer-events: none;
-  z-index: 2;
-  opacity: 0;
+  pointer-events: none;  /* Doesn't block clicks */
+  z-index: 2;           /* Above content but below modals */
+  opacity: 0;           /* Hidden by default */
+  /* Radial gradient creates a soft glowing effect
+     Strong accent color in center, fades to transparent at edges */
   background:
     radial-gradient(circle, rgba(var(--accent-rgb), 0.18), rgba(var(--accent-rgb), 0.08) 28%, transparent 70%);
-  filter: blur(24px);
-  transition: opacity 180ms ease;
+  filter: blur(24px);    /* Heavy blur for soft glow */
+  transition: opacity 180ms ease;  /* Smooth fade in/out */
 }
 
 .cursor-aura.is-visible {
+  /* Appears when cursor is over the page */
   opacity: 1;
 }
 
+/* ===================================
+   ENHANCED GLASS PANEL STYLING
+   
+   Refinement of glass-morphism components with sophisticated effects.
+   ==================================== */
+
 .glass-panel {
+  /* Enhanced version with additional effects */
   position: relative;
-  overflow: hidden;
+  overflow: hidden;  /* Clips ::after pseudo-element */
   background:
+    /* Gradient from slightly transparent to opaque
+       Creates depth perception */
     linear-gradient(180deg, color-mix(in srgb, var(--surface) 92%, rgba(255, 255, 255, 0.03) 8%) 0%, color-mix(in srgb, var(--surface) 98%, rgba(0, 0, 0, 0.08) 2%) 100%);
   box-shadow:
+    /* Primary shadow: strong drop shadow for depth */
     0 22px 60px rgba(4, 10, 18, 0.28),
+    /* Inset shadow: subtle top highlight for glass effect */
     inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .glass-panel::after {
+  /* Shine/highlight effect overlay
+     Creates a subtle gloss on top of the panel */
   content: "";
   position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
+  inset: 0;  /* Cover entire panel */
+  border-radius: inherit;  /* Match panel's border radius */
+  pointer-events: none;    /* Don't block interactions */
+  /* Diagonal gradient from top-left to bottom-right
+     White semi-transparent at corners, transparent in middle
+     Creates a "glossy" shine effect */
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 36%, transparent 64%, rgba(255, 255, 255, 0.05));
-  opacity: 0.34;
+  opacity: 0.34;  /* Subtle effect */
 }
+
+/* ===================================
+   UNIVERSAL TRANSITION PROPERTIES
+   
+   Defines smooth transitions for interactive elements.
+   ==================================== */
 
 .nav-link,
 .mobile-tablink,
@@ -1847,20 +3159,30 @@ main {
 .chip,
 .pill,
 .glass-panel {
+  /* All interactive elements get smooth transitions
+     Multiple properties for comprehensive effect */
   transition:
-    transform 180ms ease,
-    border-color 180ms ease,
-    background 180ms ease,
-    color 180ms ease,
-    box-shadow 180ms ease,
-    opacity 180ms ease;
+    transform 180ms ease,    /* Position/scale changes */
+    border-color 180ms ease, /* Border color changes */
+    background 180ms ease,   /* Background color changes */
+    color 180ms ease,        /* Text color changes */
+    box-shadow 180ms ease,   /* Shadow depth changes */
+    opacity 180ms ease;      /* Fade in/out effects */
 }
+
+/* ===================================
+   BUTTON RIPPLE EFFECT
+   
+   Shine/ripple effect that appears on button click or hover.
+   ==================================== */
 
 .button,
 .button-secondary,
 .button-ghost,
 .theme-toggle,
 .favorite-button {
+  /* All interactive buttons are positioned
+     Allows for ::after pseudo-element effects */
   position: relative;
   overflow: hidden;
 }
@@ -1869,12 +3191,16 @@ main {
 .button-secondary::after,
 .button-ghost::after,
 .favorite-button::after {
+  /* Ripple/shine effect overlay
+     Appears on hover, creates interactive feedback */
   content: "";
   position: absolute;
-  inset: 0;
+  inset: 0;  /* Cover entire button */
+  /* Radial gradient creates a white shine that radiates from center
+     opacity: 0 means it's invisible normally */
   background: radial-gradient(circle at center, rgba(255, 255, 255, 0.22), transparent 58%);
   opacity: 0;
-  transform: scale(0.76);
+  transform: scale(0.76);  /* Start slightly smaller */
   transition: opacity 180ms ease, transform 180ms ease;
 }
 
@@ -1882,22 +3208,36 @@ main {
 .button-secondary:hover::after,
 .button-ghost:hover::after,
 .favorite-button:hover::after {
+  /* On hover, show the ripple effect
+     Scales up from center for expansion effect */
   opacity: 1;
   transform: scale(1);
 }
 
 .magnetic-button:hover,
 .favorite-button:hover {
+  /* Additional effect: slight scale and upward movement
+     Creates "magnetic" pulling effect on hover */
   transform: translateY(-2px) scale(1.01);
 }
 
+
+/* ===================================
+   NAVIGATION LINK UNDERLINE ANIMATION
+   
+   Creates an animated underline effect that reveals on hover.
+   ==================================== */
+
 .nav-link {
+  /* Navigation links with positioning for underline effect */
   position: relative;
-  padding: 10px 0;
-  color: var(--muted);
+  padding: 10px 0;  /* Space for underline to appear */
+  color: var(--muted);  /* Start in muted gray */
 }
 
 .nav-link::after {
+  /* Animated underline that appears on hover
+     Uses scaleX transform for smooth reveal from center */
   content: "";
   position: absolute;
   left: 0;
@@ -1905,70 +3245,101 @@ main {
   bottom: 0;
   height: 2px;
   border-radius: 999px;
+  /* Gradient underline: transparent -> accent -> transparent
+     Creates a centered glowing line effect */
   background: linear-gradient(90deg, transparent, var(--accent), transparent);
-  transform: scaleX(0);
-  transform-origin: center;
+  transform: scaleX(0);         /* Starts invisible (width 0) */
+  transform-origin: center;     /* Expands from center outward */
   transition: transform 180ms ease;
 }
 
 .nav-link:hover,
 .nav-link.is-active {
+  /* Hover and active state: brighter text
+     Shows the link is interactive or currently selected */
   color: var(--text);
 }
 
 .nav-link:hover::after,
 .nav-link.is-active::after {
+  /* Underline animation: reveals with scaleX(1)
+     Smooth horizontal expansion from center */
   transform: scaleX(1);
 }
 
 .mobile-tablink {
+  /* Mobile tab link styling
+     Slightly rounded for mobile aesthetic */
   border-radius: 18px;
 }
 
 .mobile-tablink.is-active {
-  color: var(--text);
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  /* Active tab in mobile navigation
+     Highlighted with subtle accent background */
+  color: var(--text);  /* Bright text */
+  background: color-mix(in srgb, var(--accent) 12%, transparent);  /* Subtle accent background */
 }
+
+/* ===================================
+   ADVANCED PHONE CARD EFFECTS
+   
+   3D transforms and perspective effects for phone cards.
+   Creates an engaging, interactive card experience.
+   ==================================== */
 
 .phone-grid,
 .gallery-grid {
+  /* Use auto-fit for responsive columns
+     Automatically creates columns based on card width */
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
   gap: 20px;
 }
 
 .phone-card {
-  --card-rotate-x: 0deg;
-  --card-rotate-y: 0deg;
-  --card-glow-x: 50%;
-  --card-glow-y: 50%;
+  /* Advanced 3D card with mouse-tracking effects
+     CSS variables updated by JavaScript for 3D rotation */
+  --card-rotate-x: 0deg;       /* X-axis rotation (tilt up/down) */
+  --card-rotate-y: 0deg;       /* Y-axis rotation (tilt left/right) */
+  --card-glow-x: 50%;          /* Glow position (X coordinate) */
+  --card-glow-y: 50%;          /* Glow position (Y coordinate) */
   position: relative;
   display: grid;
   gap: 18px;
   padding: 20px;
   min-width: 0;
+  /* content-visibility: auto improves performance
+     Browser delays rendering of off-screen cards */
   content-visibility: auto;
-  contain-intrinsic-size: 540px;
+  contain-intrinsic-size: 540px;  /* Estimated height for layout calculations */
+  /* 3D perspective transform based on mouse position
+     Creates realistic tilt effect */
   transform:
-    perspective(1100px)
-    rotateX(var(--card-rotate-x))
-    rotateY(var(--card-rotate-y))
-    translateY(0);
+    perspective(1100px)           /* Depth perception */
+    rotateX(var(--card-rotate-x))  /* Tilt based on Y mouse position */
+    rotateY(var(--card-rotate-y))  /* Tilt based on X mouse position */
+    translateY(0);                /* No vertical movement by default */
 }
 
 .phone-card:hover {
+  /* Hover state: lifts card and changes tilt
+     Creates depth perception and interactivity */
   transform:
     perspective(1100px)
     rotateX(var(--card-rotate-x))
     rotateY(var(--card-rotate-y))
-    translateY(-6px);
-  border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
+    translateY(-6px);  /* Lift card 6px up */
+  border-color: color-mix(in srgb, var(--accent) 28%, var(--border));  /* Accent border on hover */
 }
 
 .phone-card-glow {
+  /* Glow effect that follows cursor position
+     Updates with --card-glow-x and --card-glow-y variables */
   position: absolute;
-  inset: 0;
+  inset: 0;  /* Cover entire card */
   border-radius: inherit;
-  pointer-events: none;
+  pointer-events: none;  /* Doesn't block interactions */
+  /* Radial gradient glow centered at cursor position
+     Creates a dynamic spotlight effect */
   background:
     radial-gradient(circle 180px at var(--card-glow-x) var(--card-glow-y), rgba(var(--accent-rgb), 0.18), transparent 72%);
   opacity: 0.9;
@@ -1976,11 +3347,15 @@ main {
 
 .phone-card-top,
 .phone-card-score-strip {
+  /* These elements appear above the glow
+     Positioned above with z-index to be visible */
   position: relative;
   z-index: 1;
 }
 
 .phone-card-top {
+  /* Top section of card with badges and favorite button
+     Horizontal flex layout */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1988,15 +3363,21 @@ main {
 }
 
 .phone-card-segment {
+  /* Segment/category badge on card
+     Background and text styling */
   background: color-mix(in srgb, var(--surface-soft) 86%, rgba(255, 255, 255, 0.06));
   text-transform: capitalize;
 }
 
 .phone-card-favorite {
+  /* Favorite button container
+     Ensures minimum width for button */
   min-width: 118px;
 }
 
 .phone-card-score-strip {
+  /* Score information strip below image
+     2-column layout for score and price */
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
@@ -2008,6 +3389,8 @@ main {
 .hero-stat-card,
 .story-card,
 .home-preview-stats > div {
+  /* Styling for stat cards and panels throughout site
+     Consistent appearance for data display */
   padding: 14px 16px;
   border-radius: 20px;
   background: color-mix(in srgb, var(--surface-soft) 92%, rgba(255, 255, 255, 0.03));
@@ -2020,6 +3403,8 @@ main {
 .hero-stat-card span,
 .story-card span,
 .home-preview-stats > div span {
+  /* Label text in stat cards
+     Small, muted, uppercase */
   display: block;
   color: var(--muted);
   font-size: 0.78rem;
@@ -2031,6 +3416,8 @@ main {
 .phone-card-price-panel strong,
 .phone-detail-chip strong,
 .hero-stat-card strong {
+  /* Value text in stat cards
+     Larger, bold, with tight letter spacing */
   display: block;
   margin-top: 8px;
   font-size: 1.25rem;
@@ -2038,25 +3425,35 @@ main {
 }
 
 .phone-media {
+  /* Media container in card
+     Gradient background with border */
   height: 248px;
   border-radius: 28px;
   background:
+    /* Top gradient: subtle white shine */
     radial-gradient(circle at top, rgba(255, 255, 255, 0.14), transparent 45%),
+    /* Main background gradient */
     color-mix(in srgb, var(--surface-soft) 90%, rgba(255, 255, 255, 0.04));
   border: 1px solid color-mix(in srgb, var(--border) 88%, rgba(255, 255, 255, 0.05));
 }
 
 .phone-card-body {
+  /* Main content body of card
+     Positioned above glow with z-index */
   position: relative;
   z-index: 1;
   gap: 16px;
 }
 
 .phone-headline {
+  /* Headline container (title + metadata)
+     Display as block to allow stacking */
   display: block;
 }
 
 .phone-card h3 {
+  /* Product title
+     Large, bold with tight spacing */
   margin: 0;
   font-size: clamp(1.3rem, 2vw, 1.82rem);
   line-height: 1.02;
@@ -2064,31 +3461,42 @@ main {
 }
 
 .phone-card-subcopy {
+  /* Secondary description text in card */
   margin: 10px 0 0;
   line-height: 1.55;
 }
 
 .phone-card-chip-row {
+  /* Row of small chips/tags in card
+     Flexbox wrapping for responsive layout */
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
 
 .phone-card-chip {
+  /* Small chip/tag styling
+     Darker background than regular surface */
   background: color-mix(in srgb, var(--surface-strong) 82%, transparent);
 }
 
 .phone-card-stat-stack {
+  /* Stack of stat rows
+     Shows specs like storage, RAM, etc. */
   display: grid;
   gap: 12px;
 }
 
 .phone-stat-row {
+  /* Individual stat row
+     Stat label + progress bar */
   display: grid;
   gap: 8px;
 }
 
 .phone-stat-label {
+  /* Label and value for stat
+     Flex layout with space-between */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2096,6 +3504,7 @@ main {
 }
 
 .phone-stat-label span {
+  /* Stat name and current value */
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -2104,6 +3513,8 @@ main {
 }
 
 .phone-stat-track {
+  /* Progress bar background
+     Shows the scale (e.g., storage capacity) */
   width: 100%;
   height: 10px;
   overflow: hidden;
@@ -2112,178 +3523,284 @@ main {
 }
 
 .phone-stat-fill {
+  /* Progress bar fill
+     Animates width and has gradient with glow */
   display: block;
   height: 100%;
   border-radius: inherit;
   background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 82%, white 18%), rgba(86, 216, 155, 0.74));
-  box-shadow: 0 0 18px rgba(70, 179, 123, 0.34);
+  box-shadow: 0 0 18px rgba(70, 179, 123, 0.34);  /* Glowing effect */
   transition: width 320ms ease;
 }
 
 .phone-card:hover .phone-stat-fill {
+  /* On hover: more saturated colors
+     Emphasizes the stat */
   filter: saturate(1.14);
 }
 
+/* ===================================
+   PHONE DETAIL & MARKETPLACE ACTIONS GRID
+   
+   Layout grid for phone specifications and action buttons.
+   ==================================== */
+
 .phone-card-detail-grid {
+  /* 3-column grid for detailed specs on phone detail page
+     Shows detailed specifications in organized columns */
   display: grid;
   gap: 12px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .phone-card-actions {
+  /* Spacing for action buttons on phone cards
+     Adds consistent gap between buttons */
   gap: 12px;
 }
 
 .marketplace-actions {
+  /* 2-column grid for marketplace/external action buttons
+     Links to purchase, compare, or external sites */
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+/* ===================================
+   DASHBOARD FILTER PANEL STYLES
+   
+   Styling for the filter panel in the dashboard/filtering interface.
+   ==================================== */
+
 .dashboard-filter-panel {
+  /* Container for filter controls and options
+     Arranged vertically with consistent spacing */
   display: grid;
   gap: 16px;
 }
 
 .dashboard-filter-toggle {
+  /* Toggle button to expand/collapse filter panel
+     Full-width button for easy clicking on mobile */
   width: 100%;
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  align-items: flex-start;  /* Align items to top for better visual balance */
+  justify-content: space-between;  /* Filter label on left, chevron/icon on right */
   gap: 16px;
-  border: 0;
-  background: transparent;
-  color: inherit;
-  padding: 0;
-  cursor: pointer;
-  text-align: left;
+  border: 0;             /* No border (semantic button, styled as text) */
+  background: transparent;  /* Transparent background */
+  color: inherit;        /* Inherit text color */
+  padding: 0;            /* No padding (minimal button) */
+  cursor: pointer;       /* Pointer cursor to indicate clickable */
+  text-align: left;      /* Left-align text inside button */
 }
 
 .dashboard-filter-copy {
-  margin: 12px 0 0;
-  line-height: 1.55;
+  /* Descriptive text inside filter section
+     Provides context or instructions for filtering */
+  margin: 12px 0 0;      /* Top margin for spacing below header */
+  line-height: 1.55;     /* Line spacing for readability */
 }
 
 .dashboard-filter-collapsed {
-  margin: 0;
-  padding: 16px 18px;
-  border-radius: 20px;
-  background: color-mix(in srgb, var(--surface-soft) 90%, rgba(255, 255, 255, 0.04));
+  /* Collapsed/minimized filter display
+     Shows summary of active filters when panel is collapsed */
+  margin: 0;             /* No margin (sits flush with content) */
+  padding: 16px 18px;    /* Internal spacing for comfortably sized button/tag */
+  border-radius: 20px;   /* Rounded corners */
+  background: color-mix(in srgb, var(--surface-soft) 90%, rgba(255, 255, 255, 0.04));  /* Subtle background */
 }
 
+/* ===================================
+   DASHBOARD LAYOUT & LOADING STATES
+   
+   Utility classes for dashboard spacing and visual states during loading.
+   ==================================== */
+
 .dashboard-copy-stack {
+  /* Stack of copy/text elements in dashboard
+     Vertical arrangement with consistent spacing */
   gap: 12px;
 }
 
 .dashboard-hero-meta {
+  /* Metadata display in dashboard hero section
+     Flexbox wrapping for multiple meta items */
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  flex-wrap: wrap;  /* Wraps meta items to next line if needed */
+  gap: 10px;        /* Tight spacing between meta items */
 }
 
 .dashboard-skeleton-grid {
-  margin-bottom: -12px;
+  /* Grid container for skeleton loading animation
+     Shows placeholder cards while data loads */
+  margin-bottom: -12px;  /* Offset margin to adjust spacing */
 }
 
 .phone-card-skeleton {
+  /* Skeleton placeholder for phone card
+     Shows animated loading state before content appears */
   gap: 14px;
 }
 
+/* ===================================
+   SKELETON LOADING STATE STYLES
+   
+   Animated skeleton/placeholder elements that show while content loads.
+   Creates perception of content appearing with smooth shimmer animation.
+   ==================================== */
+
 .skeleton-line,
 .skeleton-media {
+  /* Base skeleton element styling
+     Background color and appearance for loading placeholders */
   position: relative;
-  overflow: hidden;
-  border-radius: 16px;
+  overflow: hidden;     /* Contains the shimmer animation */
+  border-radius: 16px;  /* Rounded corners matching real content */
   background: color-mix(in srgb, var(--surface-soft) 88%, rgba(255, 255, 255, 0.03));
 }
 
 .skeleton-line::after,
 .skeleton-media::after {
+  /* Shimmer animation that moves across skeleton
+     Creates impression of content loading */
   content: "";
   position: absolute;
-  inset: 0;
-  transform: translateX(-100%);
+  inset: 0;             /* Cover entire skeleton element */
+  transform: translateX(-100%);  /* Start off-screen to the left */
+  /* Gradient: dark -> light -> dark
+     Simulates light reflecting across surface */
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
-  animation: shimmer 1.2s infinite;
+  animation: shimmer 1.2s infinite;  /* Looping shimmer animation */
 }
 
 .skeleton-pill {
-  width: 42%;
-  height: 34px;
+  /* Skeleton placeholder for pill/badge element
+     Represents where a pill badge will appear */
+  width: 42%;   /* 42% width - typical for a pill badge */
+  height: 34px; /* Height matching actual pill elements */
 }
 
 .skeleton-media {
+  /* Skeleton placeholder for image/media area
+     Tall placeholder to represent image loading */
   height: 220px;
 }
 
 .skeleton-title {
-  width: 70%;
-  height: 28px;
+  /* Skeleton placeholder for title/heading
+     Represents a text heading that's loading */
+  width: 70%;   /* 70% width - typical for multi-line heading */
+  height: 28px; /* Height of typical heading text */
 }
 
 .skeleton-copy {
-  width: 100%;
-  height: 18px;
+  /* Skeleton placeholder for body text/copy
+     Single line of text placeholder */
+  width: 100%;  /* Full width text line */
+  height: 18px; /* Height of normal text line */
 }
 
 .skeleton-copy.short {
-  width: 68%;
+  /* Shorter skeleton text line (used for variations)
+     Represents shorter text line than normal copy */
+  width: 68%;   /* 68% width - shorter than normal line */
 }
 
 .skeleton-stats {
+  /* Container for multiple skeleton stat rows
+     Arranges stat placeholders vertically */
   display: grid;
-  gap: 10px;
+  gap: 10px;    /* Spacing between stat rows */
 }
 
 .skeleton-stat {
+  /* Individual skeleton stat row/element
+     Represents a single stat line loading */
   width: 100%;
-  height: 16px;
+  height: 16px; /* Height of stat value text */
 }
 
+/* ===================================
+   DASHBOARD VISUAL STATES
+   
+   Classes for modifying dashboard appearance during interactions.
+   ==================================== */
+
 .dashboard-grid.is-dimmed {
-  opacity: 0.4;
+  /* Dimmed state when filter panel or modal is open
+     Reduces visual prominence of background content */
+  opacity: 0.4;  /* 40% opacity - significantly dimmed */
 }
 
 .dashboard-loading-card {
+  /* Styling adjustment for loading card state
+     Minor positioning adjustment */
   margin-top: -4px;
 }
 
 .dashboard-more-row {
+  /* Row container for "load more" or similar actions
+     Flex layout for horizontal arrangement */
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between;  /* Space items across row */
   gap: 12px;
 }
 
+/* ===================================
+   ROUTE LOADING OVERLAY & CARD
+   
+   Full-screen loading indicator that appears during navigation/route changes.
+   ==================================== */
+
 .route-loading-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 120;
+  /* Full-screen overlay that appears while page is loading
+     Centers the loading card in the middle of the screen */
+  position: fixed;     /* Covers entire viewport */
+  inset: 0;            /* Full screen coverage */
+  z-index: 120;        /* High z-index - appears above all page content */
   display: grid;
-  place-items: center;
-  padding: 24px;
-  background: rgba(4, 8, 16, 0.54);
-  backdrop-filter: blur(10px);
+  place-items: center; /* Centers content both horizontally and vertically */
+  padding: 24px;       /* Padding to prevent content from touching edges */
+  background: rgba(4, 8, 16, 0.54);  /* Semi-transparent dark overlay */
+  backdrop-filter: blur(10px);  /* Blur background content for depth */
 }
 
 .route-loading-card {
-  width: min(100%, 360px);
+  /* Card container inside loading overlay
+     Shows loading message and spinner */
+  width: min(100%, 360px);  /* Max 360px wide but responsive on small screens */
   display: grid;
-  justify-items: center;
-  gap: 10px;
+  justify-items: center;    /* Center content horizontally */
+  gap: 10px;                /* Spacing between loading spinner and text */
   padding: 22px;
-  text-align: center;
+  text-align: center;       /* Center align text */
 }
 
 .route-loading-card p {
+  /* Loading message text inside card
+     Provides feedback about what's happening */
   margin: 0;
   line-height: 1.55;
 }
 
+/* ===================================
+   HOME PAGE HERO & MARKETING SECTIONS
+   
+   Styles for the landing page hero section and marketing content areas.
+   Creates premium, attention-grabbing marketing experience.
+   ==================================== */
+
 .home-hero-section {
+  /* Hero section wrapper for landing page
+     Adds responsive top padding for hero prominence */
   padding-top: clamp(34px, 5vw, 58px);
 }
 
 .premium-hero-grid {
+  /* Grid layout for premium/featured hero content
+     Aligns items to the top for natural composition */
   align-items: start;
 }
 
@@ -2293,19 +3810,26 @@ main {
 .service-card,
 .story-card,
 .final-cta-card {
+  /* Marketing/hero cards base styling
+     Positioned for 3D effects, overflow:hidden for proper rendering */
   position: relative;
-  overflow: hidden;
+  overflow: hidden;     /* Clips background effects and child elements */
 }
 
 .premium-hero-panel {
-  min-height: 620px;
+  /* Main hero panel container
+     Tall, prominent section for hero message */
+  min-height: 620px;    /* Ensures tall, impressive hero section */
 }
 
 .hero-noise {
+  /* Decorative noise/texture overlay on hero background
+     Creates visual depth and premium appearance */
   position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.3;
+  inset: 0;             /* Cover entire hero panel */
+  pointer-events: none; /* Doesn't block interactions */
+  opacity: 0.3;         /* Subtle effect, not overwhelming */
+  /* Multiple radial and linear gradients create organic noise pattern */
   background-image:
     radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08), transparent 20%),
     radial-gradient(circle at 80% 14%, rgba(70, 179, 123, 0.22), transparent 18%),
@@ -2315,22 +3839,36 @@ main {
 .hero-copy-stack,
 .home-feature-card,
 .service-card {
+  /* Main content area positioning (above background effects)
+     z-index ensures content appears above decorative overlays */
   position: relative;
   z-index: 1;
 }
 
 .hero-action-row,
 .hero-badge-row {
+  /* Action and badge containers below hero copy
+     Adds spacing above the rows */
   margin-top: 28px;
 }
 
 .hero-badge-row {
+  /* Badge row layout (pills showing features/highlights)
+     Responsive grid that adapts to screen size */
   display: grid;
   gap: 12px;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
+/* ===================================
+   HERO STORY CARDS & FEATURES
+   
+   Small cards showing key features/stories in the hero section.
+   ==================================== */
+
 .hero-story-grid {
+  /* Grid for story cards below hero section
+     3 cards in a row on desktop */
   display: grid;
   gap: 14px;
   margin-top: 34px;
@@ -2338,6 +3876,8 @@ main {
 }
 
 .hero-story-card {
+  /* Individual story/feature card
+     Small card showing a key feature or benefit */
   padding: 18px;
   border-radius: 24px;
   background: color-mix(in srgb, var(--surface-soft) 82%, rgba(255, 255, 255, 0.03));
@@ -2348,6 +3888,8 @@ main {
 .story-card h3,
 .home-feature-card h3,
 .service-card h3 {
+  /* Heading in story/feature/service cards
+     Smaller, focused heading style */
   margin: 14px 0 10px;
   font-size: 1.08rem;
   letter-spacing: -0.03em;
@@ -2357,6 +3899,8 @@ main {
 .story-card p,
 .home-feature-card p,
 .service-card p {
+  /* Body text in cards
+     Muted color to de-emphasize details */
   margin: 0;
   color: var(--muted);
   line-height: 1.62;
@@ -2365,40 +3909,58 @@ main {
 .hero-story-icon,
 .home-feature-icon,
 .service-card-icon {
+  /* Icon inside story/feature/service cards
+     Small colored container for the icon */
   width: 42px;
   height: 42px;
   display: inline-grid;
-  place-items: center;
+  place-items: center;  /* Centers icon both horizontally and vertically */
   border-radius: 14px;
-  background: color-mix(in srgb, var(--accent) 14%, transparent);
-  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);  /* Subtle accent background */
+  color: var(--accent);  /* Icon in accent color */
 }
 
+/* ===================================
+   PREMIUM HERO LAYOUT & SIGNATURE CARDS
+   
+   Advanced layouts for featured product comparison and premium positioning.
+   ==================================== */
+
 .premium-hero-stack {
+  /* Main container for premium hero section stacking
+     Vertical arrangement of hero elements */
   gap: 20px;
 }
 
 .hero-signature-card {
+  /* Featured/signature product card in hero
+     Prominent display for main featured product */
   padding: 24px;
 }
 
 .signature-eyebrow {
+  /* Label/eyebrow text above signature card
+     Shows category or "featured" label */
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 14px;
-  flex-wrap: wrap;
+  flex-wrap: wrap;  /* Wraps on smaller screens */
 }
 
 .signature-phone-row {
+  /* Layout for signature phone cards in hero
+     3-column layout: phone | vs badge | phone */
   display: grid;
   gap: 18px;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   margin-top: 22px;
-  align-items: center;
+  align-items: center;  /* Vertically center all items */
 }
 
 .signature-phone-card {
+  /* Individual phone card in signature row
+     Showcases a featured phone with specs */
   padding: 18px;
   border-radius: 24px;
   background: color-mix(in srgb, var(--surface-soft) 90%, rgba(255, 255, 255, 0.03));
@@ -2406,40 +3968,58 @@ main {
 }
 
 .signature-phone-card h3 {
+  /* Phone name in signature card
+     Prominent phone model name */
   margin: 12px 0 8px;
   font-size: 1.18rem;
 }
 
 .signature-phone-card p {
+  /* Description/specs text in signature card
+     Muted text showing key specs */
   margin: 0;
   color: var(--muted);
 }
 
 .signature-phone-card-accent {
+  /* Accent styling for featured/winning phone card
+     Border and shadow highlight for emphasis */
   border-color: color-mix(in srgb, var(--accent) 32%, var(--border));
   box-shadow: inset 0 0 0 1px rgba(70, 179, 123, 0.14);
 }
 
 .signature-versus,
 .service-preview-versus {
+  /* "VS" badge between comparison items
+     Circular badge showing it's a comparison */
   width: 58px;
   height: 58px;
   display: grid;
-  place-items: center;
-  border-radius: 999px;
+  place-items: center;  /* Center "VS" text */
+  border-radius: 999px; /* Make it circular */
   background: color-mix(in srgb, var(--surface) 96%, transparent);
   border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--border));
-  font-family: var(--font-display), sans-serif;
+  font-family: var(--font-display), sans-serif;  /* Use display font */
   letter-spacing: -0.04em;
 }
 
+/* ===================================
+   SIGNATURE COMPARISON DETAILS
+   
+   Shows detailed comparison metrics between signature phone cards.
+   ==================================== */
+
 .signature-compare-grid {
+  /* Container for all comparison rows
+     Vertical stack of comparison metrics */
   display: grid;
   gap: 14px;
   margin-top: 22px;
 }
 
 .signature-compare-row {
+  /* Individual comparison metric row
+     Shows one spec being compared side-by-side */
   padding: 14px 16px;
   border-radius: 20px;
   background: color-mix(in srgb, var(--surface-soft) 86%, rgba(255, 255, 255, 0.03));
@@ -2447,6 +4027,8 @@ main {
 }
 
 .signature-compare-header {
+  /* Header row inside comparison row
+     Shows metric name and winner indicator */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2455,52 +4037,79 @@ main {
 }
 
 .signature-compare-header span {
+  /* Metric name/label text
+     Small, muted text showing what's being compared */
   color: var(--muted);
   font-size: 0.88rem;
 }
 
 .signature-compare-header strong {
+  /* Winner indicator (e.g., "Left wins" or score)
+     Accent-colored text showing result */
   color: var(--accent);
   font-size: 0.84rem;
 }
 
 .signature-compare-bars {
+  /* Container for visual comparison bars
+     Stacks comparison bars vertically */
   display: grid;
   gap: 8px;
 }
 
 .signature-compare-bar {
+  /* Individual progress/comparison bar
+     Visual representation of the metric value */
   display: block;
   height: 11px;
   border-radius: 999px;
+  /* Green gradient for left phone */
   background: linear-gradient(90deg, rgba(88, 186, 135, 0.94), rgba(107, 230, 176, 0.64));
 }
 
 .signature-compare-bar.right {
+  /* Comparison bar for right phone
+     Blue gradient to distinguish from left */
   background: linear-gradient(90deg, rgba(93, 153, 255, 0.88), rgba(69, 205, 255, 0.58));
 }
 
+/* ===================================
+   HERO STATS & FEATURES
+   
+   Layout for displaying hero statistics and feature lists.
+   ==================================== */
+
 .hero-stats-grid {
+  /* Grid of stat cards in hero section
+     2 columns of stat metrics */
   display: grid;
   gap: 14px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .hero-feature-list {
+  /* Feature list container
+     Shows list of key features/benefits */
   padding: 22px;
 }
 
 .hero-feature-list-header p {
+  /* Header text above feature list
+     Introduction or label for features */
   margin: 14px 0 0;
 }
 
 .hero-feature-reveal {
+  /* Container for feature items reveal/list
+     Animates or stacks feature items */
   display: grid;
   gap: 14px;
   margin-top: 20px;
 }
 
 .hero-feature-reveal div {
+  /* Individual feature item
+     Flex layout for icon + text combination */
   display: flex;
   gap: 12px;
   padding: 14px 16px;
@@ -2509,29 +4118,45 @@ main {
   border: 1px solid color-mix(in srgb, var(--border) 84%, rgba(255, 255, 255, 0.04));
 }
 
+/* ===================================
+   STORY STRIPS, FEATURES & PREVIEW CARDS
+   
+   Layout components for home page content sections showing cards, stories, and features.
+   ==================================== */
+
 .story-strip,
 .home-feature-layout,
 .home-preview-grid,
 .services-grid {
+  /* Common grid layout for content sections
+     Uses display: grid for responsive arrangement */
   display: grid;
   gap: 20px;
 }
 
 .story-strip {
+  /* Horizontal strip of story cards
+     4 cards showing brief stories/testimonials/features */
   margin-top: 28px;
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .story-card {
+  /* Individual story card
+     Container for a brief story or testimonial */
   padding: 22px;
 }
 
 .home-feature-layout {
+  /* Layout for home page features section
+     3-column asymmetric layout (left large, right smaller) */
   grid-template-columns: 1fr 1.2fr 1fr;
 }
 
 .home-feature-card,
 .service-card {
+  /* Feature or service card container
+     Prominent cards showcasing features or services */
   display: grid;
   gap: 16px;
   padding: 24px;
@@ -2539,56 +4164,84 @@ main {
 
 .home-feature-card.accent,
 .service-card-featured {
+  /* Accent styling for featured/premium cards
+     Highlighted with accent border and special shadow */
   border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
   box-shadow:
-    0 22px 60px rgba(4, 10, 18, 0.3),
-    inset 0 0 0 1px rgba(70, 179, 123, 0.12);
+    0 22px 60px rgba(4, 10, 18, 0.3),  /* Drop shadow */
+    inset 0 0 0 1px rgba(70, 179, 123, 0.12);  /* Inner accent glow */
 }
 
 .home-preview-grid {
+  /* Grid for home preview/showcase cards
+     3 cards showing preview of key products/features */
   margin-top: 28px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .home-preview-card {
+  /* Individual preview card
+     Shows preview of product or feature */
   padding: 22px;
   display: grid;
   gap: 16px;
 }
 
 .home-preview-card.is-featured {
-  transform: translateY(-8px);
+  /* Featured preview card styling
+     Lifted up with transform to emphasize */
+  transform: translateY(-8px);  /* Lift 8px up */
 }
 
 .home-preview-stats {
+  /* Stats grid inside preview card
+     Shows key metrics/specs of previewed item */
   display: grid;
   gap: 12px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .final-cta-card {
+  /* Final call-to-action card
+     Large, prominent card encouraging action */
   padding: clamp(28px, 4vw, 44px);
 }
 
+/* ===================================
+   SERVICES GRID & SERVICE CARDS
+   
+   Layout and styling for services showcase section.
+   ==================================== */
+
 .services-shell {
+  /* Main container for services section
+     Wraps entire services area */
   display: grid;
   gap: 24px;
 }
 
 .services-grid {
+  /* Grid layout for service cards
+     3-column layout with asymmetric sizing */
   grid-template-columns: 1.35fr 1fr 1fr;
 }
 
 .service-card-featured {
+  /* Featured service card (takes first column)
+     Larger, more prominent than other cards */
   grid-column: span 1;
 }
 
 .service-card-copy {
+  /* Text content area in service card
+     Stacks heading and description */
   display: grid;
   gap: 14px;
 }
 
 .service-card-copy h2 {
+  /* Heading in service card
+     Large, prominent heading for service title */
   margin: 0;
   font-size: clamp(2rem, 3vw, 3rem);
   letter-spacing: -0.05em;
@@ -2596,16 +4249,22 @@ main {
 }
 
 .service-preview {
+  /* Preview/demo area in service card
+     Shows service features or comparisons */
   display: grid;
   gap: 16px;
 }
 
 .service-preview-compare {
+  /* Comparison layout inside service preview
+     3-column: item | vs | item */
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
 }
 
 .service-phone-preview {
+  /* Phone preview card within service
+     Shows a phone as part of service preview */
   padding: 18px;
   border-radius: 24px;
   background: color-mix(in srgb, var(--surface-soft) 90%, rgba(255, 255, 255, 0.04));
@@ -2613,17 +4272,23 @@ main {
 }
 
 .service-phone-preview strong {
+  /* Phone name/model in service preview
+     Prominent name of the phone being shown */
   display: block;
   margin-top: 12px;
   font-size: 1.1rem;
 }
 
 .service-phone-preview.accent {
+  /* Accent styling for highlighted phone preview
+     Shows winning or featured phone */
   border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
 }
 
 .service-mini-bars,
 .service-inline-preview {
+  /* Comparison bars or inline stats
+     Visual representation of metrics */
   display: grid;
   gap: 8px;
   margin-top: 14px;
@@ -2631,49 +4296,84 @@ main {
 
 .service-mini-bars span,
 .service-inline-preview span {
+  /* Individual bar in comparison visualization
+     Animated or static bar showing metric */
   display: block;
   height: 10px;
   border-radius: 999px;
+  /* Green gradient for left phone */
   background: linear-gradient(90deg, rgba(70, 179, 123, 0.92), rgba(127, 236, 184, 0.4));
 }
 
 .service-inline-preview span:nth-child(2) {
+  /* Second bar: 84% width
+     Visual representation of second metric */
   width: 84%;
 }
 
 .service-inline-preview span:nth-child(3) {
+  /* Third bar: 68% width
+     Decreasing bars create visual hierarchy */
   width: 68%;
 }
 
 .service-inline-preview.text span:nth-child(4) {
+  /* Fourth bar (text variant): 52% width
+     Shortest bar in the comparison */
   width: 52%;
 }
 
 .services-hint {
+  /* Hint/note text below services section
+     Provides additional context or instruction */
   display: inline-flex;
   align-items: center;
   gap: 10px;
   color: var(--muted);
 }
 
+/* ===================================
+   COMPARE PAGE CARDS STYLING
+   
+   Advanced shadow and border effects for comparison page cards.
+   ==================================== */
+
 .compare-hero-card,
 .compare-section-card,
 .compare-score-card,
 .compare-selector-card {
+  /* Premium shadow styling for all compare page cards
+     Creates depth with multiple shadow layers */
   box-shadow:
-    0 22px 60px rgba(4, 10, 18, 0.3),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+    0 22px 60px rgba(4, 10, 18, 0.3),  /* Main drop shadow for depth */
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02);  /* Subtle inner highlight */
 }
 
+/* ===================================
+   SHIMMER ANIMATION
+   
+   Keyframe animation that creates the loading shimmer effect across skeleton loaders.
+   ==================================== */
+
 @keyframes shimmer {
+  /* Animates gradient across skeleton placeholder
+     Creates loading bar effect from left to right */
   from {
-    transform: translateX(-100%);
+    transform: translateX(-100%);  /* Start off-screen left */
   }
 
   to {
-    transform: translateX(100%);
+    transform: translateX(100%);   /* End off-screen right */
   }
+  /* Animation loops infinitely, creating continuous shimmer */
 }
+
+/* ===================================
+   RESPONSIVE MEDIA QUERY - LARGE SCREENS (max-width: 1180px)
+   
+   Adjustments for screens between 1180px and smaller.
+   Main layout changes: multi-column grids reduce to fewer columns.
+   ==================================== */
 
 @media (max-width: 1180px) {
   .story-strip,
@@ -2681,39 +4381,61 @@ main {
   .home-preview-grid,
   .services-grid,
   .hero-story-grid {
+    /* Reduce all 3-4 column grids to 2 columns
+       Tighter layout for smaller desktops */
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .premium-hero-panel {
+    /* Remove fixed height, let content determine height
+       More flexible on smaller viewports */
     min-height: auto;
   }
 }
 
+/* ===================================
+   RESPONSIVE MEDIA QUERY - TABLETS (max-width: 1024px)
+   
+   Major layout changes for tablet screens.
+   Hides cursor effects, adjusts card layouts, stacks multi-column grids.
+   ==================================== */
+
 @media (max-width: 1024px) {
   .cursor-aura {
+    /* Hide cursor-tracking glow effect on tablet
+       Performance optimization, touch-based interaction */
     display: none;
   }
 
   .phone-card {
+    /* Reduce card gap and padding for tablet screens */
     gap: 16px;
     padding: 18px;
+    /* Remove 3D perspective transform on hover */
     transform: none;
   }
 
   .phone-card:hover {
+    /* Simpler hover effect: just lift up
+       Reduced tilt/perspective for tablet */
     transform: translateY(-4px);
   }
 
   .phone-media {
+    /* Slightly shorter image height on tablet */
     height: 228px;
   }
 
   .phone-card-top {
+    /* Change from absolute flex direction to row
+       Badge and favorite button layout adjustment */
     flex-direction: row;
     align-items: flex-start;
   }
 
   .phone-card-favorite {
+    /* Adjust favorite button sizing
+       Auto width instead of fixed */
     width: auto;
   }
 
@@ -2721,30 +4443,49 @@ main {
   .phone-card-detail-grid,
   .signature-phone-row,
   .service-preview-compare {
+    /* Stack all 2-3 column grids to single column
+       More vertical stacking on tablet */
     grid-template-columns: 1fr;
   }
 
   .marketplace-actions {
+    /* Show marketplace actions as grid
+       Vertical stacking on tablet */
     display: grid;
   }
 
   .signature-versus,
   .service-preview-versus {
+    /* Center the "VS" badge
+       Centered between stacked items */
     margin: 0 auto;
   }
 }
 
+/* ===================================
+   RESPONSIVE MEDIA QUERY - MOBILE OPTIMIZED (max-width: 768px)
+   
+   Major layout changes for mobile phones and small tablets.
+   Converts most multi-column grids to single column, optimizes spacing.
+   ==================================== */
+
 @media (max-width: 768px) {
   .theme-panel {
+    /* Reduce theme dropdown width on mobile
+       Slightly narrower for easy thumb access */
     width: min(94vw, 380px);
   }
 
   .theme-settings-surface-grid,
   .theme-settings-section-header {
+    /* Stack theme settings to single column
+       Vertical arrangement on mobile */
     grid-template-columns: 1fr;
   }
 
   .theme-settings-section-header {
+    /* Change from flex to grid layout
+       Better mobile stacking */
     display: grid;
   }
 
@@ -2756,78 +4497,121 @@ main {
   .services-grid,
   .hero-story-grid,
   .hero-stats-grid {
+    /* Convert all multi-column grids to single column
+       Full-width cards on mobile */
     grid-template-columns: 1fr;
   }
 
   .phone-card {
+    /* Reduce padding and gap on mobile
+       Space saving for smaller screens */
     padding: 16px;
   }
 
   .phone-media {
+    /* Shorter image height on mobile
+       Saves vertical space */
     height: 220px;
   }
 
   .phone-card-top {
+    /* Layout for top section with badge and favorite
+       Grid layout instead of flex for better wrapping */
     flex-direction: row;
     align-items: center;
   }
 
   .phone-card-favorite {
+    /* Adjust favorite button width
+       Min width but responsive */
     min-width: 102px;
   }
 
   .phone-card-detail-grid,
   .card-primary-actions,
   .marketplace-actions {
+    /* Stack all action buttons vertically
+       One button per row on mobile */
     display: grid;
     grid-template-columns: 1fr;
   }
 
   .dashboard-topbar-split {
+    /* Stack top bar items vertically
+       Full-width layout on mobile */
     flex-direction: column;
     align-items: stretch;
   }
 
   .dashboard-cta-row {
+    /* CTA buttons stretch full width
+       Max utilization of screen */
     justify-content: stretch;
   }
 
   .dashboard-cta-row .button,
   .dashboard-cta-row .button-secondary {
+    /* Full-width action buttons
+       Easy to tap on mobile */
     width: 100%;
   }
 }
 
+/* ===================================
+   RESPONSIVE MEDIA QUERY - EXTRA SMALL (max-width: 560px)
+   
+   Optimizations for very small phones and devices.
+   Further spacing and sizing reductions.
+   ==================================== */
+
 @media (max-width: 560px) {
   .theme-panel {
+    /* Position and size adjustments for very small screens
+       Slight offset to prevent edge touches, narrower width */
     right: -8px;
     width: min(96vw, 360px);
-    padding: 14px;
+    padding: 14px;  /* Reduced padding */
   }
 
   .theme-mode-row-three,
   .theme-settings-surface-grid {
+    /* Stack all theme settings to single column
+       One item per row for clarity */
     grid-template-columns: 1fr;
   }
 }
 
+/* ===================================
+   HEADER AUTHENTICATION UI
+   
+   Styling for desktop and mobile auth displays in the header.
+   ==================================== */
+
 .header-auth-desktop {
+  /* Desktop authentication controls (login, signup, account)
+     Shown only on desktop screens, hidden on mobile */
   display: flex;
   align-items: center;
 }
 
 .header-auth-mobile {
+  /* Mobile authentication controls
+     Initially hidden, shown via media query on small screens */
   display: none;
 }
 
 .header-mobile-trigger {
-  position: relative;
+  /* Trigger button for mobile account menu
+     Opens the account sheet overlay on mobile */
+  position: relative;  /* For positioning the count badge */
   width: 46px;
   height: 46px;
-  padding: 0;
+  padding: 0;          /* No padding - square button */
 }
 
 .header-mobile-count {
+  /* Notification count badge (e.g., favorites, messages)
+     Shows in corner of mobile trigger button */
   position: absolute;
   top: -4px;
   right: -4px;
@@ -2837,45 +4621,63 @@ main {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 999px;
-  background: var(--accent);
-  color: var(--accent-contrast);
-  font-size: 0.72rem;
-  font-weight: 800;
-  box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.28);
+  border-radius: 999px;  /* Circular badge */
+  background: var(--accent);  /* Green background */
+  color: var(--accent-contrast);  /* Dark text on green */
+  font-size: 0.72rem;  /* Small text */
+  font-weight: 800;    /* Extra bold */
+  box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.28);  /* Glowing shadow */
 }
 
+/* ===================================
+   HEADER ACCOUNT SHEET (MOBILE)
+   
+   Overlay sheet that slides up on mobile when account is tapped.
+   ==================================== */
+
 .header-account-overlay {
+  /* Overlay background for account sheet
+     Full-screen semi-transparent backdrop */
   z-index: 95;
-  align-items: end;
-  padding: 16px;
+  align-items: end;     /* Align sheet to bottom of screen */
+  padding: 16px;        /* Padding for safe areas */
 }
 
 .header-account-sheet {
-  width: min(100%, 360px);
-  margin-inline: auto;
-  margin-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
-  border-radius: 28px;
+  /* Account menu sheet that slides up from bottom
+     Shows account options, links, and actions */
+  width: min(100%, 360px);  /* Responsive but capped at 360px */
+  margin-inline: auto;  /* Center horizontally */
+  margin-bottom: calc(88px + env(safe-area-inset-bottom, 0px));  /* Above mobile nav bar */
+  border-radius: 28px;  /* Very rounded corners */
   border: 1px solid var(--border);
-  background: color-mix(in srgb, var(--surface) 96%, transparent);
+  background: color-mix(in srgb, var(--surface) 96%, transparent);  /* Semi-transparent background */
 }
 
 .header-account-sheet-header {
+  /* Header section of account sheet
+     Contains title and close button */
   margin-bottom: 18px;
-  align-items: flex-start;
+  align-items: flex-start;  /* Align items to top */
 }
 
 .header-account-sheet-copy {
+  /* Text content in account sheet
+     Stacks copy/description text */
   display: grid;
   gap: 8px;
 }
 
 .header-account-sheet-copy p {
+  /* Paragraph text in account sheet
+     Provides description or instructions */
   margin: 0;
   line-height: 1.55;
 }
 
 .header-account-close {
+  /* Close button for account sheet
+     Positioned in top-right corner */
   width: 42px;
   height: 42px;
   padding: 0;
@@ -2883,17 +4685,29 @@ main {
 }
 
 .header-account-actions {
+  /* Container for action buttons in account sheet
+     Stacks buttons vertically */
   display: grid;
   gap: 12px;
 }
 
 .header-account-link {
+  /* Individual account action link/button
+     Login, signup, profile link, etc. */
   width: 100%;
-  justify-content: center;
-  gap: 10px;
+  justify-content: center;  /* Center button content */
+  gap: 10px;                /* Spacing between icon and text */
 }
 
+/* ===================================
+   THEME LAUNCHER BUTTON
+   
+   Floating action button that opens the theme customization modal.
+   ==================================== */
+
 .theme-launcher {
+  /* Fixed position button to launch theme modal
+     Floating button in bottom-right corner */
   position: fixed;
   right: 24px;
   bottom: 24px;
@@ -2902,14 +4716,14 @@ main {
   align-items: center;
   gap: 10px;
   padding: 12px 16px;
-  border-radius: 999px;
+  border-radius: 999px;  /* Pill shape */
   border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--border));
   background: color-mix(in srgb, var(--surface) 95%, transparent);
   color: var(--text);
   box-shadow:
-    0 18px 40px rgba(4, 10, 18, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(18px);
+    0 18px 40px rgba(4, 10, 18, 0.28),  /* Drop shadow */
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);  /* Top highlight */
+  backdrop-filter: blur(18px);  /* Glass effect */
   cursor: pointer;
   transition:
     transform 180ms ease,
@@ -2920,40 +4734,56 @@ main {
 
 .theme-launcher:hover,
 .theme-launcher.is-open {
+  /* Hover and open states
+     Lifts button and enhances glow */
   transform: translateY(-2px);
-  border-color: rgba(var(--accent-rgb), 0.28);
+  border-color: rgba(var(--accent-rgb), 0.28);  /* Accent border */
   box-shadow:
-    0 20px 44px rgba(4, 10, 18, 0.32),
-    0 0 0 1px rgba(var(--accent-rgb), 0.14);
+    0 20px 44px rgba(4, 10, 18, 0.32),  /* Stronger drop shadow */
+    0 0 0 1px rgba(var(--accent-rgb), 0.14);  /* Accent glow */
 }
 
 .theme-launcher-label {
+  /* "Customize" or similar text label on button
+     Shows button purpose */
   font-weight: 700;
   letter-spacing: -0.02em;
 }
 
+/* ===================================
+   THEME MODAL (CUSTOMIZATION UI)
+   
+   Full-screen modal for advanced theme customization and selection.
+   ==================================== */
+
 .theme-modal-backdrop {
+  /* Full-screen backdrop behind theme modal
+     Semi-transparent overlay with blur */
   position: fixed;
-  inset: 0;
-  z-index: 120;
+  inset: 0;             /* Full screen */
+  z-index: 120;         /* Above all content */
   display: grid;
-  place-items: center;
+  place-items: center;  /* Center modal on screen */
   padding: 28px;
-  background: rgba(5, 8, 14, 0.62);
-  backdrop-filter: blur(16px);
+  background: rgba(5, 8, 14, 0.62);  /* Dark semi-transparent backdrop */
+  backdrop-filter: blur(16px);  /* Blur background */
 }
 
 .theme-modal {
-  width: min(92vw, 860px);
-  max-height: min(86vh, 880px);
-  overflow-y: auto;
-  padding: clamp(18px, 2vw, 28px);
+  /* The modal container itself
+     Large content area for theme customization */
+  width: min(92vw, 860px);  /* Responsive, capped at 860px */
+  max-height: min(86vh, 880px);  /* Responsive, capped at 880px */
+  overflow-y: auto;     /* Scrollable if content exceeds height */
+  padding: clamp(18px, 2vw, 28px);  /* Responsive padding */
   display: grid;
-  gap: 20px;
-  border-radius: 32px;
+  gap: 20px;            /* Space between sections */
+  border-radius: 32px;  /* Very rounded corners */
 }
 
 .theme-modal-header {
+  /* Header section of modal (title + close button)
+     Flex layout with space between */
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -2961,11 +4791,15 @@ main {
 }
 
 .theme-modal-copy {
+  /* Text content area in modal
+     Stacks heading and description */
   display: grid;
   gap: 12px;
 }
 
 .theme-modal-copy h2 {
+  /* Modal title/heading
+     Large, prominent heading */
   margin: 0;
   font-size: clamp(1.85rem, 3vw, 2.6rem);
   line-height: 0.96;
@@ -2973,47 +4807,65 @@ main {
 }
 
 .theme-modal-copy p {
+  /* Description text in modal
+     Provides context about theme customization */
   margin: 0;
-  max-width: 620px;
+  max-width: 620px;     /* Limit text width for readability */
   line-height: 1.65;
 }
 
 .theme-modal-label {
-  width: fit-content;
+  /* Section label or badge in modal
+     Shows section category */
+  width: fit-content;   /* Shrink to content width */
 }
 
 .theme-modal-close {
+  /* Close button for modal
+     Positioned in top-right corner */
   width: 46px;
   height: 46px;
   padding: 0;
   border-radius: 18px;
-  flex: 0 0 auto;
+  flex: 0 0 auto;       /* Don't shrink or grow */
 }
 
 .theme-modal-mode-row {
+  /* Row of theme mode buttons (Light/Dark/Auto)
+     3 equally-spaced columns */
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-top: 0;
+  margin-top: 0;        /* Reset margin */
 }
 
+/* ===================================
+   THEME PREVIEW CARDS
+   
+   Interactive cards showing theme options in the modal.
+   ==================================== */
+
 .theme-preview-grid {
+  /* Grid layout for theme preview cards
+     2 columns on desktop, responsive */
   display: grid;
   gap: 14px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .theme-preview-card {
+  /* Individual theme preview card
+     Shows color swatches and theme name */
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;  /* Content + swatches */
   gap: 14px;
-  align-items: start;
-  min-height: 132px;
+  align-items: start;   /* Align items to top */
+  min-height: 132px;    /* Ensures readable card */
   padding: 18px;
   border-radius: 24px;
   border: 1px solid color-mix(in srgb, var(--border) 88%, rgba(255, 255, 255, 0.04));
   background: color-mix(in srgb, var(--surface-soft) 90%, rgba(255, 255, 255, 0.03));
   color: var(--text);
-  text-align: left;
-  cursor: pointer;
+  text-align: left;     /* Left-align text */
+  cursor: pointer;      /* Clickable */
   transition:
     transform 180ms ease,
     border-color 180ms ease,
@@ -3023,6 +4875,8 @@ main {
 
 .theme-preview-card:hover,
 .theme-preview-card.is-active {
+  /* Hover and active states
+     Lifts card and adds accent styling */
   transform: translateY(-2px);
   border-color: rgba(var(--accent-rgb), 0.28);
   background: color-mix(in srgb, var(--surface-soft) 84%, rgba(var(--accent-rgb), 0.08));
@@ -3030,12 +4884,16 @@ main {
 }
 
 .theme-preview-copy {
+  /* Text content area in preview card
+     Stacks label, name, description */
   display: grid;
   gap: 6px;
-  min-width: 0;
+  min-width: 0;         /* Allows content to constrain width */
 }
 
 .theme-preview-copy span {
+  /* Label/eyebrow text (e.g., "Preset 1")
+     Small, muted, uppercase */
   color: var(--muted);
   font-size: 0.82rem;
   text-transform: uppercase;
@@ -3043,21 +4901,33 @@ main {
 }
 
 .theme-preview-copy strong {
+  /* Theme name
+     Large, bold, may truncate */
   font-size: 1.08rem;
   line-height: 1.15;
   letter-spacing: -0.03em;
-  white-space: nowrap;
+  white-space: nowrap;      /* Don't wrap name */
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis;  /* Truncate if too long */
 }
 
 .theme-preview-copy p {
+  /* Description text
+     Muted, smaller text */
   margin: 0;
   color: var(--muted);
   line-height: 1.5;
 }
 
+/* ===================================
+   THEME MODAL TOOLBAR & SEARCH
+   
+   Toolbar with search and edit toggle for theme customization.
+   ==================================== */
+
 .theme-modal-toolbar {
+  /* Row containing search and edit toggle
+     Flex layout for horizontal arrangement */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -3065,11 +4935,15 @@ main {
 }
 
 .theme-modal-search {
-  margin-top: 0;
-  flex: 1 1 auto;
+  /* Search input in modal toolbar
+     Allows filtering theme options */
+  margin-top: 0;        /* Reset margin */
+  flex: 1 1 auto;       /* Grow to fill available space */
 }
 
 .theme-edit-toggle {
+  /* Toggle button group (Edit Presets vs Edit Colors)
+     2-button toggle switch */
   display: inline-grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   padding: 4px;
@@ -3080,12 +4954,14 @@ main {
 }
 
 .theme-edit-button {
-  min-width: 132px;
+  /* Individual button in edit toggle
+     "Presets" or "Colors" button */
+  min-width: 132px;     /* Minimum width for text */
   padding: 10px 14px;
-  border: 0;
+  border: 0;            /* No border */
   border-radius: 14px;
-  background: transparent;
-  color: var(--muted);
+  background: transparent;  /* No background by default */
+  color: var(--muted);  /* Muted text */
   cursor: pointer;
   transition:
     background 180ms ease,
@@ -3094,11 +4970,21 @@ main {
 }
 
 .theme-edit-button.is-active {
+  /* Active toggle button
+     Highlighted with accent styling */
   background: rgba(var(--accent-rgb), 0.14);
-  color: var(--text);
+  color: var(--text);   /* Bright text */
 }
 
+/* ===================================
+   THEME MODAL SECTIONS & STATUS
+   
+   Section headers and status badges in theme customization.
+   ==================================== */
+
 .theme-modal-section-header {
+  /* Header for theme customization sections
+     Flex layout with title on left, badge on right */
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -3106,44 +4992,58 @@ main {
 }
 
 .theme-modal-section-header p {
+  /* Description under section header
+     Provides context */
   margin: 8px 0 0;
   line-height: 1.55;
 }
 
 .theme-status-chip {
+  /* Status badge (e.g., "Custom", "Official")
+     Displays theme status or category */
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 40px;
+  min-height: 40px;     /* Minimum clickable height */
   padding: 10px 14px;
-  border-radius: 999px;
-  background: rgba(var(--accent-rgb), 0.12);
-  color: var(--accent);
+  border-radius: 999px; /* Pill shape */
+  background: rgba(var(--accent-rgb), 0.12);  /* Subtle accent background */
+  color: var(--accent);  /* Accent text */
   font-size: 0.82rem;
   font-weight: 700;
-  white-space: nowrap;
-  flex: 0 0 auto;
+  white-space: nowrap;  /* Don't wrap text */
+  flex: 0 0 auto;       /* Don't shrink/grow */
 }
 
+/* ===================================
+   THEME PRESET LIST & ROWS
+   
+   Scrollable list of preset themes with selection and preview.
+   ==================================== */
+
 .theme-preset-list {
+  /* Scrollable list of theme presets
+     Allows browsing many presets with scrolling */
   display: grid;
-  gap: 8px;
-  max-height: min(40vh, 360px);
-  overflow-y: auto;
-  padding-right: 4px;
+  gap: 8px;             /* Tight spacing between rows */
+  max-height: min(40vh, 360px);  /* Responsive max height */
+  overflow-y: auto;     /* Enable vertical scrolling */
+  padding-right: 4px;   /* Padding for scrollbar */
 }
 
 .theme-preset-row {
+  /* Individual preset option in list
+     Selectable theme preset */
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between;  /* Name left, swatches right */
   gap: 14px;
-  min-height: 54px;
+  min-height: 54px;     /* Comfortable clickable height */
   padding: 12px 14px;
   border-radius: 18px;
-  border: 1px solid transparent;
+  border: 1px solid transparent;  /* No border by default */
   background: transparent;
-  color: var(--muted);
+  color: var(--muted);  /* Muted text when not selected */
   text-align: left;
   cursor: pointer;
   transition:
@@ -3155,139 +5055,220 @@ main {
 
 .theme-preset-row:hover,
 .theme-preset-row.is-active {
-  color: var(--text);
+  /* Hover and active states
+     Highlights the preset */
+  color: var(--text);   /* Bright text */
   background: color-mix(in srgb, var(--surface-soft) 88%, rgba(var(--accent-rgb), 0.06));
-  border-color: rgba(var(--accent-rgb), 0.22);
+  border-color: rgba(var(--accent-rgb), 0.22);  /* Accent border */
 }
 
 .theme-preset-name {
+  /* Container for preset name and icon
+     Flex layout for alignment */
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  min-width: 0;
-  font-weight: 600;
+  min-width: 0;         /* Allow shrinking */
+  font-weight: 600;     /* Semi-bold text */
 }
 
 .theme-preset-name-text {
-  min-width: 0;
+  /* Actual preset name text
+     May truncate if too long */
+  min-width: 0;         /* Allow truncation */
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: nowrap;  /* Single line */
 }
 
 .theme-preset-spacer {
+  /* Placeholder where icon would go
+     Maintains consistent spacing */
   width: 14px;
   height: 14px;
-  flex: 0 0 auto;
+  flex: 0 0 auto;       /* Don't shrink/grow */
 }
 
+/* ===================================
+   HERO BADGE ROW
+   
+   Styling for badge pills displayed in hero section.
+   ==================================== */
+
 .hero-badge-row {
+  /* Responsive layout for hero badges/pills
+     Auto-fit columns with minimum width */
   grid-template-columns: repeat(auto-fit, minmax(220px, max-content));
-  align-items: start;
+  align-items: start;   /* Align to top */
 }
 
 .hero-badge-row .pill {
-  min-height: 48px;
-  justify-content: flex-start;
-  padding: 12px 16px;
+  /* Pill/badge inside hero row
+     Larger, more prominent than normal pills */
+  min-height: 48px;     /* Taller pill */
+  justify-content: flex-start;  /* Align content to left */
+  padding: 12px 16px;   /* Comfortable padding */
 }
+
+/* ===================================
+   ROUTE LOADING POSITIONING
+   
+   Adjustments for route loading overlay positioning.
+   ==================================== */
 
 .route-loading-overlay {
-  align-content: center;
+  /* Overlay positioning for page transitions
+     Content alignment during loading */
+  align-content: center;  /* Vertically center content */
 }
 
+/* ===================================
+   MOBILE TABBAR (BOTTOM NAVIGATION)
+   
+   Fixed bottom navigation bar for mobile phones.
+   ==================================== */
+
 .mobile-tabbar {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 6px;
-  padding: 8px;
-  border-radius: 22px;
+  /* Bottom navigation bar for mobile
+     Fixed position 5-tab layout */
+  grid-template-columns: repeat(5, minmax(0, 1fr));  /* 5 equal tabs */
+  gap: 6px;             /* Tight spacing between tabs */
+  padding: 8px;         /* Internal padding */
+  border-radius: 22px;  /* Very rounded corners */
 }
 
 .mobile-tablink {
-  min-width: 0;
-  gap: 5px;
-  padding: 10px 4px 9px;
-  border-radius: 16px;
-  line-height: 1.05;
+  /* Individual tab link in mobile tabbar
+     Icon + optional label */
+  min-width: 0;         /* Allow shrinking */
+  gap: 5px;             /* Small spacing */
+  padding: 10px 4px 9px;  /* Vertical padding emphasis */
+  border-radius: 16px;  /* Rounded corners */
+  line-height: 1.05;    /* Tight line height */
 }
 
 .mobile-tablink span {
+  /* Text label inside tab (if present)
+     Truncates if too long */
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: nowrap;  /* Single line */
 }
 
 .mobile-tablink.is-active {
+  /* Active tab styling
+     Highlighted with accent color */
   background: rgba(var(--accent-rgb), 0.14);
-  box-shadow: inset 0 0 0 1px rgba(var(--accent-rgb), 0.14);
+  box-shadow: inset 0 0 0 1px rgba(var(--accent-rgb), 0.14);  /* Inset glow */
 }
+
+/* ===================================
+   FINAL RESPONSIVE MEDIA QUERY - TABLET (max-width: 1024px)
+   
+   Additional tablet-specific layout adjustments.
+   ==================================== */
 
 @media (max-width: 1024px) {
   .phone-grid,
   .gallery-grid {
+    /* Reduce phone grid from 4 to 2 columns on tablet
+       Larger cards for touch-friendly interface */
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .dashboard-layout {
+    /* Adjust dashboard spacing for tablet
+       More comfortable spacing */
     gap: 20px;
   }
 }
 
+/* ===================================
+   FINAL RESPONSIVE MEDIA QUERY - MOBILE (max-width: 768px)
+   
+   Extensive mobile layout adjustments.
+   Hides desktop elements, shows mobile equivalents.
+   ==================================== */
+
 @media (max-width: 768px) {
   .mobile-tabbar {
+    /* Show mobile bottom navigation on mobile
+       Grid layout for tabs */
     display: grid;
   }
 
   .site-header {
+    /* Adjust header on mobile
+       Proper positioning for fixed header */
     top: 0;
   }
 
   .header-inner {
+    /* Flex layout for header items
+       No wrapping, tight spacing */
     flex-wrap: nowrap;
-    gap: 12px;
-    padding-block: 12px;
+    gap: 12px;       /* Tight spacing */
+    padding-block: 12px;  /* Vertical padding */
   }
 
   .brand-badge {
+    /* Smaller brand badge on mobile
+       More compact layout */
     width: 40px;
     height: 40px;
     border-radius: 13px;
   }
 
   .brand-text strong {
+    /* Smaller brand text on mobile
+       Space saving */
     font-size: 1.05rem;
   }
 
   .header-actions {
+    /* Header actions layout on mobile
+       Push to right, tight spacing */
     margin-left: auto;
     gap: 10px;
   }
 
   .header-auth-desktop {
+    /* Hide desktop auth on mobile
+       Shown only on desktop */
     display: none;
   }
 
   .header-auth-mobile {
+    /* Show mobile auth on mobile
+       Mobile-friendly account menu */
     display: flex;
     align-items: center;
   }
 
   .theme-launcher {
+    /* Reposition theme launcher on mobile
+       Above mobile tabbar, more accessible */
     right: 16px;
     bottom: calc(96px + env(safe-area-inset-bottom, 0px));
-    padding: 12px;
+    padding: 12px;  /* Smaller padding */
   }
 
   .theme-launcher-label {
+    /* Hide label on mobile
+       Icon only for space saving */
     display: none;
   }
 
   .theme-modal-backdrop {
+    /* Reduce padding on mobile
+       More screen space for modal */
     padding: 16px;
   }
 
   .theme-modal {
+    /* Optimize theme modal for mobile
+       Narrower, responsive sizing */
     width: min(100%, 680px);
     max-height: min(88vh, 860px);
     padding: 18px;
@@ -3297,45 +5278,65 @@ main {
   .theme-modal-header,
   .theme-modal-section-header,
   .theme-modal-toolbar {
+    /* Stack modal controls vertically on mobile
+       Grid layout instead of flex */
     display: grid;
   }
 
   .theme-modal-close {
+    /* Position close button on mobile
+       Right-aligned in grid */
     justify-self: end;
   }
 
   .theme-preview-grid,
   .theme-modal-mode-row {
+    /* Stack theme options to single column
+       Easier to scroll through on mobile */
     grid-template-columns: 1fr;
   }
 
   .theme-edit-toggle {
+    /* Full-width theme edit toggle
+       Better mobile accessibility */
     width: 100%;
   }
 
   .theme-edit-button {
+    /* Larger buttons in mobile mode
+       Easier to tap */
     min-width: 0;
   }
 
   .theme-status-chip {
+    /* Flexible status chip on mobile
+       May wrap text if needed */
     width: fit-content;
     max-width: 100%;
   }
 
   .dashboard-title {
+    /* Responsive dashboard title
+       Scales down on mobile */
     font-size: clamp(1.7rem, 10vw, 2.4rem);
   }
 
   .dashboard-copy {
+    /* Smaller dashboard description
+       More readable on mobile */
     font-size: 0.96rem;
     line-height: 1.6;
   }
 
   .dashboard-hero-meta {
+    /* Tighter spacing for dashboard meta
+       Compact layout */
     gap: 8px;
   }
 
   .dashboard-mobile-actions {
+    /* Mobile action buttons layout
+       2 columns for easy access */
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -3343,25 +5344,35 @@ main {
   .dashboard-mobile-actions .button,
   .dashboard-mobile-actions .button-secondary,
   .dashboard-more-row .button-secondary {
+    /* Full-width action buttons
+       Easy to tap on mobile */
     width: 100%;
   }
 
   .dashboard-more-row {
+    /* Stack "more" row vertically
+       Better mobile layout */
     flex-direction: column;
     align-items: stretch;
   }
 
   .phone-grid,
   .gallery-grid {
+    /* Single column for phone/gallery on mobile
+       Full-width cards */
     grid-template-columns: 1fr;
     gap: 16px;
   }
 
   .phone-card {
+    /* Optimized card padding on mobile
+       Space efficient */
     padding: 18px;
   }
 
   .phone-card-top {
+    /* Grid layout for card top
+       Better wrapping control */
     grid-template-columns: minmax(0, 1fr) auto;
     display: grid;
     align-items: center;
@@ -3369,6 +5380,8 @@ main {
   }
 
   .phone-card-segment {
+    /* Prevent overflow of segment badge
+       Truncate if too long */
     min-width: 0;
     justify-content: flex-start;
     white-space: nowrap;
@@ -3377,34 +5390,48 @@ main {
   }
 
   .phone-card-favorite {
+    /* Adjust favorite button on mobile
+       Flexible sizing */
     min-width: 0;
     width: auto;
   }
 
   .phone-card-score-strip {
+    /* 2-column score strip on mobile
+       Shows score and price side-by-side */
     grid-template-columns: 1fr 1fr;
   }
 
   .phone-card-chip-row {
+    /* Stack chips vertically on mobile
+       Full-width layout */
     display: grid;
     grid-template-columns: 1fr;
   }
 
   .hero-badge-row {
+    /* Single column badge row
+       Full-width layout on mobile */
     grid-template-columns: 1fr;
   }
 
   .hero-badge-row .pill {
+    /* Flexible width badges
+       Fit content on mobile */
     width: fit-content;
     max-width: 100%;
   }
 
   .route-loading-overlay {
+    /* Adjust loading overlay on mobile
+       Positioned above mobile nav */
     place-items: start center;
     padding: 18px 16px calc(136px + env(safe-area-inset-bottom, 0px));
   }
 
   .route-loading-card {
+    /* Adjust loading card positioning
+       Positioned below header on mobile */
     margin-top: clamp(88px, 18vh, 144px);
     width: min(100%, 320px);
     padding: 20px 18px;
@@ -3412,20 +5439,34 @@ main {
   }
 }
 
+/* ===================================
+   FINAL RESPONSIVE MEDIA QUERY - VERY SMALL (max-width: 560px)
+   
+   Final refinements for extremely small phones.
+   ==================================== */
+
 @media (max-width: 560px) {
   .page-shell {
+    /* Reduce padding on extra small screens
+       Maximum space utilization */
     padding-inline: 14px;
   }
 
   .brand-lockup {
+    /* Allow brand lockup to shrink
+       Flexible sizing */
     min-width: 0;
   }
 
   .brand-text strong {
+    /* Smallest brand text
+       Space saving for tiny screens */
     font-size: 1rem;
   }
 
   .mobile-tabbar {
+    /* Adjust mobile nav positioning
+       Smaller gaps and padding */
     left: 12px;
     right: 12px;
     bottom: 12px;
@@ -3434,21 +5475,29 @@ main {
   }
 
   .mobile-tablink {
+    /* Smallest tab link sizing
+       Compact design */
     padding: 9px 4px;
     border-radius: 14px;
-    font-size: 0.68rem;
+    font-size: 0.68rem;  /* Extra small text */
   }
 
   .dashboard-mobile-actions,
   .phone-card-score-strip {
+    /* Single column layout on tiny screens
+       Vertical stacking */
     grid-template-columns: 1fr;
   }
 
   .theme-modal {
+    /* Minimum padding on theme modal
+       Maximum content area */
     padding: 16px;
   }
 
   .theme-status-chip {
+    /* Allow wrapping on tiny screens
+       Better readability */
     white-space: normal;
   }
 }
