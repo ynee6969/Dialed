@@ -18,7 +18,8 @@
     "prisma:generate:sqlite": "prisma generate --schema prisma/schema.sqlite.prisma",
     "prisma:push:sqlite": "prisma db push --schema prisma/schema.sqlite.prisma",
     "prisma:seed:sqlite": "tsx prisma/seed.ts",
-    "db:init:sqlite": "py -3.12 scripts/init_sqlite_dev.py"
+    "db:init:sqlite": "py -3.12 scripts/init_sqlite_dev.py",
+    "assets:phone-images": "node scripts/cache-phone-images.mjs"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.7",

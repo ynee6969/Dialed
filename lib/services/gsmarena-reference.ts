@@ -1,6 +1,7 @@
 import { Prisma, SourceKind, type Phone } from "@prisma/client";
 
 import { prisma } from "@/lib/prisma";
+import { resolvePhoneImageUrl } from "@/lib/services/phone-images";
 import { getGsmArenaBdReference } from "@/lib/services/gsmarena-bd-reference";
 import { getPhoneBySlug, getPhoneBySlugWithPreviewSource } from "@/lib/services/phones";
 import {
@@ -166,6 +167,13 @@ function buildSummary(sections: PhoneReferenceSection[]) {
   };
 }
 
+function withResolvedReferenceImage(slug: string, reference: PhoneReference): PhoneReference {
+  return {
+    ...reference,
+    imageUrl: resolvePhoneImageUrl(slug, reference.imageUrl)
+  };
+}
+
 export function buildLocalPhoneReference(phone: Phone): PhoneReference {
   const memory = phone.ram ? `${phone.ram}GB RAM` : phone.storage ? `${phone.storage}GB` : null;
   const battery = phone.battery ? `${phone.battery}mAh` : null;
@@ -175,7 +183,7 @@ export function buildLocalPhoneReference(phone: Phone): PhoneReference {
 
   return {
     title: displayName,
-    imageUrl: null,
+    imageUrl: resolvePhoneImageUrl(phone.slug, null),
     sourceUrl: `${GSM_ARENA_BASE}results.php3?sQuickSearch=yes&sName=${encodeURIComponent(displayName)}`,
     alternativeNames: [],
     summary: {
@@ -478,7 +486,10 @@ export function getCachedPhoneReferenceForPhone(
     }>;
   }
 ) {
-  return readCachedReference(phone.id, phone.sources?.[0]) ?? buildLocalPhoneReference(phone);
+  const cachedReference = readCachedReference(phone.id, phone.sources?.[0]);
+  return cachedReference
+    ? withResolvedReferenceImage(phone.slug, cachedReference)
+    : buildLocalPhoneReference(phone);
 }
 
 export async function getCachedPhoneReferenceBySlug(slug: string) {
@@ -508,7 +519,7 @@ export async function getPhoneReferenceBySlug(slug: string) {
       const fallbackReference = await getGsmArenaBdReference(phone);
       if (fallbackReference) {
         await cacheReference(phone.id, fallbackReference);
-        return fallbackReference;
+        return withResolvedReferenceImage(phone.slug, fallbackReference);
       }
     } catch (error) {
       logServerFailure("reference.bdFallbackNoDb", error);
@@ -544,7 +555,7 @@ export async function getPhoneReferenceBySlug(slug: string) {
         const reference = await scrapeReferenceFromDetailPage(phoneWithSources);
         if (reference) {
           await cacheReference(phoneWithSources.id, reference);
-          return reference;
+          return withResolvedReferenceImage(phoneWithSources.slug, reference);
         }
       } catch (error) {
         logServerFailure("reference.scrape", error);
@@ -555,7 +566,7 @@ export async function getPhoneReferenceBySlug(slug: string) {
       const fallbackReference = await getGsmArenaBdReference(phoneWithSources);
       if (fallbackReference) {
         await cacheReference(phoneWithSources.id, fallbackReference);
-        return fallbackReference;
+        return withResolvedReferenceImage(phoneWithSources.slug, fallbackReference);
       }
     } catch (error) {
       logServerFailure("reference.bdFallback", error);
@@ -570,7 +581,7 @@ export async function getPhoneReferenceBySlug(slug: string) {
         const fallbackReference = await getGsmArenaBdReference(phone);
         if (fallbackReference) {
           await cacheReference(phone.id, fallbackReference);
-          return fallbackReference;
+          return withResolvedReferenceImage(phone.slug, fallbackReference);
         }
       } catch (fallbackError) {
         logServerFailure("reference.bdFallbackAfterPrismaError", fallbackError);

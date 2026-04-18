@@ -29,7 +29,8 @@ function buildCallbackUrl(pathname: string | null) {
 
 export function FavoritesProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { status } = useSession();
+  const { data: session, status } = useSession();
+  const userId = session?.user?.id ?? null;
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
   const [pendingIds, setPendingIds] = useState<string[]>([]);
   const [favoritesReady, setFavoritesReady] = useState(false);
@@ -40,8 +41,9 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    if (status === "unauthenticated") {
+    if (status === "unauthenticated" || !userId) {
       setFavoriteIds([]);
+      setPendingIds([]);
       setFavoritesReady(true);
       return;
     }
@@ -50,9 +52,11 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
     const controller = new AbortController();
 
     setFavoritesReady(false);
+    setPendingIds([]);
 
     void fetch("/api/favorites", {
-      signal: controller.signal
+      signal: controller.signal,
+      cache: "no-store"
     })
       .then(async (response) => {
         if (!response.ok) {
@@ -83,7 +87,7 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
       ignore = true;
       controller.abort();
     };
-  }, [status]);
+  }, [status, userId]);
 
   async function toggleFavorite(phoneId: string) {
     const callbackUrl = buildCallbackUrl(pathname);

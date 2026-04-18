@@ -1,19 +1,35 @@
 import Link from "next/link";
+import { unstable_cache } from "next/cache";
 import { notFound } from "next/navigation";
 
 import { FavoriteButton } from "@/components/phones/favorite-button";
-import {
-  buildLocalPhoneReference,
-  getCachedPhoneReferenceBySlug
-} from "@/lib/services/gsmarena-reference";
-import { getPhoneBySlug } from "@/lib/services/phones";
+import { getCachedPhoneReferenceForPhone } from "@/lib/services/gsmarena-reference";
+import { getPhoneBySlugWithPreviewSource } from "@/lib/services/phones";
 import {
   buildPhoneMarketplaceLinks,
   getPhoneDisplayName
 } from "@/lib/utils/phone-presentation";
 import { formatPhp, formatScore } from "@/lib/utils/format";
 
-export const dynamic = "force-dynamic";
+const getPhoneDetail = unstable_cache(
+  async (slug: string) => {
+    const phone = await getPhoneBySlugWithPreviewSource(slug);
+    if (!phone) {
+      return null;
+    }
+
+    return {
+      phone,
+      reference: getCachedPhoneReferenceForPhone(phone)
+    };
+  },
+  ["phone-detail"],
+  {
+    revalidate: 300
+  }
+);
+
+export const revalidate = 300;
 
 export default async function PhoneDetailPage({
   params
@@ -21,27 +37,13 @@ export default async function PhoneDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  let phone = null;
-  let reference = null;
+  const detail = await getPhoneDetail(slug);
 
-  try {
-    [phone, reference] = await Promise.all([
-      getPhoneBySlug(slug),
-      getCachedPhoneReferenceBySlug(slug)
-    ]);
-  } catch (error) {
-    console.error("[phone-detail.page]", error);
-    phone = await getPhoneBySlug(slug);
-    reference = phone ? buildLocalPhoneReference(phone) : null;
-  }
-
-  if (!phone) {
+  if (!detail) {
     notFound();
   }
 
-  if (!reference) {
-    reference = buildLocalPhoneReference(phone);
-  }
+  const { phone, reference } = detail;
 
   const detailTitle = getPhoneDisplayName(phone.brand, reference.title);
   const marketplaceLinks = buildPhoneMarketplaceLinks(phone);

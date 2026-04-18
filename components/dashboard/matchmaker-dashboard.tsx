@@ -9,7 +9,7 @@ import {
   RotateCcw,
   X
 } from "lucide-react";
-import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
+import { useCallback, useEffect, useState, type Dispatch, type SetStateAction } from "react";
 
 import { DeviceCard } from "@/components/phones/device-card";
 import type { PhoneCardRecord } from "@/lib/types/phone-card";
@@ -204,44 +204,33 @@ export function MatchmakerDashboard({
 }: MatchmakerDashboardProps) {
   const [phones, setPhones] = useState(initialPhones);
   const [brands, setBrands] = useState(initialBrands);
-  const [total, setTotal] = useState(initialPhones.length);
+  const [total, setTotal] = useState(stats.catalogSize);
   const [filters, setFilters] = useState(defaultFilters);
   const [status, setStatus] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [activeMobileSheet, setActiveMobileSheet] = useState(false);
   const [desktopFiltersExpanded, setDesktopFiltersExpanded] = useState(true);
-  const [visibleCount, setVisibleCount] = useState(24);
+  const pageSize = 10;
+
+  const buildParams = useCallback(
+    (skip = 0) => {
+      const params = new URLSearchParams();
+      if (filters.brand) params.set("brand", filters.brand);
+      if (filters.priceRange) params.set("priceRange", filters.priceRange);
+      if (filters.performanceTier) params.set("performanceTier", filters.performanceTier);
+      if (filters.cameraQuality) params.set("cameraQuality", filters.cameraQuality);
+      if (filters.batteryCapacity) params.set("batteryCapacity", filters.batteryCapacity);
+      params.set("take", String(pageSize));
+      params.set("skip", String(skip));
+
+      return params;
+    },
+    [filters.batteryCapacity, filters.brand, filters.cameraQuality, filters.performanceTier, filters.priceRange]
+  );
 
   useEffect(() => {
-    function resolveVisibleCount() {
-      if (window.matchMedia("(max-width: 640px)").matches) {
-        return 12;
-      }
-
-      if (window.matchMedia("(max-width: 1024px)").matches) {
-        return 18;
-      }
-
-      return 24;
-    }
-
-    function syncVisibleCount() {
-      setVisibleCount(resolveVisibleCount());
-    }
-
-    syncVisibleCount();
-    window.addEventListener("resize", syncVisibleCount);
-    return () => window.removeEventListener("resize", syncVisibleCount);
-  }, []);
-
-  useEffect(() => {
-    const params = new URLSearchParams();
-    if (filters.brand) params.set("brand", filters.brand);
-    if (filters.priceRange) params.set("priceRange", filters.priceRange);
-    if (filters.performanceTier) params.set("performanceTier", filters.performanceTier);
-    if (filters.cameraQuality) params.set("cameraQuality", filters.cameraQuality);
-    if (filters.batteryCapacity) params.set("batteryCapacity", filters.batteryCapacity);
-    params.set("take", "60");
+    const params = buildParams(0);
 
     let ignore = false;
     const controller = new AbortController();
@@ -267,7 +256,6 @@ export function MatchmakerDashboard({
           setPhones(data.phones ?? []);
           setBrands(data.brands ?? []);
           setTotal(data.total ?? 0);
-          setVisibleCount((current) => Math.min(current, resolveResultVisibleCount()));
         })
         .catch((error) => {
           if (!ignore && error.name !== "AbortError") {
@@ -286,26 +274,36 @@ export function MatchmakerDashboard({
       window.clearTimeout(timeoutId);
       controller.abort();
     };
-  }, [filters.brand, filters.priceRange, filters.performanceTier, filters.cameraQuality, filters.batteryCapacity]);
+  }, [buildParams]);
 
-  function resolveResultVisibleCount() {
-    if (typeof window === "undefined") {
-      return 24;
+  async function handleShowMore() {
+    setLoadingMore(true);
+    setStatus(null);
+
+    try {
+      const response = await fetch(`/api/phones?${buildParams(phones.length).toString()}`);
+      if (!response.ok) {
+        throw new Error("Could not load more phones.");
+      }
+
+      const data = await response.json();
+      const nextPhones = (data.phones ?? []) as DashboardPhone[];
+
+      setPhones((current) => {
+        const ids = new Set(current.map((phone) => phone.id));
+        return [...current, ...nextPhones.filter((phone) => !ids.has(phone.id))];
+      });
+      setBrands((current) => (data.brands?.length ? data.brands : current));
+      setTotal((current) => data.total ?? current);
+    } catch {
+      setStatus("Could not load more phones right now.");
+    } finally {
+      setLoadingMore(false);
     }
-
-    if (window.matchMedia("(max-width: 640px)").matches) {
-      return 12;
-    }
-
-    if (window.matchMedia("(max-width: 1024px)").matches) {
-      return 18;
-    }
-
-    return 24;
   }
 
   const activeFilterCount = Object.values(filters).filter(Boolean).length;
-  const renderedPhones = phones.slice(0, visibleCount);
+  const hasMore = phones.length < total;
 
   return (
     <div className="dashboard-layout">
@@ -389,23 +387,31 @@ export function MatchmakerDashboard({
 
         <div className={`phone-grid dashboard-grid ${loading ? "is-dimmed" : ""}`}>
           {phones.length ? (
-            renderedPhones.map((phone) => <DeviceCard key={phone.id} phone={phone} />)
+            phones.map((phone) => <DeviceCard key={phone.id} phone={phone} />)
           ) : (
             <div className="glass-panel empty-state">No phones match the current filters.</div>
           )}
         </div>
 
-        {visibleCount < phones.length ? (
+        {hasMore ? (
           <div className="dashboard-more-row">
             <button
               type="button"
               className="button-secondary magnetic-button"
-              onClick={() => setVisibleCount((current) => current + resolveResultVisibleCount())}
+              onClick={() => void handleShowMore()}
+              disabled={loadingMore}
             >
-              Show more phones
+              {loadingMore ? (
+                <>
+                  <LoaderCircle size={16} className="spin" />
+                  <span style={{ marginLeft: 8 }}>Loading more</span>
+                </>
+              ) : (
+                "Show 10 more phones"
+              )}
             </button>
             <span className="muted">
-              Showing {renderedPhones.length} of {phones.length}
+              Showing {phones.length} of {total}
             </span>
           </div>
         ) : null}

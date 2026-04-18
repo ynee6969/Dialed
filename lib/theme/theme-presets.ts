@@ -27,7 +27,7 @@ export interface ThemePreset {
 export const themePresets: ThemePreset[] = [
   {
     id: "deviceiq",
-    name: "our theme",
+    name: "DeviceIQ",
     accent: "#46b37b",
     accentStrong: "#2d8d5c",
     accentContrast: "#08110c",

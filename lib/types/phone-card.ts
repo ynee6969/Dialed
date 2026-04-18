@@ -1,5 +1,7 @@
 import { Prisma, type Phone } from "@prisma/client";
 
+import { resolvePhoneImageUrl } from "@/lib/services/phone-images";
+
 export interface PhoneCardRecord {
   id: string;
   slug: string;
@@ -104,7 +106,7 @@ function getReferencePreview(phone: PhoneCardSerializablePhone): PhoneCardRefere
       : undefined;
 
   return {
-    imageUrl: getStringValue(rawReference?.imageUrl),
+    imageUrl: resolvePhoneImageUrl(phone.slug, getStringValue(rawReference?.imageUrl)),
     sourceUrl: getStringValue(rawReference?.sourceUrl) ?? source?.sourceUrl ?? null,
     displaySpec: readSummaryValue(summary, "displaySize") ?? getStringValue(phone.display),
     cameraSpec:

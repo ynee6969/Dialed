@@ -5,7 +5,7 @@ import { listPhones } from "@/lib/services/phones";
 import { serializePhoneCard } from "@/lib/types/phone-card";
 
 const getDashboardCatalog = unstable_cache(
-  async () => listPhones({ take: 60, sort: "top" }),
+  async () => listPhones({ take: 10, sort: "top" }),
   ["dashboard-catalog"],
   {
     revalidate: 120
