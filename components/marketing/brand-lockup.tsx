@@ -2,7 +2,6 @@ import Link from "next/link";
 import type { Route } from "next";
 
 import { site } from "@/lib/site";
-import styles from "./BrandLockup.module.css";
 
 export function BrandMark() {
   return (
@@ -22,7 +21,7 @@ export function BrandLockup({
   href?: Route;
 }) {
   return (
-    <Link href={href} className={`brand-lockup ${styles.scope}`}>
+    <Link href={href} className="brand-lockup">
       <BrandMark />
       <div className="brand-text">
         <strong>{site.name}</strong>

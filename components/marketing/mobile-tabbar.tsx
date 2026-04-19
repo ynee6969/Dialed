@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { GitCompareArrows, Heart, House, LayoutDashboard, Sparkles } from "lucide-react";
 
 import { InstantNavLink } from "@/components/navigation/instant-nav-link";
-import styles from "./MobileTabBar.module.css";
 
 const tabs = [
   { href: "/", label: "Home", icon: House },
@@ -28,7 +27,7 @@ export function MobileTabBar() {
   const pathname = usePathname();
 
   return (
-    <nav className={`mobile-tabbar ${styles.scope}`} aria-label="Mobile navigation">
+    <nav className="mobile-tabbar" aria-label="Mobile navigation">
       {tabs.map((tab) => {
         const Icon = tab.icon;
         const active = isActivePath(pathname, tab.href);

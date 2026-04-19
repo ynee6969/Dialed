@@ -1,7 +1,0 @@
-/* Root layout scope.
-   This file exists so the app shell has a dedicated stylesheet entry point.
-   Shared tokens and resets stay in globals.css. */
-
-.layout {
-  min-height: 100vh;
-}

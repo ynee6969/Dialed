@@ -7,7 +7,6 @@ import { ArrowRight, BarChart3, BatteryCharging, Camera, Layers3, Sparkles, Zap 
 import { useEffect, useState } from "react";
 
 import { InstantNavLink } from "@/components/navigation/instant-nav-link";
-import styles from "./HeroSection.module.css";
 
 interface HeroSectionProps {
   catalogSize: number;
@@ -88,7 +87,7 @@ export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
   ];
 
   return (
-    <section className={`section home-hero-section ${styles.scope}`}>
+    <section className="section home-hero-section">
       <div className="page-shell hero-grid premium-hero-grid">
         <motion.div
           className="glass-panel hero-panel premium-hero-panel"

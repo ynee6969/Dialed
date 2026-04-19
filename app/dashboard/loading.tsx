@@ -1,5 +1,3 @@
-import styles from "./loading.module.css";
-
 /**
  * ===================================
  * DASHBOARD LOADING STATE (Skeleton Loader)
@@ -21,7 +19,7 @@ import styles from "./loading.module.css";
  */
 export default function DashboardLoading() {
   return (
-    <section className={`section ${styles.page}`}>
+    <section className="section">
       <div className="page-shell">
         <div className="dashboard-layout">
           <aside className="sidebar desktop-sidebar">

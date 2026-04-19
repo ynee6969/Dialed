@@ -1,5 +1,3 @@
-import styles from "./page.module.css";
-
 /* Core principles/pillars that define the app's philosophy and approach
    These values guide design decisions and feature prioritization */
 const pillars = [
@@ -24,7 +22,7 @@ const pillars = [
  */
 export default function AboutPage() {
   return (
-    <section className={`section ${styles.page}`}>
+    <section className="section">
       {/* Section with default padding from globals.css */}
       <div className="page-shell marketing-grid">
         <div className="glass-panel card">

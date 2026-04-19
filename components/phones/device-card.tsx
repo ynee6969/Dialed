@@ -8,7 +8,6 @@ import { FavoriteButton } from "@/components/phones/favorite-button";
 import type { PhoneCardRecord } from "@/lib/types/phone-card";
 import { formatPhp, formatScore } from "@/lib/utils/format";
 import { buildPhoneMarketplaceLinks, getPhoneDisplayName } from "@/lib/utils/phone-presentation";
-import styles from "./DeviceCard.module.css";
 
 interface DeviceCardProps {
   phone: PhoneCardRecord;
@@ -92,7 +91,7 @@ export function DeviceCard({ phone }: DeviceCardProps) {
   return (
     <article
       ref={cardRef}
-      className={`glass-panel phone-card ${styles.scope}`}
+      className="glass-panel phone-card"
       onPointerMove={handlePointerMove}
       onPointerLeave={resetPointerState}
     >

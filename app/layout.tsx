@@ -26,7 +26,6 @@ import type { Metadata } from "next";
 import { Manrope, Space_Grotesk } from "next/font/google";
 
 import "./globals.css";
-import styles from "./layout.module.css";
 
 import { CursorAura } from "@/components/marketing/cursor-aura";
 import { SiteFooter } from "@/components/marketing/site-footer";
@@ -80,7 +79,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       {/* Body element with font CSS variables injected from imported fonts
           site-shell class: Base styling from globals.css */}
-      <body className={`${display.variable} ${body.variable} site-shell ${styles.layout}`}>
+      <body className={`${display.variable} ${body.variable} site-shell`}>
         {/* BootstrapProvider: Initializes app data, cache, and database connection */}
         <BootstrapProvider />
         

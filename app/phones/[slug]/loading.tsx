@@ -1,5 +1,3 @@
-import styles from "./loading.module.css";
-
 /**
  * ===================================
  * PHONE DETAIL LOADING STATE (Skeleton Loader)
@@ -20,7 +18,7 @@ import styles from "./loading.module.css";
  */
 export default function PhoneDetailLoading() {
   return (
-    <section className={`section ${styles.page}`}>
+    <section className="section">
       {/* Section with default padding */}
       <div className="page-shell phone-detail-layout">
         <div className="glass-panel phone-detail-hero">

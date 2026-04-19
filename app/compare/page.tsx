@@ -33,7 +33,6 @@ import {
 } from "@/lib/services/comparison-history";
 import { buildDetailedComparison } from "@/lib/services/comparison";
 import { formatPhp, formatScore } from "@/lib/utils/format";
-import styles from "./page.module.css";
 
 /* force-dynamic: Prevents caching of this page
    Ensures users always get the latest comparison data
@@ -77,7 +76,7 @@ export default async function ComparePage({
   }
 
   return (
-    <section className={`section ${styles.page}`}>
+    <section className="section">
       <div className="page-shell compare-page">
         <span className="section-label">Compare Lab</span>
         <h1 className="section-title">Structured phone comparison without the dashboard clutter.</h1>

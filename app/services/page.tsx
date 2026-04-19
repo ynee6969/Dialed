@@ -23,11 +23,10 @@
 
 import Link from "next/link";
 import { ArrowRight, BarChart3, Boxes, GitCompareArrows } from "lucide-react"; /* Icon components */
-import styles from "./page.module.css";
 
 export default function ServicesPage() {
   return (
-    <section className={`section ${styles.page}`}>
+    <section className="section">
       <div className="page-shell services-shell">
         <span className="section-label">Inside DeviceIQ</span>
         <h1 className="section-title">Three tools, one clear decision flow.</h1>

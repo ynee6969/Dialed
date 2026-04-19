@@ -27,7 +27,6 @@ import { HeroSection } from "@/components/marketing/hero-section";
 import { catalogStats, curatedGallery } from "@/lib/data/seed-phones";
 import { formatPhp } from "@/lib/utils/format";
 import { getPhoneDisplayName } from "@/lib/utils/phone-presentation";
-import styles from "./page.module.css";
 
 /* Array of narrative steps that tell the story of the app's value proposition
    Each step represents a stage in the user's phone shopping journey.
@@ -57,7 +56,7 @@ const workflowSteps = [
    All sections use responsive grid layouts that adapt to screen size. */
 export default function HomePage() {
   return (
-    <div className={styles.page}>  {/* Fragment wrapper allows multiple top-level elements */}
+    <>  {/* Fragment wrapper allows multiple top-level elements */}
       <HeroSection catalogSize={catalogStats.total} segmentCount={catalogStats.segments} />
 
       <section className="section">
@@ -175,6 +174,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }
