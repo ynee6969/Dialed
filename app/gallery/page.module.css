@@ -1,12 +1,4 @@
-/* ===================================
-   GALLERY PAGE ROUTE STYLES
-   
-   This file is a placeholder for the gallery route.
-   NOTE: The gallery page automatically redirects to the dashboard page.
-   This module exists only to maintain consistent file structure in the app folder.
-   No actual gallery styling is needed since users are redirected.
-   ===================================== */
+/* Gallery route.
+   This page redirects to the dashboard, so the module is only here to keep the app folder consistent. */
 
-/* Root container (.page) - users never see this page due to redirect to dashboard.
-   This file exists for structural consistency with other routes.
-   No styling needed since the page redirects immediately. */
+.page {}

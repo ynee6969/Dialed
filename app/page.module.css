@@ -1,517 +1,131 @@
-/* ===================================\n   HOME PAGE ROUTE STYLES\n   \n   This file styles the landing page sections that appear below the hero component.\n   Includes story strip, feature cards, and preview cards that showcase phone features.\n   Responsive layout adapts from desktop to mobile views.\n   ===================================== */\n\n/* .page is the root container for the home page\n   display: contents makes this element "invisible" in the layout\n   The element exists in HTML but doesn't create a box - children go directly to parent\n   This removes an unnecessary wrapper div and keeps HTML cleaner\n   Impact: Children of .page flow directly into the layout without extra nesting\n   Useful for keeping semantic HTML structure while avoiding layout divs */\n.page {\n  /* display: contents removes the box this element creates */\n  display: contents;\n}
+/* Home page.
+   Covers the landing-page sections that sit below the hero component. */
 
-/* ===================================
-   TARGET CLASSES FOR LAYOUT GRIDS
-   
-   These classes are used within the home page layout.
-   :global() allows this module to style classes defined outside the module scope.
-   ==================================== */
+.page {
+  display: contents;
+}
 
-/* .story-strip, .home-feature-layout, .home-preview-grid all share grid foundation */
 .page :global(.story-strip),
 .page :global(.home-feature-layout),
 .page :global(.home-preview-grid) {
-  /* display: grid enables CSS Grid layout for organizing content into rows and columns
-     Grid is perfect for multi-column responsive layouts
-     Impact: Creates flexible, reflow-friendly multi-column arrangements */
   display: grid;
-  
-  /* gap: 20px sets spacing between all grid items (rows and columns)
-     20px creates breathing room between cards and sections
-     Impact: Prevents crowding - items have clear visual separation */
   gap: 20px;
 }
 
-/* ===================================
-   STORY STRIP SECTION
-   
-   Displays featured customer stories, highlights, or testimonials.
-   Uses a 4-column grid on desktop that adapts to fewer columns on smaller screens.
-   ==================================== */
-
-/* .story-strip is the container for story cards displayed in 4 columns */
 .page :global(.story-strip) {
-  /* margin-top: 28px adds space above the story strip section
-     Separates this section from content above it (hero section)
-     Impact: Improves vertical rhythm and visual spacing between sections */
   margin-top: 28px;
-  
-  /* grid-template-columns: repeat(4, minmax(0, 1fr)) creates 4 equal columns
-     repeat(4, ...) means repeat this column pattern 4 times
-     minmax(0, 1fr) means each column:
-     - Minimum: 0 (can shrink fully on small screens)
-     - Maximum: 1fr (grows to equal width share)
-     Impact: 4-column layout on desktop that adapts responsively to smaller screens */
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-/* ===================================
-   STORY CARD ELEMENT
-   
-   Individual card container within the story strip.
-   Contains story title, description, and metadata.
-   ==================================== */
-
-/* .story-card styles individual story cards within the strip */
 .page :global(.story-card) {
-  /* position: relative enables absolute positioning of child elements
-     Allows decorative overlays or badges to be positioned absolutely
-     Impact: Enables layered design effects within the card */
   position: relative;
-  
-  /* overflow: hidden clips any content that extends beyond the card boundaries
-     Ensures border-radius corners and images don't spill out
-     Impact: Creates clean, contained card appearance with proper corners */
   overflow: hidden;
-  
-  /* padding: 22px adds internal spacing on all sides
-     Content has space (22px) from all card edges
-     Impact: Prevents content from touching card borders - improves readability */
   padding: 22px;
 }
 
-/* ===================================
-   STORY CARD HEADING
-   
-   The main title/headline of each story card.
-   ==================================== */
-
-/* .story-card h3 styles the story card heading/title */
 .page :global(.story-card h3) {
-  /* margin: 14px 0 10px sets vertical margins
-     14px top margin - space from content above
-     10px bottom margin - space to content below
-     0 left/right margins - no side margins
-     Impact: Proper spacing between title and description paragraph */
   margin: 14px 0 10px;
-  
-  /* font-size: 1.08rem makes heading 108% of base text size (typically ~17px)
-     Slightly larger than body text (1rem = 16px) for visual hierarchy
-     Impact: Title stands out as secondary hierarchy but isn't oversized */
   font-size: 1.08rem;
-  
-  /* letter-spacing: -0.03em tightens letter spacing (reduces space between letters)
-     Negative value brings letters closer together
-     -0.03em = -3% of the font size
-     This is common for headlines to make them feel bolder and more impactful
-     Impact: Creates a tighter, more polished look for headings */
   letter-spacing: -0.03em;
 }
 
-/* ===================================
-   STORY CARD PARAGRAPH
-   
-   The description/body text of the story.
-   ==================================== */
-
-/* .story-card p styles story card paragraph text (description) */
 .page :global(.story-card p) {
-  /* margin: 0 removes ALL default paragraph margins
-     Browsers add ~16px margin to <p> by default
-     Removing allows precise control via padding/gap instead
-     Impact: Allows precise spacing control without browser interference */
   margin: 0;
-  
-  /* color: var(--muted) makes text the muted gray color (#9ba7ba)
-     Uses CSS variable for consistency with theme
-     Secondary text is less prominent than headings
-     Impact: De-emphasizes body text compared to titles for hierarchy */
   color: var(--muted);
-  
-  /* line-height: 1.62 sets line spacing to 162% of font size
-     Higher line height (1.5+ is considered high) makes text more readable
-     1.62 = 1.5 base readability + 0.12 extra for generous spacing
-     Impact: Body text feels breathable and easier to scan/read */
   line-height: 1.62;
 }
 
-/* ===================================
-   STORY CARD METADATA LABEL
-   
-   Small text labels for story metadata (date, category, etc).
-   ==================================== */
-
-/* .story-card span styles small labels/metadata in the story card */
 .page :global(.story-card span) {
-  /* display: block makes span behave like a block element
-     Default <span> is inline - no line breaks or margin control
-     Block allows full control over spacing and layout
-     Impact: Span can sit on its own line with margins and padding applied */
   display: block;
-  
-  /* color: var(--muted) makes the label text muted gray
-     Metadata should be subtle and secondary to main content
-     Impact: De-emphasizes supporting information - clearly secondary */
   color: var(--muted);
-  
-  /* font-size: 0.78rem makes text 78% of base size (typically ~12.5px)
-     Very small text for metadata/labels
-     78% of 16px base = ~12.5px
-     Impact: Clearly secondary to main content - metadata is de-emphasized */
   font-size: 0.78rem;
-  
-  /* letter-spacing: 0.04em adds extra space between letters
-     Positive value increases space between letters
-     0.04em = 4% of the font size
-     Stretched-out letter spacing is a design trend for premium/sophisticated look
-     Impact: Creates premium feel for metadata - appears more refined */
   letter-spacing: 0.04em;
-  
-  /* text-transform: uppercase converts text to all capital letters via CSS
-     HTML text can be normal casing (e.g., "February 2024")
-     CSS renders it as uppercase ("FEBRUARY 2024")
-     Advantage: Keeps HTML clean, styling only applies in CSS
-     Impact: Makes labels visually distinct and stand out from regular text */
   text-transform: uppercase;
 }
 
-/* ===================================
-   HOME FEATURE LAYOUT SECTION
-   
-   Displays featured service/feature cards in a 3-column asymmetric grid.
-   Center card is typically larger/featured than side cards.
-   ==================================== */
-
-/* .home-feature-layout creates 3-column layout with asymmetric sizing */
 .page :global(.home-feature-layout) {
-  /* grid-template-columns: 1fr 1.2fr 1fr creates 3 columns with different widths
-     First column: 1fr = takes equal share of space
-     Center column: 1.2fr = takes 20% more space (featured/prominent)
-     Third column: 1fr = takes equal share of space
-     Total: 1 + 1.2 + 1 = 3.2 fractions
-     - Column 1: 1/3.2 = 31.25% width
-     - Column 2: 1.2/3.2 = 37.5% width (center is 6.25% wider)
-     - Column 3: 1/3.2 = 31.25% width
-     Impact: Creates asymmetric layout with featured center card slightly larger */
   grid-template-columns: 1fr 1.2fr 1fr;
 }
 
-/* ===================================
-   FEATURE CARD ELEMENT
-   
-   Individual feature card within the feature layout.
-   Can be regular or featured (accent variant).
-   ==================================== */
-
-/* .home-feature-card styles individual feature cards */
 .page :global(.home-feature-card) {
-  /* position: relative enables absolute positioning of child elements
-     Allows badges or decorative overlays to be positioned absolutely
-     Impact: Enables layered design effects and badge overlays */
   position: relative;
-  
-  /* display: grid enables grid layout for card contents
-     Allows organizing card elements (title, description, icon) into rows
-     Impact: Enables flexible internal layout of card content */
   display: grid;
-  
-  /* gap: 16px sets spacing between grid items inside the card
-     16px creates breathing room between stacked elements
-     Impact: Prevents cramped internal layout */
   gap: 16px;
-  
-  /* padding: 24px adds internal spacing on all sides
-     Content has 24px distance from all card edges
-     Impact: Prevents content from touching card borders - improves readability */
   padding: 24px;
-  
-  /* overflow: hidden clips content that extends beyond card boundaries
-     Ensures images and border-radius work cleanly
-     Impact: Creates clean card appearance with proper corners */
   overflow: hidden;
 }
 
-/* ===================================
-   FEATURED ACCENT FEATURE CARD
-   
-   Special styling for the featured (center) card with accent highlighting.
-   ==================================== */
-
-/* .home-feature-card.accent applies special styling to featured cards */
 .page :global(.home-feature-card.accent) {
-  /* border-color: color-mix(in srgb, var(--accent) 28%, var(--border))
-     color-mix() blends two colors together:
-     - Takes 28% of accent color (#46b37b - green)
-     - Takes 72% of border color (rgba(255, 255, 255, 0.08) - subtle white)
-     Result: Creates a greenish border that's accent-tinted but not overwhelming
-     Impact: Visually distinguishes featured card with accent-related border */
   border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
-  
-  /* box-shadow: ... adds multiple shadow layers for depth
-     First shadow: 0 22px 60px rgba(4, 10, 18, 0.3)
-     - 0 horizontal offset = directly below
-     - 22px vertical offset = dropped below element
-     - 60px blur radius = soft, diffused shadow
-     - 0.3 opacity = semi-transparent for depth
-     Creates a strong drop shadow for elevation effect
-     
-     Second shadow: inset 0 0 0 1px rgba(var(--accent-rgb), 0.12)
-     - inset = shadow appears inside the box (like an inner glow)
-     - 0 0 0 1px = no blur, just a 1px line
-     - accent-rgb at 12% opacity = subtle green inner border
-     Creates an inner glow effect with accent color
-     
-     Impact: Layered shadows create depth and elegance - featured card appears elevated */
   box-shadow:
     0 22px 60px rgba(4, 10, 18, 0.3),
     inset 0 0 0 1px rgba(var(--accent-rgb), 0.12);
 }
 
-/* ===================================
-   FEATURE CARD ICON
-   
-   Small icon displayed in the feature card.
-   Circular container with accent background.
-   ==================================== */
-
-/* .home-feature-icon styles the icon element within feature cards */
 .page :global(.home-feature-icon) {
-  /* width: 42px sets icon container width to 42px (square) */
   width: 42px;
-  
-  /* height: 42px sets icon container height to 42px (square)
-     Combined with width: 42px creates a 42px x 42px square
-     Impact: Creates consistent, square icon container */
   height: 42px;
-  
-  /* display: inline-grid displays as inline grid container
-     inline = takes only as much width as needed (doesn't stretch)
-     grid = enables flexbox-like centering for icon inside
-     Impact: Icon container is inline and can center its contents */
   display: inline-grid;
-  
-  /* place-items: center is shorthand for aligning content to center
-     Centers the icon both horizontally and vertically
-     place-items = align-items (vertical) + justify-items (horizontal)
-     Impact: Icon is perfectly centered within the 42x42 container */
   place-items: center;
-  
-  /* border-radius: 14px rounds the corners moderately
-     14px creates rounded-square appearance (not pill-shaped)
-     Impact: Creates modern, friendly look for icon container */
   border-radius: 14px;
-  
-  /* background: color-mix(in srgb, var(--accent) 14%, transparent)
-     color-mix() creates a very light accent color:
-     - 14% of accent green (#46b37b)
-     - 86% transparent
-     Result: Very subtle light green background (14% opacity equivalent)
-     Impact: Icon has soft accent background without overwhelming */
   background: color-mix(in srgb, var(--accent) 14%, transparent);
-  
-  /* color: var(--accent) makes the icon itself the accent green color
-     The icon SVG/character is rendered in bright green
-     Impact: Icon stands out with the brand accent color */
   color: var(--accent);
 }
 
-/* ===================================
-   HOME PREVIEW GRID SECTION
-   
-   Displays preview cards showing phone features/benefits.
-   Uses 3-column layout with optional featured card styling.
-   ==================================== */
-
-/* .home-preview-grid creates 3-column grid for preview cards */
 .page :global(.home-preview-grid) {
-  /* margin-top: 28px adds space above the preview grid section
-     Separates this section from feature section above
-     Impact: Improves vertical rhythm between sections */
   margin-top: 28px;
-  
-  /* grid-template-columns: repeat(3, minmax(0, 1fr)) creates 3 equal columns
-     repeat(3, ...) repeats pattern 3 times
-     minmax(0, 1fr) each column is equal width
-     Impact: 3-column grid with equal-width cards */
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-/* ===================================
-   HOME PREVIEW CARD ELEMENT
-   
-   Individual preview card showing benefits or features.
-   Can be featured with elevation effect.
-   ==================================== */
-
-/* .home-preview-card styles individual preview cards */
 .page :global(.home-preview-card) {
-  /* padding: 22px adds internal spacing
-     Content has 22px distance from all card edges
-     Impact: Prevents content from touching card borders */
   padding: 22px;
-  
-  /* display: grid enables grid layout for card organization
-     Allows stacking card elements vertically
-     Impact: Enables flexible internal card layout */
   display: grid;
-  
-  /* gap: 16px sets vertical spacing between elements inside card
-     16px creates breathing room between stacked content
-     Impact: Prevents cramped internal layout */
   gap: 16px;
 }
 
-/* ===================================
-   FEATURED PREVIEW CARD
-   
-   Special styling for featured/promoted preview cards.
-   Lifted slightly for emphasis.
-   ==================================== */
-
-/* .home-preview-card.is-featured applies special styling to featured cards */
 .page :global(.home-preview-card.is-featured) {
-  /* transform: translateY(-8px) moves element up by 8 pixels
-     translateY with negative value moves element up
-     -8px = move up 8 pixels
-     Impact: Featured card appears lifted/elevated above other cards
-     Creates visual emphasis and hierarchy */
   transform: translateY(-8px);
 }
 
-/* ===================================
-   HOME PREVIEW STATISTICS GRID
-   
-   Small stats grid within preview cards showing key metrics.
-   ==================================== */
-
-/* .home-preview-stats styles the stats display within preview cards */
 .page :global(.home-preview-stats) {
-  /* display: grid enables grid layout for stats
-     Arranges stat items into rows and columns
-     Impact: Creates organized stats display */
   display: grid;
-  
-  /* gap: 12px sets spacing between stats
-     12px creates compact but readable spacing
-     Impact: Stats are close together but not crowded */
   gap: 12px;
-  
-  /* grid-template-columns: repeat(3, minmax(0, 1fr)) creates 3 equal columns
-     Stats are arranged 3 across
-     Impact: Compact 3-column stats display */
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-/* ===================================
-   HOME PREVIEW STAT ITEM
-   
-   Individual stat container within stats grid.
-   ==================================== */
-
-/* .home-preview-stats > div styles individual stat items */
 .page :global(.home-preview-stats > div) {
-  /* padding: 14px 16px adds internal spacing
-     14px vertical, 16px horizontal
-     Impact: Stat has proper padding for content */
   padding: 14px 16px;
-  
-  /* border-radius: 20px rounds corners significantly
-     20px creates rounded-rectangle appearance
-     Impact: Modern, friendly look for stat boxes */
   border-radius: 20px;
-  
-  /* background: color-mix(...) creates a subtle background
-     Blends surface-soft color (92%) with slight transparency
-     Result: Slightly lighter background for stat boxes
-     Impact: Stats have subtle background without overwhelming */
   background: color-mix(in srgb, var(--surface-soft) 92%, rgba(255, 255, 255, 0.03));
-  
-  /* border: 1px solid color-mix(...) adds a subtle border
-     Blends border color (86%) with slight additional transparency
-     Result: Very subtle border for definition
-     Impact: Adds visual edge definition to stat boxes */
   border: 1px solid color-mix(in srgb, var(--border) 86%, rgba(255, 255, 255, 0.05));
 }
 
-/* ===================================
-   HOME PREVIEW STAT LABEL
-   
-   Text label for stats (e.g., "Rating", "Storage").
-   ==================================== */
-
-/* .home-preview-stats > div span styles stat labels */
 .page :global(.home-preview-stats > div span) {
-  /* display: block makes span a block element
-     Allows proper line breaks and margin control
-     Impact: Label can sit on its own line */
   display: block;
-  
-  /* color: var(--muted) makes label text muted gray
-     Secondary text is de-emphasized
-     Impact: Label appears as secondary information */
   color: var(--muted);
-  
-  /* font-size: 0.78rem makes text 78% of base size (~12.5px)
-     Very small for metadata
-     Impact: Clearly secondary to main content */
   font-size: 0.78rem;
-  
-  /* letter-spacing: 0.04em adds letter spacing
-     0.04em = 4% of font size
-     Creates premium feel with stretched letters
-     Impact: Refined appearance for stat labels */
   letter-spacing: 0.04em;
-  
-  /* text-transform: uppercase renders text as all caps
-     HTML text is normal casing, CSS renders as uppercase
-     Impact: Makes labels visually distinct */
   text-transform: uppercase;
 }
 
-/* ===================================
-   FINAL CALL-TO-ACTION CARD
-   
-   Large promotional card at the bottom of the page.
-   Encourages users to take action.
-   ==================================== */
-
-/* .final-cta-card styles the final promotional card */
 .page :global(.final-cta-card) {
-  /* position: relative enables absolute positioning of children
-     Impact: Allows overlay elements to be positioned absolutely */
   position: relative;
-  
-  /* overflow: hidden clips content beyond card boundaries
-     Ensures border-radius works cleanly
-     Impact: Creates clean card appearance */
   overflow: hidden;
-  
-  /* padding: clamp(28px, 4vw, 44px) sets responsive padding
-     - Minimum: 28px (on very small screens)
-     - Preferred: 4vw (4% of viewport width - scales with screen)
-     - Maximum: 44px (on large screens)
-     Impact: Card padding scales smoothly with screen size */
   padding: clamp(28px, 4vw, 44px);
 }
 
-/* ===================================
-   RESPONSIVE BREAKPOINTS
-   
-   Adjusts grid layouts for smaller screens.
-   ==================================== */
-
-/* Tablet/small desktop breakpoint - max-width: 1180px */
 @media (max-width: 1180px) {
-  /* On smaller screens, most grids change from 4/3 columns to 2 columns */
   .page :global(.story-strip),
   .page :global(.home-feature-layout),
   .page :global(.home-preview-grid) {
-    /* grid-template-columns: repeat(2, minmax(0, 1fr)) changes to 2-column layout
-       repeat(2, ...) = 2 equal columns instead of 4/3
-       Impact: Better fits tablet-width screens */
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-/* Mobile breakpoint - max-width: 768px */
 @media (max-width: 768px) {
-  /* On mobile, most grids collapse to single column */
   .page :global(.story-strip),
   .page :global(.home-feature-layout),
   .page :global(.home-preview-grid) {
-    /* grid-template-columns: 1fr collapses to 1-column stacked layout
-       Single column means items stack vertically one above another
-       Impact: Mobile-friendly vertical stacking */
     grid-template-columns: 1fr;
   }
 }

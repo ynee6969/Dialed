@@ -1,11 +1,4 @@
-/* ===================================
-   ABOUT PAGE ROUTE STYLES
-   
-   This file styles the About page that describes the application.
-   The about page primarily uses shared global utilities and marketing components.
-   No custom page-specific styles are needed, keeping this module minimal.
-   ===================================== */
+/* About page styles.
+   This route mostly uses shared marketing utilities, so the page module stays light. */
 
-/* Root container (.page) relies entirely on inherited global styles.
-   All marketing utilities (hero sections, cards, grids) come from globals.css.
-   No custom styling needed at page level. */
+.page {}

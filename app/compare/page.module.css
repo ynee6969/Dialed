@@ -1,1481 +1,431 @@
-/* ===================================
-   PHONE COMPARISON PAGE ROUTE STYLES
-   
-   This file styles the phone comparison interface where users can compare
-   two phones side-by-side. Shows specs, scores, highlights, and more.
-   Responsive layout adapts from desktop multi-column to mobile single-column.
-   ===================================== */
+/* Compare page.
+   Keeps the comparison lab styling close to the route and improves the phone layout on small screens. */
 
-/* ===================================
-   MAIN COMPARISON PAGE LAYOUT
-   
-   Root container for the entire comparison page.
-   ===================================== */
-
-/* .page :global(.compare-page) and .compare-sections define page structure */
 .page :global(.compare-page),
 .page :global(.compare-sections) {
-  /* display: grid enables CSS Grid layout for sections
-     Stacks comparison sections vertically
-     Impact: Organizes page into clear vertical sections */
   display: grid;
-  
-  /* gap: 24px sets vertical spacing between sections
-     24px creates breathing room between major sections
-     Impact: Sections are clearly separated */
   gap: 24px;
 }
 
-/* ===================================
-   COMPARISON CARDS (GENERIC STYLES)
-   
-   Shared styling for all card types in the comparison.
-   ===================================== */
-
-/* These card classes share common overflow and shadow styling */
 .page :global(.compare-selector-card),
 .page :global(.compare-hero-card),
 .page :global(.compare-score-card),
 .page :global(.compare-section-card) {
-  /* overflow: hidden clips content beyond card boundaries
-     Ensures border-radius and effects work cleanly
-     Impact: Cards have clean, defined edges */
   overflow: hidden;
-  
-  /* box-shadow: 0 22px 60px ... creates depth effect
-     First shadow: 0 22px 60px rgba(4, 10, 18, 0.3)
-     - Drop shadow below card for elevation
-     - 60px blur = soft, diffused shadow
-     
-     Second shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02)
-     - Subtle inner border/glow
-     - Very low opacity (2%) for refinement
-     
-     Impact: Cards appear elevated with refined depth */
   box-shadow:
     0 22px 60px rgba(4, 10, 18, 0.3),
     inset 0 0 0 1px rgba(255, 255, 255, 0.02);
 }
 
-/* ===================================
-   COMPARISON SELECTOR CARD
-   
-   Card where users select which two phones to compare.
-   ===================================== */
-
-/* .compare-selector-card is the phone selection card */
 .page :global(.compare-selector-card) {
-  /* display: grid enables grid layout for selection content
-     Organizes text and selection grid vertically
-     Impact: Creates structured layout for selection form */
   display: grid;
-  
-  /* gap: 22px sets vertical spacing between elements
-     22px creates breathing room between text and selector grid
-     Impact: Elements are well-separated */
   gap: 22px;
 }
 
-/* ===================================
-   COMPARISON SELECTOR HEADINGS
-   
-   Headings within the selector card.
-   ===================================== */
-
-/* These selectors target headings in selector and section cards */
 .page :global(.compare-selector-copy h2),
 .page :global(.compare-section-card h2) {
-  /* margin: 0 removes default heading margins
-     Impact: Allows precise spacing control */
   margin: 0;
 }
 
-/* ===================================
-   COMPARISON SELECTOR TEXT
-   
-   Description text in the selector card.
-   ===================================== */
-
-/* .compare-selector-copy p targets description paragraph */
 .page :global(.compare-selector-copy p) {
-  /* margin-top: 10px adds space above paragraph
-     Separates heading from description
-     Impact: Creates visual hierarchy with spacing */
   margin-top: 10px;
 }
 
-/* ===================================
-   COMPARISON SELECTOR GRID
-   
-   Grid of phone selector inputs.
-   ===================================== */
-
-/* .compare-selector-grid is the grid for selecting phones */
 .page :global(.compare-selector-grid) {
-  /* display: grid enables grid layout for selectors
-     Impact: Organizes phone selectors */
   display: grid;
-  
-  /* gap: 16px sets spacing between selector inputs
-     16px creates breathing room between selectors
-     Impact: Selectors are clearly separated */
   gap: 16px;
-  
-  /* grid-template-columns: repeat(2, minmax(0, 1fr)) creates 2-column layout
-     Two selectors side-by-side on desktop
-     Impact: Compact selector layout */
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  
-  /* align-items: end aligns items to bottom of grid
-     Ensures selectors bottom-align for visual balance
-     Impact: Elements line up at bottom */
   align-items: end;
 }
 
-/* ===================================
-   COMPARISON SELECTOR SUBMIT BUTTON
-   
-   Button to submit comparison selection.
-   ===================================== */
-
-/* .compare-selector-submit button styling */
 .page :global(.compare-selector-submit) {
-  /* width: fit-content makes button only as wide as its content
-     Button doesn't stretch to fill space
-     Impact: Button is compact, not full-width */
   width: fit-content;
 }
 
-/* ===================================
-   COMPARISON HERO CARD
-   
-   Card showing the two selected phones side-by-side.
-   ===================================== */
-
-/* .compare-hero-card displays the two selected phones */
 .page :global(.compare-hero-card) {
-  /* position: relative enables absolute positioning of children
-     Allows "versus" badge to be positioned absolutely
-     Impact: Enables centered overlay badge */
   position: relative;
-  
-  /* padding: clamp(20px, 3vw, 32px) sets responsive padding
-     - Minimum: 20px (mobile)
-     - Preferred: 3vw (scales with screen)
-     - Maximum: 32px (desktop)
-     Impact: Card padding scales with screen size */
   padding: clamp(20px, 3vw, 32px);
 }
 
-/* ===================================
-   COMPARISON HERO PHONES & HIGHLIGHTS GRIDS
-   
-   Two-column layouts for comparing phones.
-   ===================================== */
-
-/* .compare-hero-phones and .compare-highlights-grid create 2-column layouts */
 .page :global(.compare-hero-phones),
 .page :global(.compare-highlights-grid) {
-  /* display: grid enables grid layout
-     Impact: Organizes items into rows/columns */
   display: grid;
-  
-  /* gap: 20px sets spacing between columns
-     20px creates breathing room between phone columns
-     Impact: Phones/highlights are clearly separated */
   gap: 20px;
-  
-  /* grid-template-columns: repeat(2, minmax(0, 1fr)) creates 2 equal columns
-     repeat(2, ...) = two columns
-     minmax(0, 1fr) = equal width columns
-     Impact: Two-column side-by-side layout */
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-/* ===================================
-   INDIVIDUAL PHONE IN COMPARISON
-   
-   Card showing one phone's info in the hero section.
-   ===================================== */
-
-/* .compare-phone-hero styles individual phone comparison cards */
 .page :global(.compare-phone-hero) {
-  /* display: grid enables grid layout for phone info
-     Stacks phone image, name, specs vertically
-     Impact: Creates structured phone card layout */
   display: grid;
-  
-  /* gap: 16px sets vertical spacing between phone elements
-     16px creates breathing room between image, name, specs
-     Impact: Phone info is well-organized and readable */
   gap: 16px;
-  
-  /* padding: 22px adds internal card spacing
-     22px from all edges
-     Impact: Content has breathing room inside card */
   padding: 22px;
-  
-  /* border-radius: 26px rounds corners significantly
-     26px creates modern, friendly curved edges
-     Impact: Card has rounded appearance */
   border-radius: 26px;
-  
-  /* background: var(--surface-soft) uses light background
-     Distinguishes phone card from page background
-     Impact: Phone cards stand out visually */
   background: var(--surface-soft);
-  
-  /* border: 1px solid var(--border) adds subtle border
-     Low-opacity white border for edge definition
-     Impact: Card has defined edge */
   border: 1px solid var(--border);
 }
 
-/* ===================================
-   COMPARISON PHONE HEADING
-   
-   The phone name/model in the comparison.
-   ===================================== */
-
-/* .compare-phone-hero h2 is the phone name heading */
 .page :global(.compare-phone-hero h2) {
-  /* margin: 0 removes default heading margins
-     Impact: Allows precise spacing control */
   margin: 0;
-  
-  /* font-size: clamp(1.45rem, 2.4vw, 2.1rem) sets responsive size
-     - Minimum: 1.45rem (23px)
-     - Preferred: 2.4vw (scales with screen)
-     - Maximum: 2.1rem (33.6px)
-     Impact: Heading scales beautifully across screen sizes */
   font-size: clamp(1.45rem, 2.4vw, 2.1rem);
-  
-  /* line-height: 1.08 sets tight line spacing
-     1.08 = very tight (almost no extra space)
-     Impact: Heading appears compact and bold */
   line-height: 1.08;
-  
-  /* letter-spacing: -0.03em reduces letter spacing
-     Brings letters closer together
-     -0.03em = -3% of font size
-     Impact: Heading appears tighter and bolder */
   letter-spacing: -0.03em;
 }
 
-/* ===================================
-   PHONE LABEL IN COMPARISON
-   
-   Small label like "Phone 1", "Selected Phone", etc.
-   ===================================== */
-
-/* .compare-phone-label styles small descriptive label */
 .page :global(.compare-phone-label) {
-  /* color: var(--muted) makes label muted gray
-     Secondary text is de-emphasized
-     Impact: Label is subtle and secondary */
   color: var(--muted);
-  
-  /* font-size: 0.82rem makes label 82% of base size
-     Small text for labels
-     Impact: Label is clearly secondary to main content */
   font-size: 0.82rem;
-  
-  /* font-weight: 700 makes label bold
-     700 = bold weight
-     Impact: Label stands out despite being small */
   font-weight: 700;
-  
-  /* letter-spacing: 0.08em adds letter spacing
-     Stretched-out letters create premium feel
-     0.08em = 8% of font size
-     Impact: Refined appearance for label */
   letter-spacing: 0.08em;
-  
-  /* text-transform: uppercase renders text as all caps
-     Impact: Label visually stands out with uppercase */
   text-transform: uppercase;
 }
 
-/* ===================================
-   COMPARISON HERO SCORE
-   
-   Rating/score badge for each phone.
-   ===================================== */
-
-/* .compare-hero-score styles the score display */
 .page :global(.compare-hero-score) {
-  /* display: inline-flex creates inline flex container
-     inline = only takes as much width as needed
-     flex = enables flexbox alignment
-     Impact: Score badge is inline and compact */
   display: inline-flex;
-  
-  /* align-items: center vertically centers content
-     Impact: Score text is vertically centered in badge */
   align-items: center;
-  
-  /* justify-content: center horizontally centers content
-     Impact: Score text is horizontally centered in badge */
   justify-content: center;
-  
-  /* width: fit-content makes badge only as wide as content
-     Impact: Badge is compact, not oversized */
   width: fit-content;
-  
-  /* min-width: 72px ensures minimum width for consistency
-     Scores of varying digit counts all have same minimum size
-     Impact: Score badges are consistent size */
   min-width: 72px;
-  
-  /* padding: 10px 16px adds internal spacing
-     10px vertical, 16px horizontal
-     Impact: Score has breathing room in badge */
   padding: 10px 16px;
-  
-  /* border-radius: 999px creates fully rounded pill shape
-     999px is larger than needed, renders as circle
-     Impact: Score appears in rounded pill badge */
   border-radius: 999px;
-  
-  /* background: color-mix(...) creates subtle accent background
-     Blends 16% accent green with 84% transparency
-     Result: Very subtle light green background
-     Impact: Score has soft accent background */
   background: color-mix(in srgb, var(--accent) 16%, transparent);
-  
-  /* color: var(--accent) makes score text the accent green color
-     Impact: Score appears in brand accent color */
   color: var(--accent);
-  
-  /* font-size: 1.15rem makes score 115% of base size
-     Score is slightly larger for prominence
-     Impact: Score stands out and is easy to read */
   font-size: 1.15rem;
-  
-  /* font-weight: 800 makes score extra bold
-     800 is very bold weight
-     Impact: Score appears prominent and impactful */
   font-weight: 800;
 }
 
-/* ===================================
-   PHONE MEDIA/IMAGE AREA
-   
-   Container for the phone product image.
-   ===================================== */
-
-/* .compare-phone-media is the phone image container */
 .page :global(.compare-phone-media) {
-  /* height: 260px sets fixed height for image area
-     260px creates prominent image display
-     Impact: Images are sized consistently */
   height: 260px;
-  
-  /* border-radius: 24px rounds corners significantly
-     24px creates modern, friendly curved edges
-     Impact: Image container has rounded appearance */
   border-radius: 24px;
-  
-  /* background: color-mix(...) creates subtle background
-     Blends 82% surface-strong with 18% transparency
-     Impact: Image has light background for contrast */
   background: color-mix(in srgb, var(--surface-strong) 82%, transparent);
-  
-  /* border: 1px solid var(--border) adds subtle border
-     Impact: Image has defined edge */
   border: 1px solid var(--border);
-  
-  /* overflow: hidden clips content beyond container
-     Ensures border-radius works cleanly on image
-     Impact: Image corners are properly rounded */
   overflow: hidden;
-  
-  /* display: grid enables grid for centering image
-     Impact: Image can be centered with place-items */
   display: grid;
-  
-  /* place-items: center centers the image
-     Impact: Image is perfectly centered in container */
   place-items: center;
 }
 
-/* ===================================
-   PHONE IMAGE ELEMENT
-   
-   The actual <img> tag displaying phone photo.
-   ===================================== */
-
-/* .compare-phone-media img styles the phone image */
 .page :global(.compare-phone-media img) {
-  /* width: 100% makes image fill container width
-     Impact: Image scales to fit container width */
   width: 100%;
-  
-  /* height: 100% makes image fill container height
-     Impact: Image scales to fit container height */
   height: 100%;
-  
-  /* object-fit: contain ensures entire image is visible
-     contain = scale to fit without cropping
-     Impact: Entire phone is visible, no cropping */
   object-fit: contain;
 }
 
-/* ===================================
-   PHONE PRICE IN COMPARISON
-   
-   Price display for each phone.
-   ===================================== */
-
-/* .compare-phone-price styles the price display */
 .page :global(.compare-phone-price) {
-  /* margin: -8px 0 0 negative margin pulls element up
-     -8px top margin brings price closer to content above
-     Impact: Tightens vertical spacing for price */
   margin: -8px 0 0;
-  
-  /* font-size: 1rem makes price normal base text size
-     Impact: Price is readable at standard size */
   font-size: 1rem;
 }
 
-/* ===================================
-   PHONE SPECIFICATION PILLS
-   
-   Small badges showing phone specs (color, storage, etc).
-   ===================================== */
-
-/* .compare-phone-pills displays spec badges */
 .page :global(.compare-phone-pills) {
-  /* display: flex enables flexbox layout for pills
-     Arranges pills horizontally
-     Impact: Pills flow horizontally in a row */
   display: flex;
-  
-  /* flex-wrap: wrap allows pills to wrap to next line
-     When row is full, pills wrap to next line
-     Impact: Pills adapt to available width */
   flex-wrap: wrap;
-  
-  /* gap: 10px sets spacing between pills
-     10px is compact but readable spacing
-     Impact: Pills are close together but not crowded */
   gap: 10px;
 }
 
-/* ===================================
-   PHONE LINK/BUTTON
-   
-   "View phone" or "Buy" link in comparison card.
-   ===================================== */
-
-/* .compare-phone-link styles the phone link/button */
 .page :global(.compare-phone-link) {
-  /* width: fit-content makes link only as wide as text
-     Link doesn't stretch to fill space
-     Impact: Link is compact */
   width: fit-content;
 }
 
-/* ===================================
-   VERSUS BADGE
-   
-   Centered "VS" or "VS" badge between the two phones.
-   ===================================== */
-
-/* .compare-versus-badge is the centered "VS" badge */
 .page :global(.compare-versus-badge) {
-  /* position: absolute positions badge independently
-     Impact: Badge can be positioned absolutely on top */
   position: absolute;
-  
-  /* left: 50%, top: 50%, transform: translate(-50%, -50%)
-     Positions badge in exact center of container
-     left: 50% = 50% from left
-     transform: translateX(-50%) = shift back left by half badge width = center horizontally
-     top: 50% = 50% from top
-     transform: translateY(-50%) = shift back up by half badge height = center vertically
-     Impact: Badge is perfectly centered */
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  
-  /* width: 88px sets badge width to 88px square
-     Impact: Badge is large, prominent */
   width: 88px;
-  
-  /* height: 88px sets badge height to 88px square
-     Combined with width creates 88x88 square
-     Impact: Badge is square, well-proportioned */
   height: 88px;
-  
-  /* display: grid enables grid for centering badge content
-     Impact: Badge text is centered inside */
   display: grid;
-  
-  /* place-items: center centers badge text
-     Impact: "VS" text is perfectly centered */
   place-items: center;
-  
-  /* border-radius: 999px creates fully rounded circle
-     999px is larger than needed, renders as circle
-     Impact: Badge appears as circular "VS" badge */
   border-radius: 999px;
-  
-  /* background: var(--surface) uses main surface color
-     Opaque background so badge is readable
-     Impact: Badge has solid background */
   background: var(--surface);
-  
-  /* border: 1px solid var(--border) adds subtle border
-     Impact: Badge has defined edge */
   border: 1px solid var(--border);
-  
-  /* box-shadow: var(--shadow) adds depth shadow
-     Makes badge appear elevated
-     Impact: Badge pops off the page */
   box-shadow: var(--shadow);
-  
-  /* font-family: var(--font-display), sans-serif uses display font
-     Large text needs bold typeface
-     Impact: Badge text appears prominent */
   font-family: var(--font-display), sans-serif;
-  
-  /* font-size: 1.75rem makes badge text 175% of base size
-     Large size for "VS" text
-     Impact: Badge text is large and prominent */
   font-size: 1.75rem;
-  
-  /* letter-spacing: -0.04em reduces letter spacing
-     -0.04em = -4% of font size
-     Brings letters closer together
-     Impact: "VS" appears tighter and bolder */
   letter-spacing: -0.04em;
 }
 
-
-/* ===================================
-   COMPARISON HIGHLIGHT CARDS
-   
-   Feature highlights showing why one phone is better in specific areas.
-   ===================================== */
-
-/* .compare-highlight-card h3 styles highlight card headings */
 .page :global(.compare-highlight-card h3) {
-  /* margin: 16px 0 0 adds space above highlight heading
-     16px top margin separates heading from content above
-     0 left/right and bottom
-     Impact: Proper spacing for highlight title */
   margin: 16px 0 0;
 }
 
-/* ===================================
-   INSIGHT LIST
-   
-   Bulleted list of comparison insights/highlights.
-   ===================================== */
-
-/* .insight-list styles the list of insights */
 .page :global(.insight-list) {
-  /* display: grid enables grid layout for list items
-     Impact: Items stack vertically */
   display: grid;
-  
-  /* gap: 12px sets vertical spacing between list items
-     12px is compact spacing
-     Impact: Items are close but readable */
   gap: 12px;
-  
-  /* padding: 0 removes default list padding
-     Default <ul> has left padding for bullets
-     Impact: List items are flush with content */
   padding: 0;
-  
-  /* list-style: none removes bullet points
-     Default lists have bullets
-     Impact: Clean list without bullets */
   list-style: none;
-  
-  /* margin: 0 removes default list margins
-     Default <ul> has margins
-     Impact: Allows precise spacing control */
   margin: 0;
 }
 
-/* ===================================
-   INSIGHT LIST ITEMS
-   
-   Individual insight/highlight items in list.
-   ===================================== */
-
-/* .insight-list li styles individual list items */
 .page :global(.insight-list li) {
-  /* padding: 14px 16px adds internal spacing
-     14px vertical, 16px horizontal
-     Impact: List items have comfortable padding */
   padding: 14px 16px;
-  
-  /* border-radius: 18px rounds corners moderately
-     18px creates rounded-rectangle appearance
-     Impact: Items have modern, friendly look */
   border-radius: 18px;
-  
-  /* background: var(--surface-soft) uses light background
-     Distinguishes items from page background
-     Impact: Items stand out visually */
   background: var(--surface-soft);
-  
-  /* border: 1px solid var(--border) adds subtle border
-     Low-opacity white border for edge definition
-     Impact: Items have defined edge */
   border: 1px solid var(--border);
 }
 
-/* ===================================
-   COMPARISON SCORE CARD
-   
-   Card displaying overall score comparison between phones.
-   ===================================== */
-
-/* .compare-score-card is the score comparison container */
 .page :global(.compare-score-card) {
-  /* padding: 24px adds internal spacing
-     24px from all edges
-     Impact: Card content has breathing room */
   padding: 24px;
 }
 
-/* ===================================
-   SCORE ROWS CONTAINER
-   
-   Container for all score comparison rows.
-   ===================================== */
-
-/* .compare-score-rows is the container for score rows */
 .page :global(.compare-score-rows) {
-  /* display: grid enables grid layout for rows
-     Stacks rows vertically
-     Impact: Organizes score rows */
   display: grid;
-  
-  /* gap: 12px sets vertical spacing between rows
-     12px creates compact but readable spacing
-     Impact: Rows are clearly separated */
   gap: 12px;
-  
-  /* margin-top: 18px adds space above rows
-     Separates from heading above
-     Impact: Visual separation from title */
   margin-top: 18px;
 }
 
-/* ===================================
-   INDIVIDUAL SCORE ROW
-   
-   One row showing score comparison for a specific attribute.
-   Layout: [Phone1 Score] [Label] [Phone2 Score]
-   ===================================== */
-
-/* .compare-score-row is one score comparison row */
 .page :global(.compare-score-row) {
-  /* display: grid enables grid layout for row
-     Arranges scores and label horizontally
-     Impact: Creates three-column score display */
   display: grid;
-  
-  /* gap: 12px sets horizontal spacing between columns
-     12px creates breathing room between elements
-     Impact: Score elements are well-separated */
   gap: 12px;
-  
-  /* grid-template-columns: minmax(0, 1fr) 160px minmax(0, 1fr)
-     First column: minmax(0, 1fr) = first phone score (flexible)
-     Second column: 160px = label (fixed width)
-     Third column: minmax(0, 1fr) = second phone score (flexible)
-     Impact: Creates balanced three-column score row */
   grid-template-columns: minmax(0, 1fr) 160px minmax(0, 1fr);
-  
-  /* align-items: center vertically centers items
-     All items line up in middle
-     Impact: Score and label are vertically aligned */
   align-items: center;
 }
 
-/* ===================================
-   COMPARISON CELLS
-   
-   Individual cell styling for scores, labels, and values.
-   ===================================== */
-
-/* These selectors define score and value cell styling */
 .page :global(.compare-score-cell),
 .page :global(.compare-label-cell),
 .page :global(.compare-value-cell) {
-  /* padding: 14px 16px adds internal spacing
-     14px vertical, 16px horizontal
-     Impact: Cell content has breathing room */
   padding: 14px 16px;
-  
-  /* border-radius: 18px rounds corners moderately
-     18px creates rounded-rectangle appearance
-     Impact: Cells have modern, friendly look */
   border-radius: 18px;
-  
-  /* background: var(--surface-soft) uses light background
-     Distinguishes cells from background
-     Impact: Cells are visually distinct */
   background: var(--surface-soft);
-  
-  /* border: 1px solid transparent adds invisible border space
-     Default transparent border reserves space for winner border
-     When border becomes visible, layout doesn't shift
-     Impact: Prevents layout shift when winner border appears */
   border: 1px solid transparent;
 }
 
-/* ===================================
-   SCORE CELL SPECIFIC STYLING
-   
-   Special styling for score values (numbers).
-   ===================================== */
-
-/* .compare-score-cell styles numeric score display */
 .page :global(.compare-score-cell) {
-  /* font-weight: 700 makes score bold
-     700 = bold weight
-     Impact: Score appears prominent */
   font-weight: 700;
-  
-  /* text-align: center centers the score number
-     Impact: Score is centered in cell */
   text-align: center;
 }
 
-/* ===================================
-   SCORE LABEL STYLING
-   
-   Label for what the score represents.
-   ===================================== */
-
-/* .compare-score-label styles the score attribute label */
 .page :global(.compare-score-label) {
-  /* color: var(--muted) makes label muted gray
-     Secondary text is de-emphasized
-     Impact: Label is subtle and secondary */
   color: var(--muted);
-  
-  /* text-align: center centers the label
-     Impact: Label is centered in cell */
   text-align: center;
-  
-  /* font-size: 0.88rem makes label 88% of base size
-     Slightly smaller than normal text
-     Impact: Label is visually secondary */
   font-size: 0.88rem;
-  
-  /* font-weight: 700 makes label bold
-     700 = bold weight
-     Impact: Label stands out despite being small */
   font-weight: 700;
-  
-  /* text-transform: uppercase renders as all caps
-     Impact: Label visually stands out with uppercase */
   text-transform: uppercase;
-  
-  /* letter-spacing: 0.06em adds letter spacing
-     0.06em = 6% of font size
-     Stretched-out letters create premium feel
-     Impact: Label appears refined and premium */
   letter-spacing: 0.06em;
 }
 
-/* ===================================
-   WINNER HIGHLIGHTING
-   
-   Styling applied when one phone wins in a category.
-   ===================================== */
-
-/* Winner cells get accent highlighting */
 .page :global(.compare-score-cell.is-winner),
 .page :global(.compare-value-cell.is-winner) {
-  /* border-color: rgba(var(--accent-rgb), 0.28)
-     Accent-colored border to highlight winner
-     0.28 opacity = ~28% visible border
-     Impact: Winner cell has accent-colored border */
   border-color: rgba(var(--accent-rgb), 0.28);
-  
-  /* background: color-mix(in srgb, var(--accent) 16%, transparent)
-     16% accent green blended with 84% transparency
-     Result: Very subtle light green background
-     Impact: Winner cell has soft accent background */
   background: color-mix(in srgb, var(--accent) 16%, transparent);
 }
 
-/* ===================================
-   DIFFERENT VALUE HIGHLIGHTING
-   
-   Styling for values that differ between phones but neither is better.
-   ===================================== */
-
-/* Different values (but not winners) get subtle highlighting */
 .page :global(.compare-value-cell.is-different:not(.is-winner)) {
-  /* border-color: var(--border) uses standard border color
-     No special border for non-winner different values
-     Impact: Uses standard border styling */
   border-color: var(--border);
-  
-  /* background: color-mix(in srgb, var(--surface-strong) 82%, transparent)
-     82% surface-strong blended with 18% transparency
-     Result: Slightly darker background than normal cells
-     Impact: Different values get subtle darker background */
   background: color-mix(in srgb, var(--surface-strong) 82%, transparent);
 }
 
-/* ===================================
-   COMPARISON SECTION CARD
-   
-   Card containing a table of detailed spec comparisons.
-   ===================================== */
-
-/* .compare-section-card is the detailed spec table card */
 .page :global(.compare-section-card) {
-  /* display: grid enables grid layout for section
-     Organizes header and table vertically
-     Impact: Creates structured card layout */
   display: grid;
 }
 
-/* ===================================
-   SECTION HEADER
-   
-   Header area above the detailed comparison table.
-   ===================================== */
-
-/* .compare-section-header is the section title area */
 .page :global(.compare-section-header) {
-  /* padding: 24px 24px 0 adds padding with no bottom
-     24px sides, 24px top, 0 bottom
-     Impact: Header has side padding, no gap before table */
   padding: 24px 24px 0;
 }
 
-/* ===================================
-   COMPARISON TABLE LAYOUTS
-   
-   Grid layouts for the detailed specs comparison table.
-   ===================================== */
-
-/* Both table and table-rows use same 3-column layout */
 .page :global(.compare-table),
 .page :global(.compare-table-row) {
-  /* display: grid enables grid layout
-     Impact: Items arranged in rows/columns */
   display: grid;
-  
-  /* gap: 14px sets spacing between columns/rows
-     14px creates breathing room
-     Impact: Items are well-separated */
   gap: 14px;
-  
-  /* grid-template-columns: minmax(180px, 0.8fr) repeat(2, minmax(0, 1fr))
-     First column: minmax(180px, 0.8fr) = spec name (min 180px, max 80%)
-     Next 2 columns: repeat(2, minmax(0, 1fr)) = phone 1 & 2 specs (equal width)
-     Impact: Creates 3-column table layout */
   grid-template-columns: minmax(180px, 0.8fr) repeat(2, minmax(0, 1fr));
-  
-  /* align-items: stretch stretches items to full height
-     Items fill the row height
-     Impact: All table cells stretch vertically */
   align-items: stretch;
 }
 
-/* ===================================
-   TABLE HEADER SECTION
-   
-   Header row of the specs table showing phone names.
-   ===================================== */
-
-/* .compare-table-header is the table header row */
 .page :global(.compare-table-header) {
-  /* padding: 20px 24px 0 adds padding with no bottom
-     20px sides, 20px top, 0 bottom
-     Impact: Header has padding, no gap before table */
   padding: 20px 24px 0;
 }
 
-/* ===================================
-   TABLE HEADER CELL STYLING
-   
-   Styling for header cell labels (phone names).
-   ===================================== */
-
-/* Header cells get special styling */
 .page :global(.compare-table-header .compare-label-cell),
 .page :global(.compare-table-header .compare-value-cell) {
-  /* color: var(--muted) makes header text muted gray
-     Secondary text is de-emphasized
-     Impact: Header labels are subtle */
   color: var(--muted);
-  
-  /* font-size: 0.84rem makes header 84% of base size
-     Smaller text for headers
-     Impact: Headers are secondary to data */
   font-size: 0.84rem;
-  
-  /* font-weight: 700 makes headers bold
-     700 = bold weight
-     Impact: Headers stand out despite being small */
   font-weight: 700;
-  
-  /* letter-spacing: 0.06em adds letter spacing
-     0.06em = 6% of font size
-     Stretched-out letters create premium feel
-     Impact: Headers appear refined */
   letter-spacing: 0.06em;
-  
-  /* text-transform: uppercase renders as all caps
-     Impact: Headers visually stand out with uppercase */
   text-transform: uppercase;
 }
 
-/* ===================================
-   TABLE BODY SECTION
-   
-   All data rows below the header.
-   ===================================== */
-
-/* .compare-table-body contains all data rows */
 .page :global(.compare-table-body) {
-  /* display: grid enables grid layout for table rows
-     Organizes multiple rows vertically
-     Impact: Rows stack in grid layout */
   display: grid;
-  
-  /* gap: 14px sets spacing between rows
-     14px creates breathing room between rows
-     Impact: Rows are clearly separated */
   gap: 14px;
-  
-  /* padding: 20px 24px 24px adds padding
-     20px top, 24px sides, 24px bottom
-     Impact: Table body has balanced padding */
   padding: 20px 24px 24px;
 }
 
-/* ===================================
-   LABEL CELL (SPEC NAME)
-   
-   Left column showing spec names.
-   ===================================== */
-
-/* .compare-label-cell is the spec name column */
 .page :global(.compare-label-cell) {
-  /* color: var(--muted) makes label muted gray
-     Secondary text is de-emphasized
-     Impact: Spec names are subtle */
   color: var(--muted);
-  
-  /* font-weight: 600 makes label semi-bold
-     600 = semi-bold (between normal and bold)
-     Impact: Label stands out but not as much as data */
   font-weight: 600;
 }
 
-/* ===================================
-   VALUE CELL (SPEC VALUE)
-   
-   Right columns showing phone spec values.
-   ===================================== */
-
-/* .compare-value-cell is the spec value column */
 .page :global(.compare-value-cell) {
-  /* display: grid enables grid layout for value
-     Allows alignment of multi-line values
-     Impact: Complex values can be aligned */
   display: grid;
-  
-  /* gap: 6px sets spacing for multi-line values
-     6px creates tight spacing
-     Impact: Multi-line values are well-organized */
   gap: 6px;
-  
-  /* align-content: center vertically centers content
-     Impact: Value is centered vertically in cell */
   align-content: center;
-  
-  /* line-height: 1.55 sets line spacing for values
-     1.55 = good readability for body text
-     Impact: Multi-line values are readable */
   line-height: 1.55;
 }
 
-/* ===================================
-   MOBILE NAME LABEL
-   
-   Phone name shown on mobile (hidden on desktop).
-   Used in mobile comparison table where names aren't in header.
-   ===================================== */
-
-/* .compare-mobile-name is hidden by default on desktop */
 .page :global(.compare-mobile-name) {
-  /* display: none hides element completely
-     Impact: Mobile name not shown on desktop */
   display: none;
-  
-  /* color: var(--muted) makes name muted gray (when visible)
-     Secondary text is de-emphasized
-     Impact: Name is subtle on mobile */
   color: var(--muted);
-  
-  /* font-size: 0.78rem makes name 78% of base size
-     Small text for mobile names
-     Impact: Name is secondary on mobile */
   font-size: 0.78rem;
-  
-  /* font-weight: 700 makes name bold
-     700 = bold weight
-     Impact: Name stands out despite being small */
   font-weight: 700;
-  
-  /* letter-spacing: 0.06em adds letter spacing
-     0.06em = 6% of font size
-     Stretched-out letters create premium feel
-     Impact: Name appears refined */
   letter-spacing: 0.06em;
-  
-  /* text-transform: uppercase renders as all caps
-     Impact: Name visually stands out with uppercase */
   text-transform: uppercase;
 }
 
-/* ===================================
-   EMPTY STATE
-   
-   Message shown when no phones are selected to compare.
-   ===================================== */
-
-/* .empty-state is shown when no comparison is available */
 .page :global(.empty-state) {
-  /* padding: 42px 24px adds internal spacing
-     42px vertical, 24px horizontal
-     Impact: Empty state has breathing room */
   padding: 42px 24px;
-  
-  /* text-align: center centers the empty state message
-     Impact: Message is centered on page */
   text-align: center;
-  
-  /* color: var(--muted) makes message muted gray
-     Secondary text is de-emphasized
-     Impact: Empty state is not overwhelming */
   color: var(--muted);
 }
 
-
-/* ===================================
-   RESPONSIVE BREAKPOINTS
-   
-   Adjusts comparison layout for smaller screens.
-   ===================================== */
-
-/* Tablet breakpoint - max-width: 768px */
 @media (max-width: 768px) {
-  /* On tablets, collapse 2-column layouts to 1 column */
   .page :global(.compare-selector-grid),
   .page :global(.compare-highlights-grid) {
-    /* grid-template-columns: 1fr collapses to single column
-       Two-column layouts stack vertically on tablets
-       Impact: Fits tablet screen width */
     grid-template-columns: 1fr;
   }
 
-  /* Reduce horizontal padding on tablet cards */
   .page :global(.compare-hero-card),
   .page :global(.compare-score-card),
   .page :global(.compare-section-header),
   .page :global(.compare-table-header),
   .page :global(.compare-table-body) {
-    /* padding-inline: 16px reduces left/right padding on tablets
-       16px is more appropriate for narrow screens
-       Impact: Better use of limited tablet space */
     padding-inline: 16px;
   }
 
-  /* On tablets, phone images remain 2-column but more compact */
   .page :global(.compare-hero-phones) {
-    /* grid-template-columns: repeat(2, minmax(0, 1fr))
-       Phones remain side-by-side on tablets (still 2 columns)
-       Impact: Can still compare 2 phones side-by-side */
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    
-    /* gap: 12px reduces gap between phones on tablets
-       12px is more compact than desktop 20px
-       Impact: Better space utilization on tablets */
     gap: 12px;
-    
-    /* align-items: start aligns items to top
-       Prevents excessive vertical stretch on tablets
-       Impact: More compact phone card appearance */
     align-items: start;
   }
 
-  /* On tablets, reduce phone card padding */
   .page :global(.compare-phone-hero) {
-    /* gap: 10px reduces gap on tablets
-       10px is more compact than 16px
-       Impact: Tighter spacing in phone cards */
     gap: 10px;
-    
-    /* padding: 14px reduces padding on tablets
-       14px from all sides (vs 22px on desktop)
-       Impact: Better space utilization on tablets */
     padding: 14px;
-    
-    /* border-radius: 22px slightly reduces roundness on tablets
-       22px is still rounded but less pronounced
-       Impact: Subtly different appearance for smaller screens */
     border-radius: 22px;
   }
 
-  /* On tablets, reduce heading size */
   .page :global(.compare-phone-hero h2) {
-    /* font-size: 1.05rem makes heading smaller on tablets
-       105% of base size instead of larger desktop size
-       Impact: Heading fits tablet screens better */
     font-size: 1.05rem;
-    
-    /* line-height: 1.2 sets tighter line spacing
-       1.2 = tighter than desktop 1.08
-       Impact: Heading takes less vertical space */
     line-height: 1.2;
   }
 
-  /* On tablets, reduce image container height */
   .page :global(.compare-phone-media) {
-    /* height: 132px reduces height on tablets
-       132px is smaller than desktop 260px
-       Impact: More compact phone image display */
     height: 132px;
-    
-    /* border-radius: 18px reduces roundness on tablets
-       18px is still rounded but less pronounced
-       Impact: Subtly different appearance for tablets */
     border-radius: 18px;
   }
 
-  /* On tablets, arrange pills in grid instead of flex row */
   .page :global(.compare-phone-pills) {
-    /* display: grid changes from flex to grid
-       Pills can wrap and arrange better
-       Impact: Better organization on narrow screens */
     display: grid;
-    
-    /* gap: 8px reduces gap on tablets
-       8px is more compact spacing
-       Impact: Better space utilization */
     gap: 8px;
   }
 
-  /* On tablets, make pills full-width */
   .page :global(.compare-phone-pills .chip) {
-    /* width: 100% makes pills stretch full width
-       Pills fill the available space
-       Impact: Better use of tablet space */
     width: 100%;
-    
-    /* justify-content: flex-start aligns pill content to left
-       Text starts on the left side
-       Impact: Better alignment on full-width pills */
     justify-content: flex-start;
   }
 
-  /* On tablets, make phone link full-width */
   .page :global(.compare-phone-link) {
-    /* width: 100% makes link stretch full width
-       Button takes full width of space
-       Impact: Easier to tap on touch devices */
     width: 100%;
   }
 
-  /* On tablets, reposition versus badge */
   .page :global(.compare-versus-badge) {
-    /* top: auto removes top positioning
-       Impact: No longer centered vertically */
     top: auto;
-    
-    /* bottom: -22px positions badge below phones
-       -22px = slightly outside container (overlaps photos)
-       Impact: Badge appears between/below phones instead of center */
     bottom: -22px;
-    
-    /* width: 64px reduces badge size on tablets
-       64x64 instead of 88x88
-       Impact: More compact badge for tablets */
     width: 64px;
-    
-    /* height: 64px reduces badge size on tablets
-       Combined with width creates 64x64 square
-       Impact: Proportional size reduction */
     height: 64px;
-    
-    /* font-size: 1.3rem reduces badge text size
-       1.3rem instead of 1.75rem
-       Impact: Smaller "VS" text for smaller badge */
     font-size: 1.3rem;
   }
 
-  /* On tablets, collapse score rows to 2-column layout */
   .page :global(.compare-score-row) {
-    /* grid-template-columns: repeat(2, minmax(0, 1fr))
-       Score label on one line, scores on another
-       Impact: Better fits narrow tablet screens */
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  /* On tablets, reorder score label to appear first */
   .page :global(.compare-score-label) {
-    /* grid-column: 1 / -1 spans full width
-       1 / -1 = from first column to last column
-       Label spans entire row width
-       Impact: Label appears above scores */
     grid-column: 1 / -1;
-    
-    /* order: -1 moves label before other items
-       -1 = move before order 0 (default)
-       Impact: Label appears first visually */
     order: -1;
-    
-    /* padding-block: 4px reduces padding on tablets
-       4px top/bottom (vertical padding only)
-       Impact: More compact label spacing */
     padding-block: 4px;
   }
 
-  /* On tablets, hide table header (show names in rows instead) */
   .page :global(.compare-table-header) {
-    /* display: none hides header completely
-       Header hidden, use mobile names in rows instead
-       Impact: Saves space on narrow tablets */
     display: none;
   }
 
-  /* On tablets, add padding/styling to table rows */
   .page :global(.compare-table-row) {
-    /* padding: 12px adds internal spacing
-       12px from all sides
-       Impact: Row content has breathing room */
     padding: 12px;
-    
-    /* border-radius: 20px rounds row corners
-       20px creates rounded appearance
-       Impact: Modern, friendly look for rows */
     border-radius: 20px;
-    
-    /* background: color-mix(...) adds subtle background
-       Blends surface-soft with slight transparency
-       Impact: Rows have distinct background */
     background: color-mix(in srgb, var(--surface-soft) 88%, rgba(255, 255, 255, 0.02));
-    
-    /* border: 1px solid var(--border) adds subtle border
-       Impact: Row has defined edge */
     border: 1px solid var(--border);
-    
-    /* grid-template-columns: 1fr collapses to single column
-       Spec name and values stack vertically
-       Impact: Fits narrow tablet screens */
     grid-template-columns: 1fr;
-    
-    /* gap: 10px sets vertical spacing on tablets
-       10px is more compact
-       Impact: Better space utilization */
     gap: 10px;
   }
 
-  /* On tablets, remove label cell styling */
   .page :global(.compare-label-cell) {
-    /* padding: 0 removes padding when in row
-       Label is now inline in row, needs less padding
-       Impact: More compact label appearance */
     padding: 0;
-    
-    /* background: transparent removes background
-       Label blends with row background
-       Impact: No double backgrounds */
     background: transparent;
-    
-    /* border: 0 removes border
-       Label has no separate border
-       Impact: Clean, minimal appearance */
     border: 0;
   }
 
-  /* On tablets, show mobile phone names in table */
   .page :global(.compare-mobile-name) {
-    /* display: block shows the mobile phone name
-       Now visible on tablets
-       Impact: Users see which phone each column is for */
     display: block;
   }
 
-  /* On tablets, adjust value cell padding */
   .page :global(.compare-value-cell) {
-    /* padding: 12px 14px reduces padding on tablets
-       12px vertical, 14px horizontal
-       Impact: More compact cell appearance */
     padding: 12px 14px;
   }
 
-  /* On tablets, make selector submit full-width */
   .page :global(.compare-selector-submit) {
-    /* width: 100% makes button stretch full width
-       Button takes full width
-       Impact: Easier to tap on tablets */
     width: 100%;
   }
 }
 
-/* Mobile breakpoint - max-width: 480px */
 @media (max-width: 480px) {
-  /* On mobile, reduce section gap */
   .page :global(.compare-page) {
-    /* gap: 20px reduces gap on mobile
-       20px is more compact
-       Impact: Better space utilization on very small screens */
     gap: 20px;
   }
 
-  /* On mobile, reduce hero card padding */
   .page :global(.compare-hero-card) {
-    /* padding: 16px 14px 20px reduces padding on mobile
-       16px top, 14px sides, 20px bottom
-       Impact: More compact hero section */
     padding: 16px 14px 20px;
   }
 
-  /* On mobile, phones arrange 2 columns but very compact */
   .page :global(.compare-hero-phones) {
-    /* grid-template-columns: repeat(2, minmax(0, 1fr))
-       Phones remain 2 columns on mobile (hard to compare vertically)
-       Impact: Can still see both phones for comparison */
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    
-    /* gap: 10px very compact gap on mobile
-       10px is minimal spacing
-       Impact: Maximum space for phone images */
     gap: 10px;
   }
 
-  /* On mobile, very compact phone card */
   .page :global(.compare-phone-hero) {
-    /* padding: 12px very compact card padding
-       12px from all sides
-       Impact: Maximum interior space on mobile */
     padding: 12px;
-    
-    /* gap: 10px very compact item spacing
-       10px between card elements
-       Impact: Tighter spacing for mobile */
     gap: 10px;
   }
 
-  /* On mobile, reduce label font size */
   .page :global(.compare-phone-label) {
-    /* font-size: 0.68rem makes label very small
-       68% of base size
-       Impact: Fits mobile space without clutter */
     font-size: 0.68rem;
   }
 
-  /* On mobile, reduce score badge size */
   .page :global(.compare-hero-score) {
-    /* min-width: 52px makes badge smaller
-       52x52 is more appropriate for mobile
-       Impact: Compact score display */
     min-width: 52px;
-    
-    /* padding: 8px 10px reduces badge padding
-       8px vertical, 10px horizontal
-       Impact: More compact badge */
     padding: 8px 10px;
-    
-    /* font-size: 0.92rem reduces score text size
-       92% of base size
-       Impact: Fits smaller badge */
     font-size: 0.92rem;
   }
 
-  /* On mobile, reduce image height significantly */
   .page :global(.compare-phone-media) {
-    /* height: 124px very short image on mobile
-       124px is minimal height
-       Impact: Saves vertical space on mobile */
     height: 124px;
-    
-    /* border-radius: 16px reduces roundness on mobile
-       16px is still rounded but less pronounced
-       Impact: Subtly different appearance for mobile */
     border-radius: 16px;
   }
 
-  /* On mobile, reduce heading size significantly */
   .page :global(.compare-phone-hero h2) {
-    /* font-size: 0.98rem makes heading very small
-       98% of base size
-       Impact: Fits mobile screen width */
     font-size: 0.98rem;
-    
-    /* line-height: 1.25 reduces line spacing
-       1.25 = tight line spacing
-       Impact: Heading takes minimal space */
     line-height: 1.25;
   }
 
-  /* On mobile, reduce price font size */
   .page :global(.compare-phone-price) {
-    /* margin-top: 0 removes top margin
-       Pulls price closer to content above
-       Impact: Tighter spacing */
     margin-top: 0;
-    
-    /* font-size: 0.88rem reduces price text size
-       88% of base size
-       Impact: More compact price display */
     font-size: 0.88rem;
   }
 
-  /* On mobile, hide specs pills (too much clutter) */
   .page :global(.compare-phone-pills) {
-    /* display: none hides pills completely on mobile
-       Pills take up too much space on mobile
-       Impact: Cleaner, less cluttered mobile display */
     display: none;
   }
 
-  /* On mobile, reposition versus badge differently */
   .page :global(.compare-versus-badge) {
-    /* top: 50% positions badge vertically centered
-       50% from top
-       Impact: Badge centered between phones vertically */
     top: 50%;
-    
-    /* bottom: auto removes bottom positioning
-       Only use top positioning
-       Impact: Badge appears in middle */
     bottom: auto;
-    
-    /* width: 54px makes badge smaller on mobile
-       54x54 square
-       Impact: Very compact badge for mobile */
     width: 54px;
-    
-    /* height: 54px makes badge smaller on mobile
-       Combined with width creates 54x54 square
-       Impact: Small badge size */
     height: 54px;
-    
-    /* font-size: 1.1rem makes badge text small
-       1.1rem = slightly larger than 1rem
-       Impact: Small "VS" text for small badge */
     font-size: 1.1rem;
   }
 }

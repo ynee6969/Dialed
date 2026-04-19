@@ -1,18 +1,7 @@
-/* ===================================
-   ROOT LAYOUT MODULE STYLES
-   
-   This file styles the root layout wrapper that contains the entire application.
-   Acts as the top-level CSS entry point for app structure.
-   All shared tokens, colors, and base resets are defined in globals.css.
-   ===================================== */
+/* Root layout scope.
+   This file exists so the app shell has a dedicated stylesheet entry point.
+   Shared tokens and resets stay in globals.css. */
 
-/* .layout is the root container for the entire application
-   It wraps the header, main content area, and footer */
 .layout {
-  /* min-height: 100vh ensures layout fills at least the viewport height
-     vh = viewport height, 100vh = full visible window height
-     When content is short, layout still fills the screen
-     Impact: Ensures footer stays at bottom and layout doesn't collapse
-     Prevents visual gaps when pages have minimal content */
   min-height: 100vh;
 }

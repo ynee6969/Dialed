@@ -1,162 +1,55 @@
-/* ===================================
-   DASHBOARD LOADING STATE STYLES
-   
-   This file styles the skeleton/loading state for the dashboard page.
-   Displayed while the dashboard data is being fetched from the server.
-   Shows placeholder layout that matches the actual dashboard structure.
-   ===================================== */
+/* Dashboard loading route styles.
+   Skeleton visuals are shared with the dashboard module. */
 
-/* .page :global(.dashboard-layout) is the main layout container showing loading state
-   Creates the dashboard structure: sidebar + main content area */
 .page :global(.dashboard-layout) {
-  /* display: grid enables CSS Grid layout for dashboard structure
-     Grid organizes page into sidebar and main content area
-     Impact: Creates responsive 2-column layout */
   display: grid;
-  
-  /* grid-template-columns: minmax(290px, 340px) minmax(0, 1fr) creates 2-column layout
-     First column (sidebar): 
-     - Minimum: 290px (won't shrink below this)
-     - Maximum: 340px (fixed sidebar width on desktop)
-     Second column (main content):
-     - Minimum: 0 (can shrink fully on mobile)
-     - Maximum: 1fr (takes remaining space)
-     Impact: Sidebar is fixed-width, main content fills remaining space */
   grid-template-columns: minmax(290px, 340px) minmax(0, 1fr);
-  
-  /* gap: 24px sets spacing between grid columns
-     24px creates breathing room between sidebar and main content
-     Impact: Sidebar and content are clearly separated */
   gap: 24px;
-  
-  /* align-items: start aligns grid items to the top
-     start = align to top of grid area
-     Impact: Sidebar and content start at the same vertical position */
   align-items: start;
 }
 
-/* .sidebar is the left sidebar column containing filters */
 .page :global(.sidebar) {
-  /* position: sticky makes sidebar stick to viewport while scrolling
-     Elements with position: sticky "stick" to a point while scrolling
-     By default, sticky element stays at its natural position
-     Impact: Sidebar stays visible as user scrolls down the page */
   position: sticky;
-  
-  /* top: 96px sets where the sidebar sticks
-     When user scrolls down, sidebar sticks 96px from the top
-     96px = approximate height of the site header/navigation
-     This keeps sidebar visible without hiding under the fixed header
-     Impact: Sidebar appears below header, sticks in view as user scrolls */
   top: 96px;
 }
 
-/* .sidebar-card styles individual filter/section cards in the sidebar */
 .page :global(.sidebar-card) {
-  /* padding: 24px adds internal spacing
-     Filter content has 24px distance from card edges
-     Impact: Prevents content from touching card borders */
   padding: 24px;
 }
 
-/* .dashboard-filter-panel contains multiple filter options/controls */
 .page :global(.dashboard-filter-panel) {
-  /* display: grid enables grid layout for filter items
-     Stacks filter controls vertically
-     Impact: Organizes filter controls into readable vertical list */
   display: grid;
-  
-  /* gap: 16px sets vertical spacing between filter items
-     16px creates breathing room between each filter
-     Impact: Filters are clearly separated and easy to read */
   gap: 16px;
 }
 
-/* .results-stack is the main content area containing search results */
 .page :global(.results-stack) {
-  /* display: grid enables grid layout for results
-     Stacks result cards vertically
-     Impact: Organizes phone cards into readable vertical list */
   display: grid;
-  
-  /* gap: 24px sets vertical spacing between result items
-     24px creates generous breathing room between cards
-     Impact: Result cards are clearly separated and not cramped */
   gap: 24px;
-  
-  /* min-width: 0 is a CSS grid fix for overflow handling
-     By default, grid content can overflow its constraints
-     min-width: 0 allows grid items to shrink below content size
-     This prevents items from breaking the grid layout
-     Impact: Ensures responsive grid layout works correctly */
   min-width: 0;
 }
 
-/* .dashboard-skeleton-grid contains skeleton placeholders while loading */
 .page :global(.dashboard-skeleton-grid) {
-  /* margin-bottom: -12px removes 12px from bottom margin
-     Negative margin pulls element up slightly
-     Compensates for spacing in skeleton layout
-     Impact: Tightens vertical spacing of skeleton grid */
   margin-bottom: -12px;
 }
 
-/* .phone-card.phone-card-skeleton styles the loading skeleton for phone cards */
 .page :global(.phone-card.phone-card-skeleton) {
-  /* display: grid enables grid layout for skeleton content
-     Arranges skeleton elements (image placeholder, text lines)
-     Impact: Creates structured skeleton layout */
   display: grid;
-  
-  /* gap: 14px sets vertical spacing between skeleton elements
-     14px creates readable spacing between placeholder lines
-     Impact: Skeleton layout has proper visual rhythm */
   gap: 14px;
-  
-  /* padding: 20px adds internal spacing
-     Content has 20px distance from card edges
-     Impact: Prevents skeleton content from touching borders */
   padding: 20px;
-  
-  /* min-width: 0 ensures content doesn't break grid layout
-     Allows grid items to shrink below natural content size
-     Impact: Responsive grid layout handles small screens */
   min-width: 0;
 }
 
-/* ===================================
-   RESPONSIVE BREAKPOINTS
-   
-   Adjusts dashboard layout for smaller screens.
-   ===================================== */
-
-/* Tablet/smaller desktop breakpoint - max-width: 1024px */
 @media (max-width: 1024px) {
-  /* On smaller screens, collapse from 2-column to single column */
   .page :global(.dashboard-layout) {
-    /* grid-template-columns: 1fr collapses to 1-column stacked layout
-       Sidebar and main content stack vertically instead of side-by-side
-       Impact: Fits smaller screens by stacking content vertically */
     grid-template-columns: 1fr;
-    
-    /* gap: 20px reduces gap on smaller screens
-       20px is more appropriate for smaller viewports
-       Impact: Better spacing for mobile layout */
     gap: 20px;
   }
-  
-  /* On smaller screens, sidebar is no longer sticky */
+
   .page :global(.sidebar) {
-    /* position: static removes sticky behavior
-       static = normal flow, not sticky
-       Impact: Sidebar scrolls normally with content on mobile */
     position: static;
   }
-  
-  /* Hide desktop-specific sidebar on smaller screens */
+
   .page :global(.desktop-sidebar) {
-    /* display: none hides the element completely
-       Impact: Desktop sidebar nav hidden, mobile alternative shown instead */
     display: none;
   }
 }

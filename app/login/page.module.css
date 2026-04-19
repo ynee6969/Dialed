@@ -1,11 +1,4 @@
-/* ===================================
-   LOGIN PAGE ROUTE STYLES
-   
-   This file styles the login/authentication page.
-   The actual form styling is managed by auth components in the AuthForm.module.css.
-   This keeps page structure separate from component styling.
-   ===================================== */
+/* Login route styles.
+   Auth form styling lives with the auth components. */
 
-/* Root container (.page) for the login page.
-   Auth form styling and all interactive elements come from AuthForm.module.css.
-   No page-level custom styling is needed. */
+.page {}

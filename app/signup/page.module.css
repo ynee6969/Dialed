@@ -1,11 +1,4 @@
-/* ===================================
-   SIGNUP PAGE ROUTE STYLES
-   
-   This file styles the signup/registration page.
-   The auth form styling and all interactive elements are managed by auth components.
-   Component-specific styles live in AuthForm.module.css to maintain separation of concerns.
-   ===================================== */
+/* Signup route styles.
+   Auth form styling lives with the auth components. */
 
-/* Root container (.page) for the signup page.
-   Form styling and all auth logic styling come from auth component modules.
-   No page-level custom styling is needed. */
+.page {}

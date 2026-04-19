@@ -1,27 +1,8 @@
-/* ===================================
-   FAVORITES PAGE ROUTE STYLES
-   
-   This file styles the Favorites (wishlist) page where users view saved phones.
-   Card styling for phone displays is handled by the shared DeviceCard component.
-   This module focuses on page-level layout and empty-state messaging.
-   ===================================== */
+/* Favorites route styles.
+   Keeps the empty state near the page while cards stay styled by the shared device card module. */
 
-/* .page :global(.empty-state) targets the empty state message when no favorites exist
-   :global() allows targeting classes defined outside this CSS module
-   Displayed when user hasn't saved any phones yet */
 .page :global(.empty-state) {
-  /* padding: 42px 24px adds internal spacing (vertical and horizontal)
-     42px top/bottom creates tall empty state with breathing room
-     24px left/right creates side margins
-     Impact: Empty message feels centered and prominent, not cramped */
   padding: 42px 24px;
-  
-  /* text-align: center horizontally centers the empty state message
-     Impact: Empty state text is visually balanced and centered on the page */
   text-align: center;
-  
-  /* color: var(--muted) makes the empty state text use the muted gray color
-     Muted color de-emphasizes the empty state as secondary information
-     Impact: Empty state is visible but doesn't demand attention */
   color: var(--muted);
 }

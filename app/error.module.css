@@ -1,11 +1,4 @@
-/* ===================================
-   ERROR PAGE ROUTE STYLES
-   
-   This file styles the error page displayed when an error occurs during navigation.
-   Uses CSS modules to scope styles to this route only.
-   Shared components like buttons and cards are inherited from globals.css.
-   ===================================== */
+/* App error route styles.
+   Shared button and card primitives come from globals.css. */
 
-/* Root container (.page) inherits all global styles.
-   Button, card, and other shared components are available from globals.css.
-   No custom styles needed at page level. */
+.page {}

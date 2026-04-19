@@ -1,11 +1,4 @@
-/* ===================================
-   CONTACT PAGE ROUTE STYLES
-   
-   This file styles the Contact page where users can reach out.
-   The contact page uses shared layout utilities and form components from globals.css.
-   Module is kept simple and is reserved for future contact-specific customizations.
-   ===================================== */
+/* Contact page styles.
+   Layout is shared, so this module keeps the route-specific stylesheet in place for future tweaks. */
 
-/* Root container (.page) inherits all global form and layout styles.
-   Contact forms, fields, buttons, and section layouts come from globals.css.
-   No custom styling needed. Reserved for future contact-page-specific customizations. */
+.page {}
