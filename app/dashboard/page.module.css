@@ -1,4 +1,11 @@
-/* Dashboard route entry styles.
-   The responsive dashboard UI is owned by MatchmakerDashboard.module.css. */
+/* ===================================
+   DASHBOARD PAGE ROUTE STYLES
+   
+   This file is the entry point for the dashboard page route.
+   The main dashboard UI styling is handled by the MatchmakerDashboard component CSS module.
+   This keeps the page-level file clean while the component owns its styling.
+   ===================================== */
 
-.page {}
+/* Root container (.page) for the dashboard route.
+   All dashboard-specific styling lives in MatchmakerDashboard.module.css.
+   This maintains separation between page structure and component styling. */

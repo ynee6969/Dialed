@@ -1,4 +1,11 @@
-/* Phone detail loading route styles.
-   Detail-page skeleton structure is styled by the phone detail module. */
+/* ===================================
+   PHONE DETAIL PAGE LOADING STATE STYLES
+   
+   This file styles the skeleton/loading state for the phone detail page.
+   Displayed while the phone details are being fetched from the server.
+   Detail-page skeleton structure is handled by the phone detail module.
+   ===================================== */
 
-.page {}
+/* Root container (.page) while the phone detail page is loading.
+   Loading skeleton styling lives in the phone detail module.
+   The skeleton structure mirrors the actual phone detail layout. */

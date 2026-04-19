@@ -1,152 +1,593 @@
-/* Services page.
-   Keeps the asymmetric tools grid and its responsive behavior near the route. */
+/* ===================================
+   SERVICES PAGE ROUTE STYLES
+   
+   This file styles the Services/Tools page showcasing key app features.
+   Displays featured service cards in an asymmetric grid layout.
+   Shows preview/comparison features for each service.
+   ===================================== */
 
+/* ===================================
+   SERVICES PAGE SHELL
+   
+   Root container for the entire services page.
+   ===================================== */
+
+/* .services-shell is the main container for services page */
 .page :global(.services-shell) {
+  /* display: grid enables CSS Grid layout for services page sections
+     Stacks service sections vertically
+     Impact: Organizes page into clear vertical sections */
   display: grid;
+  
+  /* gap: 24px sets vertical spacing between service sections
+     24px creates breathing room between sections
+     Impact: Sections are clearly separated */
   gap: 24px;
 }
 
+/* ===================================
+   SERVICES GRID LAYOUT
+   
+   Main grid displaying service cards in asymmetric layout.
+   Desktop layout: [Large Card | Medium Card | Medium Card]
+   ===================================== */
+
+/* .services-grid is the main grid of service cards */
 .page :global(.services-grid) {
+  /* display: grid enables CSS Grid layout
+     Organizes service cards
+     Impact: Creates structured, flexible layout */
   display: grid;
+  
+  /* gap: 20px sets spacing between grid items
+     20px creates breathing room between cards
+     Impact: Service cards are clearly separated */
   gap: 20px;
+  
+  /* grid-template-columns: 1.35fr 1fr 1fr creates 3-column asymmetric layout
+     First card: 1.35fr = larger (37.5% width)
+     Second card: 1fr = normal (31.25% width)
+     Third card: 1fr = normal (31.25% width)
+     Total: 1.35 + 1 + 1 = 3.35 fractions
+     First card gets 1.35/3.35 = 40.3% of space (featured)
+     Impact: First card is larger/featured, draws attention */
   grid-template-columns: 1.35fr 1fr 1fr;
 }
 
+/* ===================================
+   INDIVIDUAL SERVICE CARD
+   
+   Container for a single service/feature card.
+   Can be regular or featured (featured variant has different styling).
+   ===================================== */
+
+/* .service-card is one service card container */
 .page :global(.service-card) {
+  /* position: relative enables absolute positioning of children
+     Allows decorative overlays or badges to be positioned absolutely
+     Impact: Enables layered design effects within card */
   position: relative;
+  
+  /* display: grid enables grid layout for card content
+     Stacks card elements (icon, title, description) vertically
+     Impact: Creates structured card layout */
   display: grid;
+  
+  /* gap: 16px sets vertical spacing between card elements
+     16px creates breathing room between icon, title, description
+     Impact: Card content is well-organized and readable */
   gap: 16px;
+  
+  /* padding: 24px adds internal spacing
+     24px from all edges
+     Impact: Content has breathing room inside card */
   padding: 24px;
+  
+  /* overflow: hidden clips content beyond card boundaries
+     Ensures border-radius and effects work cleanly
+     Impact: Cards have clean, defined edges */
   overflow: hidden;
 }
 
+/* ===================================
+   FEATURED SERVICE CARD
+   
+   Special styling for the featured/main service card.
+   ===================================== */
+
+/* .service-card-featured applies accent styling to featured cards */
 .page :global(.service-card-featured) {
+  /* border-color: color-mix(in srgb, var(--accent) 28%, var(--border))
+     Blends 28% accent green with 72% border color
+     Result: Accent-tinted border
+     Impact: Featured card has accent-colored border */
   border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
+  
+  /* box-shadow: two layered shadows for depth
+     First shadow: 0 22px 60px rgba(4, 10, 18, 0.3)
+     - Creates drop shadow below card for elevation
+     - 60px blur = soft, diffused shadow
+     
+     Second shadow: inset 0 0 0 1px rgba(var(--accent-rgb), 0.12)
+     - Inner glow with accent color (12% opacity)
+     - Creates refined inner border effect
+     
+     Impact: Featured card appears elevated with refined depth */
   box-shadow:
     0 22px 60px rgba(4, 10, 18, 0.3),
     inset 0 0 0 1px rgba(var(--accent-rgb), 0.12);
 }
 
+/* ===================================
+   SERVICE CARD COPY SECTION
+   
+   Text content area of the service card.
+   Contains title and description.
+   ===================================== */
+
+/* .service-card-copy is the text content area */
 .page :global(.service-card-copy) {
+  /* display: grid enables grid layout for text elements
+     Stacks title and description vertically
+     Impact: Creates organized text layout */
   display: grid;
+  
+  /* gap: 14px sets spacing between title and description
+     14px creates breathing room between text elements
+     Impact: Text elements are well-separated */
   gap: 14px;
 }
 
+/* ===================================
+   SERVICE CARD HEADING (H2)
+   
+   Main title of the service card.
+   ===================================== */
+
+/* .service-card-copy h2 is the main service title */
 .page :global(.service-card-copy h2) {
+  /* margin: 0 removes default heading margins
+     Prevents browser default spacing
+     Impact: Allows precise control of spacing */
   margin: 0;
+  
+  /* font-size: clamp(2rem, 3vw, 3rem) sets responsive heading size
+     - Minimum: 2rem (32px on small screens)
+     - Preferred: 3vw (3% of viewport width - scales smoothly)
+     - Maximum: 3rem (48px on large screens)
+     Impact: Heading scales beautifully across all screen sizes */
   font-size: clamp(2rem, 3vw, 3rem);
+  
+  /* letter-spacing: -0.05em reduces letter spacing
+     Negative value brings letters closer together
+     -0.05em = -5% of font size
+     Negative letter spacing is common for large headlines
+     Impact: Heading appears powerful and bold */
   letter-spacing: -0.05em;
+  
+  /* line-height: 0.96 sets tight line spacing
+     0.96 = 96% of font size (very tight)
+     Tight line height for headlines creates impactful look
+     Impact: Title feels bold and compressed for emphasis */
   line-height: 0.96;
 }
 
+/* ===================================
+   SERVICE CARD SUBHEADING (H3)
+   
+   Secondary title/subheading in the service card.
+   ===================================== */
+
+/* .service-card h3 is a subheading within service card */
 .page :global(.service-card h3) {
+  /* margin: 14px 0 10px sets vertical margins
+     14px above, 10px below, 0 left/right
+     Impact: Proper spacing for subheadings */
   margin: 14px 0 10px;
+  
+  /* font-size: 1.08rem makes subheading 108% of base size
+     Slightly larger than body text for hierarchy
+     Impact: Subheading stands out but isn't oversized */
   font-size: 1.08rem;
+  
+  /* letter-spacing: -0.03em tightens letter spacing
+     -0.03em = -3% of font size
+     Tighter letter spacing for polished look
+     Impact: Subheading appears refined */
   letter-spacing: -0.03em;
 }
 
+/* ===================================
+   SERVICE CARD PARAGRAPH
+   
+   Body text description of the service.
+   ===================================== */
+
+/* .service-card p is description paragraph */
 .page :global(.service-card p) {
+  /* margin: 0 removes default paragraph margins
+     Prevents browser default spacing
+     Impact: Allows precise control of spacing */
   margin: 0;
+  
+  /* color: var(--muted) makes text muted gray
+     Secondary text is de-emphasized
+     Impact: Description is subtle and readable */
   color: var(--muted);
+  
+  /* line-height: 1.62 sets open line spacing
+     1.62 = generous spacing for readability
+     Makes text feel breathable and easy to scan
+     Impact: Body text is comfortable to read */
   line-height: 1.62;
 }
 
+/* ===================================
+   SERVICE CARD ICON
+   
+   Small icon representing the service.
+   ===================================== */
+
+/* .service-card-icon is the icon container */
 .page :global(.service-card-icon) {
+  /* width: 42px sets icon width to 42px square
+     Impact: Icon has consistent square size */
   width: 42px;
+  
+  /* height: 42px sets icon height to 42px square
+     Combined with width creates 42x42 square
+     Impact: Icon is perfectly square */
   height: 42px;
+  
+  /* display: inline-grid displays as inline grid container
+     inline = only takes as much width as needed (doesn't stretch)
+     grid = enables centering of icon inside
+     Impact: Icon container is compact and centered */
   display: inline-grid;
+  
+  /* place-items: center centers the icon both directions
+     place-items = align-items (vertical) + justify-items (horizontal)
+     Impact: Icon is perfectly centered in square container */
   place-items: center;
+  
+  /* border-radius: 14px rounds corners moderately
+     14px creates rounded-square appearance (not fully circular)
+     Impact: Icon container has modern, friendly look */
   border-radius: 14px;
+  
+  /* background: color-mix(in srgb, var(--accent) 14%, transparent)
+     Blends 14% accent green with 86% transparent
+     Result: Very subtle light green background (14% opacity equivalent)
+     Impact: Icon has soft accent background without overwhelming */
   background: color-mix(in srgb, var(--accent) 14%, transparent);
+  
+  /* color: var(--accent) makes icon the accent green color
+     The icon itself is rendered in bright accent color
+     Impact: Icon stands out with the brand accent color */
   color: var(--accent);
 }
 
+/* ===================================
+   SERVICE PREVIEW SECTION
+   
+   Preview/demo area showing the service in action.
+   ===================================== */
+
+/* .service-preview is the preview/demo area */
 .page :global(.service-preview) {
+  /* display: grid enables grid layout for preview
+     Stacks preview elements or arranges them in grid
+     Impact: Creates structured preview layout */
   display: grid;
+  
+  /* gap: 16px sets spacing between preview elements
+     16px creates breathing room
+     Impact: Preview elements are well-separated */
   gap: 16px;
 }
 
+/* ===================================
+   SERVICE COMPARISON PREVIEW
+   
+   Side-by-side comparison preview showing service benefits.
+   ===================================== */
+
+/* .service-preview-compare is the comparison preview layout */
 .page :global(.service-preview-compare) {
+  /* grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr)
+     Creates 3-column layout: [Left Item | VS Badge | Right Item]
+     First column: minmax(0, 1fr) = left item (flexible width)
+     Second column: auto = VS badge (only as wide as needed)
+     Third column: minmax(0, 1fr) = right item (flexible width)
+     Impact: Balanced 3-column comparison layout with centered badge */
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  
+  /* align-items: center vertically centers items
+     All items line up in the middle
+     Impact: Items are vertically aligned */
   align-items: center;
 }
 
+/* ===================================
+   SERVICE PHONE PREVIEW CARD
+   
+   Individual phone preview in the comparison.
+   Shows phone specs/features for comparison.
+   ===================================== */
+
+/* .service-phone-preview is a phone preview card */
 .page :global(.service-phone-preview) {
+  /* padding: 18px adds internal spacing
+     18px from all edges
+     Impact: Content has breathing room */
   padding: 18px;
+  
+  /* border-radius: 24px rounds corners significantly
+     24px creates modern, friendly curved edges
+     Impact: Preview has rounded appearance */
   border-radius: 24px;
+  
+  /* background: color-mix(...) creates subtle background
+     Blends 90% surface-soft with 10% transparency overlay
+     Result: Slightly lighter background
+     Impact: Preview has distinct background without overwhelming */
   background: color-mix(in srgb, var(--surface-soft) 90%, rgba(255, 255, 255, 0.04));
+  
+  /* border: 1px solid color-mix(...) adds subtle border
+     Blends 86% border color with 14% additional transparency overlay
+     Result: Very subtle border
+     Impact: Border provides visual definition */
   border: 1px solid color-mix(in srgb, var(--border) 86%, rgba(255, 255, 255, 0.04));
 }
 
+/* ===================================
+   SERVICE PHONE PREVIEW TEXT
+   
+   Text content within phone preview.
+   ===================================== */
+
+/* .service-phone-preview strong highlights key info */
 .page :global(.service-phone-preview strong) {
+  /* display: block makes strong tag a block element
+     Default is inline - this forces new line
+     Impact: Strong text appears on its own line */
   display: block;
+  
+  /* margin-top: 12px adds space above strong text
+     Separates from content above
+     Impact: Key info is visually separated */
   margin-top: 12px;
+  
+  /* font-size: 1.1rem makes text 110% of base size
+     Slightly larger for emphasis
+     Impact: Important info stands out */
   font-size: 1.1rem;
 }
 
+/* ===================================
+   FEATURED PHONE PREVIEW
+   
+   Accent variant of phone preview for featured/winning phone.
+   ===================================== */
+
+/* .service-phone-preview.accent applies special styling */
 .page :global(.service-phone-preview.accent) {
+  /* border-color: color-mix(in srgb, var(--accent) 28%, var(--border))
+     Blends 28% accent green with 72% border color
+     Result: Accent-tinted border
+     Impact: Featured preview has accent-colored border */
   border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
 }
 
+/* ===================================
+   SERVICE PREVIEW VERSUS BADGE
+   
+   Centered "VS" badge between comparison items.
+   ===================================== */
+
+/* .service-preview-versus is the centered VS badge */
 .page :global(.service-preview-versus) {
+  /* width: 58px sets badge width to 58px square
+     Impact: Compact badge size */
   width: 58px;
+  
+  /* height: 58px sets badge height to 58px square
+     Combined with width creates 58x58 square
+     Impact: Square badge for comparison */
   height: 58px;
+  
+  /* display: grid enables grid for centering content
+     Impact: Badge text can be centered */
   display: grid;
+  
+  /* place-items: center centers badge text both directions
+     Impact: "VS" text is perfectly centered in badge */
   place-items: center;
+  
+  /* border-radius: 999px creates fully rounded circle
+     999px is larger than needed, renders as circle
+     Impact: Badge appears as circular "VS" badge */
   border-radius: 999px;
+  
+  /* background: color-mix(...) creates subtle background
+     Blends 96% surface with 4% transparency
+     Result: Slightly darker background
+     Impact: Badge has distinct background */
   background: color-mix(in srgb, var(--surface) 96%, transparent);
+  
+  /* border: 1px solid color-mix(...) adds accent-tinted border
+     Blends 22% accent with border color
+     Result: Subtle accent-tinted border
+     Impact: Border matches accent system */
   border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--border));
+  
+  /* font-family: var(--font-display), sans-serif uses display font
+     Large text needs bold typeface
+     Impact: Badge text appears prominent */
   font-family: var(--font-display), sans-serif;
+  
+  /* letter-spacing: -0.04em reduces letter spacing
+     -0.04em = -4% of font size
+     Brings letters closer together
+     Impact: "VS" text appears tighter and bolder */
   letter-spacing: -0.04em;
 }
 
+/* ===================================
+   SERVICE MINI BARS & INLINE PREVIEW
+   
+   Visual bar charts or inline previews showing metrics.
+   ===================================== */
+
+/* .service-mini-bars and .service-inline-preview create chart visuals */
 .page :global(.service-mini-bars),
 .page :global(.service-inline-preview) {
+  /* display: grid enables grid layout for bars
+     Stacks bars vertically
+     Impact: Creates bar chart visualization */
   display: grid;
+  
+  /* gap: 8px sets vertical spacing between bars
+     8px creates tight but readable spacing
+     Impact: Bars are close together but distinct */
   gap: 8px;
+  
+  /* margin-top: 14px adds space above the chart
+     Separates chart from content above
+     Impact: Visual separation */
   margin-top: 14px;
 }
 
+/* ===================================
+   INDIVIDUAL BAR IN CHART
+   
+   One horizontal bar representing a data value.
+   ===================================== */
+
+/* .service-mini-bars span and .service-inline-preview span are individual bars */
 .page :global(.service-mini-bars span),
 .page :global(.service-inline-preview span) {
+  /* display: block makes span a block element
+     Forced to its own line as a horizontal bar
+     Impact: Creates horizontal bar appearance */
   display: block;
+  
+  /* height: 10px sets bar height to 10px
+     Thin but visible bars
+     Impact: Creates readable bar chart */
   height: 10px;
+  
+  /* border-radius: 999px creates fully rounded bar
+     999px creates pill-shaped bar (fully rounded ends)
+     Impact: Modern-looking bar with rounded ends */
   border-radius: 999px;
+  
+  /* background: linear-gradient(...) creates green gradient background
+     Gradient goes from bright green to lighter green
+     rgba(70, 179, 123, 0.92) = bright accent green
+     rgba(127, 236, 184, 0.4) = lighter green/transparent
+     90deg = horizontal gradient (left to right)
+     Impact: Bar has attractive gradient from bright to light green */
   background: linear-gradient(90deg, rgba(70, 179, 123, 0.92), rgba(127, 236, 184, 0.4));
 }
 
+/* ===================================
+   INLINE PREVIEW BAR WIDTHS
+   
+   Individual bar widths for inline preview (representing different metrics).
+   ===================================== */
+
+/* .service-inline-preview span:nth-child(2) is second bar (84% width) */
 .page :global(.service-inline-preview span:nth-child(2)) {
+  /* width: 84% makes bar 84% of container width
+     Represents 84% value or metric
+     Impact: Visual representation of data */
   width: 84%;
 }
 
+/* .service-inline-preview span:nth-child(3) is third bar (68% width) */
 .page :global(.service-inline-preview span:nth-child(3)) {
+  /* width: 68% makes bar 68% of container width
+     Represents 68% value or metric
+     Impact: Visual representation of data */
   width: 68%;
 }
 
+/* .service-inline-preview.text span:nth-child(4) is fourth bar in text (52% width) */
 .page :global(.service-inline-preview.text span:nth-child(4)) {
+  /* width: 52% makes bar 52% of container width
+     Represents 52% value or metric
+     Impact: Visual representation of data */
   width: 52%;
 }
 
+/* ===================================
+   SERVICES HINT
+   
+   Small hint text at bottom of services section.
+   ===================================== */
+
+/* .services-hint displays a hint or note about services */
 .page :global(.services-hint) {
+  /* display: inline-flex creates inline flex container
+     inline = only takes as much width as needed
+     flex = enables internal alignment
+     Impact: Hint is compact and inline */
   display: inline-flex;
+  
+  /* align-items: center vertically centers content
+     Icon and text are centered together
+     Impact: Icon and text are vertically aligned */
   align-items: center;
+  
+  /* gap: 10px sets spacing between icon and text
+     10px creates breathing room
+     Impact: Icon and text are well-separated */
   gap: 10px;
+  
+  /* color: var(--muted) makes hint text muted gray
+     Secondary text is de-emphasized
+     Impact: Hint is subtle and non-intrusive */
   color: var(--muted);
 }
 
+/* ===================================
+   RESPONSIVE BREAKPOINTS - TABLET
+   
+   Adjusts services layout for tablets (max-width: 1180px).
+   ===================================== */
+
 @media (max-width: 1180px) {
+  /* On tablets, change from 3-column to 2-column layout */
   .page :global(.services-grid) {
+    /* grid-template-columns: repeat(2, minmax(0, 1fr)) creates 2-column layout
+       2 equal columns instead of 3 asymmetric
+       Impact: Fits tablet screen width better */
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
+/* ===================================
+   RESPONSIVE BREAKPOINTS - MOBILE
+   
+   Adjusts services layout for mobile (max-width: 768px).
+   ===================================== */
+
 @media (max-width: 768px) {
+  /* On mobile, change both service grid and comparison to single column */
   .page :global(.services-grid),
   .page :global(.service-preview-compare) {
+    /* grid-template-columns: 1fr collapses to single column
+       Services and comparisons stack vertically
+       Impact: Fits mobile screen width */
     grid-template-columns: 1fr;
   }
 
+  /* On mobile, center the versus badge */
   .page :global(.service-preview-versus) {
+    /* margin: 0 auto centers badge horizontally
+       Centers badge in single-column layout
+       Impact: Badge appears centered on mobile */
     margin: 0 auto;
   }
 }

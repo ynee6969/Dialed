@@ -1,150 +1,542 @@
-/* Phone detail page.
-   Keeps the large spec layout readable and touch-friendly across phones and tablets. */
+/* ===================================
+   PHONE DETAIL PAGE ROUTE STYLES
+   
+   This file styles the individual phone detail/specifications page.
+   Shows phone information, images, specs, and actions in responsive layout.
+   Layout adapts from desktop (multi-column) to mobile (single-column).
+   ===================================== */
 
+/* .page :global(.phone-detail-layout) is the main container for the entire detail page */
 .page :global(.phone-detail-layout) {
+  /* display: grid enables CSS Grid layout
+     Stacks detail sections vertically
+     Impact: Organizes phone details into vertical sections */
   display: grid;
+  
+  /* gap: 24px sets vertical spacing between detail sections
+     24px creates breathing room between hero, specs, reviews, etc.
+     Impact: Sections are clearly separated and not cramped */
   gap: 24px;
 }
 
+/* ===================================
+   PHONE DETAIL HERO SECTION
+   
+   Top section showing phone image, title, price, and action buttons.
+   Two-column layout on desktop: image on left, details on right.
+   ===================================== */
+
+/* .phone-detail-hero is the hero section with phone image and summary */
 .page :global(.phone-detail-hero) {
+  /* display: grid enables grid layout for hero content
+     Organizes image and details side-by-side on desktop
+     Impact: Creates responsive 2-column hero layout */
   display: grid;
+  
+  /* grid-template-columns: minmax(260px, 360px) minmax(0, 1fr) creates 2 columns
+     First column (phone image):
+     - Minimum: 260px (won't shrink below this)
+     - Maximum: 360px (fixed image width on desktop)
+     Second column (phone details):
+     - Minimum: 0 (can shrink on mobile)
+     - Maximum: 1fr (takes remaining space)
+     Impact: Image is fixed-width, details fill remaining space */
   grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
+  
+  /* gap: 28px sets spacing between image and details columns
+     28px creates generous breathing room between columns
+     Impact: Image and details are well-separated */
   gap: 28px;
+  
+  /* padding: 28px adds internal spacing
+     Content has 28px distance from all edges
+     Impact: Prevents content from touching section borders */
   padding: 28px;
 }
 
+/* ===================================
+   PHONE DETAIL IMAGE CONTAINER
+   
+   Container for the phone product image.
+   ===================================== */
+
+/* .phone-detail-media is the container for the phone image */
 .page :global(.phone-detail-media) {
+  /* min-height: 360px ensures image container is tall enough
+     360px creates a prominent image area
+     Impact: Image has sufficient height to display clearly */
   min-height: 360px;
+  
+  /* border-radius: 26px rounds corners significantly
+     26px creates modern, friendly curved edges
+     Impact: Image container has rounded appearance */
   border-radius: 26px;
+  
+  /* background: var(--surface-soft) uses light background color
+     Creates contrast behind transparent/PNG images
+     Impact: Image stands out from the page background */
   background: var(--surface-soft);
+  
+  /* border: 1px solid var(--border) adds subtle border definition
+     Low-opacity white border for edge definition
+     Impact: Image container has defined edge */
   border: 1px solid var(--border);
+  
+  /* overflow: hidden clips content beyond container boundaries
+     Ensures border-radius works cleanly on image
+     Impact: Image corners are properly rounded */
   overflow: hidden;
+  
+  /* display: grid enables grid for centering the image
+     Using place-items: center to center content
+     Impact: Image is centered within container */
   display: grid;
+  
+  /* place-items: center centers the image both horizontally and vertically
+     place-items = align-items (vertical) + justify-items (horizontal)
+     Impact: Image is perfectly centered in container */
   place-items: center;
 }
 
+/* ===================================
+   PHONE DETAIL IMAGE ELEMENT
+   
+   The actual <img> tag for the phone photo.
+   ===================================== */
+
+/* .phone-detail-media img styles the actual phone image */
 .page :global(.phone-detail-media img) {
+  /* width: 100% makes image fill container width
+     Impact: Image scales to fit container width */
   width: 100%;
+  
+  /* height: 100% makes image fill container height
+     Impact: Image scales to fit container height */
   height: 100%;
+  
+  /* object-fit: contain ensures entire image is visible without cropping
+     contain = scale image to fit in container while maintaining aspect ratio
+     Alternative: cover = crop image to fill container
+     Impact: Entire phone is visible, no cropping, maintains proportions */
   object-fit: contain;
 }
 
+/* ===================================
+   PHONE DETAIL MEDIA PLACEHOLDER
+   
+   Fallback icon shown when image is not available.
+   ===================================== */
+
+/* .phone-media-placeholder is shown when image fails to load */
 .page :global(.phone-media-placeholder) {
+  /* width: 84px sets placeholder width to 84px square */
   width: 84px;
+  
+  /* height: 84px sets placeholder height to 84px square
+     Combined with width creates 84x84 square icon container
+     Impact: Creates consistent square placeholder icon */
   height: 84px;
+  
+  /* display: grid enables grid for centering the icon
+     Impact: Icon is centered within placeholder */
   display: grid;
+  
+  /* place-items: center centers the icon both horizontally and vertically
+     Impact: Icon is perfectly centered in placeholder */
   place-items: center;
+  
+  /* border-radius: 999px creates fully rounded pill/circle shape
+     999px is larger than needed, renders as circle
+     Impact: Creates circular placeholder icon */
   border-radius: 999px;
+  
+  /* background: var(--surface-strong) uses darker surface color
+     Creates contrast for placeholder icon
+     Impact: Icon stands out from lighter backgrounds */
   background: var(--surface-strong);
+  
+  /* color: var(--muted) makes icon text/color muted gray
+     Placeholder is de-emphasized secondary state
+     Impact: Placeholder appears as secondary/fallback content */
   color: var(--muted);
+  
+  /* font-family: var(--font-display), sans-serif uses display font
+     Large emoji or icon needs bold typeface
+     Impact: Icon/emoji appears prominent and clear */
   font-family: var(--font-display), sans-serif;
+  
+  /* font-size: 2rem makes icon 2x the base font size (typically 32px)
+     Large size for fallback emoji
+     Impact: Icon is large and clearly visible */
   font-size: 2rem;
 }
 
+/* ===================================
+   PHONE DETAIL TITLE
+   
+   The product name/title of the phone.
+   ===================================== */
+
+/* .phone-detail-title is the phone name/title heading */
 .page :global(.phone-detail-title) {
+  /* margin: 0 removes default heading margins
+     Prevents browser default spacing
+     Impact: Allows precise control of title spacing */
   margin: 0;
+  
+  /* font-family: var(--font-display), sans-serif uses display/heading font
+     Different from body font for visual hierarchy
+     Impact: Title looks distinct from body text */
   font-family: var(--font-display), sans-serif;
+  
+  /* font-size: clamp(2rem, 4vw, 4rem) sets responsive font size
+     - Minimum: 2rem (32px on small screens)
+     - Preferred: 4vw (4% of viewport width - scales smoothly)
+     - Maximum: 4rem (64px on large screens)
+     Impact: Title scales beautifully across all screen sizes */
   font-size: clamp(2rem, 4vw, 4rem);
+  
+  /* line-height: 0.95 sets tight line spacing
+     0.95 means 95% of font size (very tight)
+     Tight line height for headlines creates impactful look
+     Impact: Title feels bold and compressed for emphasis */
   line-height: 0.95;
+  
+  /* letter-spacing: -0.05em reduces space between letters
+     Negative value brings letters closer together
+     -0.05em = -5% of font size
+     Negative letter spacing is common for large headlines
+     Impact: Title feels powerful and bold */
   letter-spacing: -0.05em;
 }
 
+/* ===================================
+   PHONE DETAIL ACTIONS CONTAINER
+   
+   Container for all action buttons (buy, compare, etc).
+   ===================================== */
+
+/* .phone-detail-actions is the container for all action buttons */
 .page :global(.phone-detail-actions) {
+  /* display: grid enables grid layout for action buttons
+     Stacks buttons or arranges them in grid
+     Impact: Organizes buttons in structured layout */
   display: grid;
+  
+  /* gap: 12px sets spacing between buttons
+     12px creates compact but readable spacing
+     Impact: Buttons are close together but not crowded */
   gap: 12px;
 }
 
+/* ===================================
+   PRIMARY ACTION BUTTONS
+   
+   Main action buttons like "Buy Now", "Compare", etc.
+   ===================================== */
+
+/* .card-primary-actions and .marketplace-actions are button groups */
 .page :global(.card-primary-actions),
 .page :global(.marketplace-actions) {
+  /* display: grid enables grid layout for button group
+     Impact: Buttons can be arranged horizontally or vertically */
   display: grid;
+  
+  /* gap: 12px sets spacing between buttons in group
+     12px is compact but readable
+     Impact: Buttons in group are properly spaced */
   gap: 12px;
 }
 
+/* ===================================
+   MARKETPLACE ACTIONS LAYOUT
+   
+   Special layout for marketplace-related action buttons.
+   ===================================== */
+
+/* .marketplace-actions has specific column layout */
 .page :global(.marketplace-actions) {
+  /* grid-template-columns: repeat(2, minmax(0, 1fr)) creates 2-column button layout
+     repeat(2, ...) = 2 equal columns
+     minmax(0, 1fr) = each column takes equal width
+     Impact: Creates 2-button row layout (Buy, Compare, etc.) */
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+/* ===================================
+   DETAIL PAGE ACTION LAYOUT
+   
+   Specific button layout for the detail page actions.
+   ===================================== */
+
+/* .phone-detail-actions .card-primary-actions creates 2-column button layout */
 .page :global(.phone-detail-actions .card-primary-actions) {
+  /* grid-template-columns: repeat(2, minmax(0, 1fr)) creates 2-column layout
+     Primary actions (most important) are displayed 2 across
+     Impact: Creates 2-button row for main actions */
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+/* ===================================
+   FULL-WIDTH ACTION BUTTONS
+   
+   Buttons that span full width of container.
+   ===================================== */
+
+/* These selectors make secondary buttons full-width */
 .page :global(.phone-detail-actions > .button-secondary),
 .page :global(.phone-detail-actions .marketplace-actions) {
+  /* width: 100% makes buttons/containers full width
+     Impact: Buttons stretch to fill container width */
   width: 100%;
 }
 
+/* ===================================
+   SPECIFICATIONS TABLE CONTAINER
+   
+   Container for the phone specifications/details table.
+   ===================================== */
+
+/* .specs-table-card is the card containing the specs table */
 .page :global(.specs-table-card) {
+  /* overflow: hidden clips content beyond card boundaries
+     Ensures border-radius works cleanly
+     Impact: Card has clean, rounded corners */
   overflow: hidden;
 }
 
+/* ===================================
+   SPECS TABLE LAYOUT
+   
+   Grid layout for the entire specifications table.
+   ===================================== */
+
+/* .specs-table is the main specifications table container */
 .page :global(.specs-table) {
+  /* display: grid enables grid layout for table
+     Table rows are grid items
+     Impact: Creates flexible table layout */
   display: grid;
 }
 
+/* ===================================
+   SPECIFICATIONS SECTION
+   
+   Group of related specs (e.g., Display, Camera, Battery).
+   ===================================== */
+
+/* .specs-section groups related specs together (Display, Camera, etc.) */
 .page :global(.specs-section) {
+  /* display: grid enables grid layout for specs section
+     Organizes spec name (left) and values (right)
+     Impact: Creates two-column layout for section */
   display: grid;
+  
+  /* grid-template-columns: 220px minmax(0, 1fr) creates 2-column section layout
+     First column: 220px fixed width for section title
+     Second column: minmax(0, 1fr) remaining space for specs
+     Impact: Section title is fixed-width, specs fill remaining space */
   grid-template-columns: 220px minmax(0, 1fr);
+  
+  /* border-top: 1px solid var(--border) adds top border
+     Creates visual separation between sections
+     Impact: Each section is clearly separated */
   border-top: 1px solid var(--border);
 }
 
+/* ===================================
+   FIRST SPECIFICATIONS SECTION
+   
+   First section shouldn't have top border.
+   ===================================== */
+
+/* .specs-section:first-child removes border from first section */
 .page :global(.specs-section:first-child) {
+  /* border-top: 0 removes the top border
+     First section doesn't need top border
+     Impact: Clean appearance at top of table */
   border-top: 0;
 }
 
+/* ===================================
+   SPECIFICATIONS SECTION TITLE
+   
+   The category title for a group of specs (Display, Camera, etc.).
+   ===================================== */
+
+/* .specs-section-title styles the section category title */
 .page :global(.specs-section-title) {
+  /* padding: 18px 24px adds internal spacing
+     18px vertical, 24px horizontal
+     Impact: Title has proper breathing room */
   padding: 18px 24px;
+  
+  /* background: var(--surface-soft) uses light background color
+     Section title has distinct background for visual hierarchy
+     Impact: Title stands out with different background */
   background: var(--surface-soft);
+  
+  /* border-right: 1px solid var(--border) adds right border
+     Creates vertical separation between title and specs columns
+     Impact: Column separation is visually clear */
   border-right: 1px solid var(--border);
+  
+  /* font-family: var(--font-display), sans-serif uses display font
+     Title uses bolder, distinctive font
+     Impact: Title appears prominent and distinct */
   font-family: var(--font-display), sans-serif;
 }
 
+/* ===================================
+   INDIVIDUAL SPECIFICATION ROW
+   
+   One row containing a spec name and its value.
+   ===================================== */
+
+/* .spec-row is one specification row (name + value) */
 .page :global(.spec-row) {
+  /* display: grid enables grid layout for spec row
+     Arranges spec name (left) and value (right)
+     Impact: Creates two-column row layout */
   display: grid;
+  
+  /* grid-template-columns: 180px minmax(0, 1fr) creates 2-column row layout
+     First column: 180px fixed width for spec name
+     Second column: minmax(0, 1fr) remaining space for spec value
+     Impact: Spec name is fixed-width, value fills remaining space */
   grid-template-columns: 180px minmax(0, 1fr);
+  
+  /* gap: 18px sets spacing between spec name and value columns
+     18px creates breathing room between columns
+     Impact: Spec name and value are clearly separated */
   gap: 18px;
+  
+  /* padding: 16px 24px adds internal spacing
+     16px vertical, 24px horizontal
+     Impact: Spec row has proper padding for readability */
   padding: 16px 24px;
+  
+  /* border-top: 1px solid var(--border) adds top border to each row
+     Creates visual separation between spec rows
+     Impact: Each spec is clearly separated from next */
   border-top: 1px solid var(--border);
 }
 
+/* ===================================
+   FIRST SPECIFICATION ROW
+   
+   First spec row shouldn't have top border.
+   ===================================== */
+
+/* .spec-row:first-child removes border from first row */
 .page :global(.spec-row:first-child) {
+  /* border-top: 0 removes top border
+     First row doesn't need top border
+     Impact: Clean appearance at top of specs */
   border-top: 0;
 }
 
+/* ===================================
+   SPECIFICATION LABEL (NAME)
+   
+   The name/label of the specification (e.g., "Display Size").
+   ===================================== */
+
+/* .spec-label is the spec name (left column) */
 .page :global(.spec-label) {
+  /* color: var(--muted) makes label text muted gray
+     Secondary text is de-emphasized
+     Impact: Label is less prominent than value */
   color: var(--muted);
 }
 
+/* ===================================
+   SPECIFICATION VALUE
+   
+   The actual value of the specification (e.g., "6.5 inches").
+   ===================================== */
+
+/* .spec-value is the spec value (right column) */
 .page :global(.spec-value) {
+  /* white-space: pre-wrap preserves whitespace and line breaks
+     Allows multi-line spec values to display properly
+     Impact: Spec values with line breaks display correctly */
   white-space: pre-wrap;
+  
+  /* line-height: 1.65 sets line spacing for multi-line values
+     1.65 = high line height for readability
+     Impact: Multi-line spec values are readable with good spacing */
   line-height: 1.65;
 }
 
+/* ===================================
+   RESPONSIVE BREAKPOINTS - MOBILE
+   
+   Adjusts detail page layout for mobile screens (max-width: 768px).
+   ===================================== */
+
 @media (max-width: 768px) {
+  /* On mobile, collapse hero section from 2 columns to 1 */
   .page :global(.phone-detail-hero) {
+    /* grid-template-columns: 1fr collapses to single column
+       Image and details stack vertically instead of side-by-side
+       Impact: Fits mobile screen width */
     grid-template-columns: 1fr;
+    
+    /* padding: 18px reduces padding on mobile
+       18px is more appropriate for narrow screens
+       Impact: Better use of limited mobile screen space */
     padding: 18px;
   }
-
+  
+  /* On mobile, reduce image container height */
   .page :global(.phone-detail-media) {
+    /* min-height: 280px reduces min height on mobile
+       280px is still prominent but fits mobile screens
+       Impact: Image scales appropriately for mobile */
     min-height: 280px;
   }
-
+  
+  /* On mobile, stack action buttons vertically */
   .page :global(.phone-detail-actions .card-primary-actions),
   .page :global(.phone-detail-actions .marketplace-actions) {
+    /* grid-template-columns: 1fr collapses to single column
+       Buttons stack vertically for touch-friendly stacking
+       Impact: Easier to tap individual buttons on mobile */
     grid-template-columns: 1fr;
   }
-
+  
+  /* On mobile, specs section collapses to single column */
   .page :global(.specs-section) {
+    /* grid-template-columns: 1fr collapses to single column
+       Spec name and value stack vertically
+       Impact: Specs fit narrow mobile screens */
     grid-template-columns: 1fr;
   }
-
+  
+  /* On mobile, remove specs section right border */
   .page :global(.specs-section-title) {
+    /* border-right: 0 removes the vertical separator
+       In single-column layout, vertical border not needed
+       Impact: Clean appearance on mobile */
     border-right: 0;
+    
+    /* border-bottom: 1px solid var(--border) adds bottom border instead
+       In single-column layout, horizontal border works better
+       Impact: Title still separated from specs visually */
     border-bottom: 1px solid var(--border);
   }
-
+  
+  /* On mobile, collapse spec rows to single column */
   .page :global(.spec-row) {
+    /* grid-template-columns: 1fr collapses to single column
+       Spec name and value stack vertically
+       Impact: Specs fit narrow screens */
     grid-template-columns: 1fr;
+    
+    /* gap: 8px reduces gap on mobile
+       8px is compact but still readable
+       Impact: Better use of limited mobile space */
     gap: 8px;
   }
 }
