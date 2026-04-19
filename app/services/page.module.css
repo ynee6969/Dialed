@@ -1,0 +1,152 @@
+/* Services page.
+   Keeps the asymmetric tools grid and its responsive behavior near the route. */
+
+.page :global(.services-shell) {
+  display: grid;
+  gap: 24px;
+}
+
+.page :global(.services-grid) {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1.35fr 1fr 1fr;
+}
+
+.page :global(.service-card) {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  padding: 24px;
+  overflow: hidden;
+}
+
+.page :global(.service-card-featured) {
+  border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
+  box-shadow:
+    0 22px 60px rgba(4, 10, 18, 0.3),
+    inset 0 0 0 1px rgba(var(--accent-rgb), 0.12);
+}
+
+.page :global(.service-card-copy) {
+  display: grid;
+  gap: 14px;
+}
+
+.page :global(.service-card-copy h2) {
+  margin: 0;
+  font-size: clamp(2rem, 3vw, 3rem);
+  letter-spacing: -0.05em;
+  line-height: 0.96;
+}
+
+.page :global(.service-card h3) {
+  margin: 14px 0 10px;
+  font-size: 1.08rem;
+  letter-spacing: -0.03em;
+}
+
+.page :global(.service-card p) {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.62;
+}
+
+.page :global(.service-card-icon) {
+  width: 42px;
+  height: 42px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: var(--accent);
+}
+
+.page :global(.service-preview) {
+  display: grid;
+  gap: 16px;
+}
+
+.page :global(.service-preview-compare) {
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+}
+
+.page :global(.service-phone-preview) {
+  padding: 18px;
+  border-radius: 24px;
+  background: color-mix(in srgb, var(--surface-soft) 90%, rgba(255, 255, 255, 0.04));
+  border: 1px solid color-mix(in srgb, var(--border) 86%, rgba(255, 255, 255, 0.04));
+}
+
+.page :global(.service-phone-preview strong) {
+  display: block;
+  margin-top: 12px;
+  font-size: 1.1rem;
+}
+
+.page :global(.service-phone-preview.accent) {
+  border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
+}
+
+.page :global(.service-preview-versus) {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 96%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--border));
+  font-family: var(--font-display), sans-serif;
+  letter-spacing: -0.04em;
+}
+
+.page :global(.service-mini-bars),
+.page :global(.service-inline-preview) {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.page :global(.service-mini-bars span),
+.page :global(.service-inline-preview span) {
+  display: block;
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(70, 179, 123, 0.92), rgba(127, 236, 184, 0.4));
+}
+
+.page :global(.service-inline-preview span:nth-child(2)) {
+  width: 84%;
+}
+
+.page :global(.service-inline-preview span:nth-child(3)) {
+  width: 68%;
+}
+
+.page :global(.service-inline-preview.text span:nth-child(4)) {
+  width: 52%;
+}
+
+.page :global(.services-hint) {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+}
+
+@media (max-width: 1180px) {
+  .page :global(.services-grid) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .page :global(.services-grid),
+  .page :global(.service-preview-compare) {
+    grid-template-columns: 1fr;
+  }
+
+  .page :global(.service-preview-versus) {
+    margin: 0 auto;
+  }
+}

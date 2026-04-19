@@ -19,6 +19,7 @@ import {
   performanceTierOptions,
   priceRangeOptions
 } from "@/lib/utils/phone-filters";
+import styles from "./MatchmakerDashboard.module.css";
 
 export type DashboardPhone = PhoneCardRecord;
 
@@ -161,8 +162,13 @@ function MobileSheet({
   children: React.ReactNode;
 }) {
   return (
-    <div className="sheet-overlay" role="presentation" onClick={onClose}>
-      <div className="sheet-panel" role="dialog" aria-modal="true" onClick={(event) => event.stopPropagation()}>
+    <div className={`sheet-overlay ${styles.sheetOverlay}`} role="presentation" onClick={onClose}>
+      <div
+        className={`sheet-panel ${styles.sheetPanel}`}
+        role="dialog"
+        aria-modal="true"
+        onClick={(event) => event.stopPropagation()}
+      >
         <div className="sheet-header">
           <strong>{title}</strong>
           <button type="button" className="theme-toggle" onClick={onClose}>
@@ -306,7 +312,7 @@ export function MatchmakerDashboard({
   const hasMore = phones.length < total;
 
   return (
-    <div className="dashboard-layout">
+    <div className={`dashboard-layout ${styles.scope}`}>
       <aside className="sidebar desktop-sidebar">
         <div className="glass-panel sidebar-card dashboard-filter-panel">
           <button

@@ -1,0 +1,404 @@
+/* Theme settings modal.
+   Keeps the launcher in the corner and the full settings panel centered. */
+
+.scope :global(.theme-toggle-preview) {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 2px;
+}
+
+.scope :global(.theme-toggle-preview span) {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.scope :global(.theme-mode-row) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.scope :global(.theme-mode-button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  color: var(--muted);
+}
+
+.scope :global(.theme-mode-button.is-active) {
+  color: var(--text);
+  border-color: rgba(var(--accent-rgb), 0.26);
+  background: rgba(var(--accent-rgb), 0.12);
+}
+
+.scope :global(.theme-search) {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+}
+
+.scope :global(.theme-search input) {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+}
+
+.scope :global(.theme-launcher) {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 90;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 12px 16px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--border));
+  background: color-mix(in srgb, var(--surface) 95%, transparent);
+  color: var(--text);
+  box-shadow:
+    0 18px 40px rgba(4, 10, 18, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(18px);
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
+}
+
+.scope :global(.theme-launcher:hover),
+.scope :global(.theme-launcher.is-open) {
+  transform: translateY(-2px);
+  border-color: rgba(var(--accent-rgb), 0.28);
+  box-shadow:
+    0 20px 44px rgba(4, 10, 18, 0.32),
+    0 0 0 1px rgba(var(--accent-rgb), 0.14);
+}
+
+.scope :global(.theme-launcher-label) {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.scope :global(.theme-modal-backdrop) {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  place-items: center;
+  padding: 28px;
+  background: rgba(5, 8, 14, 0.62);
+  backdrop-filter: blur(16px);
+}
+
+.scope :global(.theme-modal) {
+  width: min(92vw, 860px);
+  max-height: min(86vh, 880px);
+  overflow-y: auto;
+  padding: clamp(18px, 2vw, 28px);
+  display: grid;
+  gap: 20px;
+  border-radius: 32px;
+}
+
+.scope :global(.theme-modal-header) {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.scope :global(.theme-modal-copy) {
+  display: grid;
+  gap: 12px;
+}
+
+.scope :global(.theme-modal-copy h2) {
+  margin: 0;
+  font-size: clamp(1.85rem, 3vw, 2.6rem);
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+}
+
+.scope :global(.theme-modal-copy p) {
+  margin: 0;
+  max-width: 620px;
+  line-height: 1.65;
+}
+
+.scope :global(.theme-modal-label) {
+  width: fit-content;
+}
+
+.scope :global(.theme-modal-close) {
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border-radius: 18px;
+  flex: 0 0 auto;
+}
+
+.scope :global(.theme-modal-mode-row) {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 0;
+}
+
+.scope :global(.theme-preview-grid) {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.scope :global(.theme-preview-card) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: start;
+  min-height: 132px;
+  padding: 18px;
+  border-radius: 24px;
+  border: 1px solid color-mix(in srgb, var(--border) 88%, rgba(255, 255, 255, 0.04));
+  background: color-mix(in srgb, var(--surface-soft) 90%, rgba(255, 255, 255, 0.03));
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.scope :global(.theme-preview-card:hover),
+.scope :global(.theme-preview-card.is-active) {
+  transform: translateY(-2px);
+  border-color: rgba(var(--accent-rgb), 0.28);
+  background: color-mix(in srgb, var(--surface-soft) 84%, rgba(var(--accent-rgb), 0.08));
+  box-shadow: 0 0 0 1px rgba(var(--accent-rgb), 0.1);
+}
+
+.scope :global(.theme-preview-copy) {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.scope :global(.theme-preview-copy span) {
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.scope :global(.theme-preview-copy strong) {
+  font-size: 1.08rem;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.scope :global(.theme-preview-copy p) {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.scope :global(.theme-modal-toolbar) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.scope :global(.theme-modal-search) {
+  margin-top: 0;
+  flex: 1 1 auto;
+}
+
+.scope :global(.theme-edit-toggle) {
+  display: inline-grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 4px;
+  gap: 4px;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-soft) 92%, rgba(255, 255, 255, 0.03));
+}
+
+.scope :global(.theme-edit-button) {
+  min-width: 132px;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    background 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.scope :global(.theme-edit-button.is-active) {
+  background: rgba(var(--accent-rgb), 0.14);
+  color: var(--text);
+}
+
+.scope :global(.theme-modal-section-header) {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.scope :global(.theme-modal-section-header p) {
+  margin: 8px 0 0;
+  line-height: 1.55;
+}
+
+.scope :global(.theme-status-chip) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(var(--accent-rgb), 0.12);
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.scope :global(.theme-preset-list) {
+  display: grid;
+  gap: 8px;
+  max-height: min(40vh, 360px);
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.scope :global(.theme-preset-row) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 54px;
+  padding: 12px 14px;
+  border-radius: 18px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    color 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.scope :global(.theme-preset-row:hover),
+.scope :global(.theme-preset-row.is-active) {
+  color: var(--text);
+  background: color-mix(in srgb, var(--surface-soft) 88%, rgba(var(--accent-rgb), 0.06));
+  border-color: rgba(var(--accent-rgb), 0.22);
+}
+
+.scope :global(.theme-preset-name) {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  font-weight: 600;
+}
+
+.scope :global(.theme-preset-name-text) {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.scope :global(.theme-preset-spacer) {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 768px) {
+  .scope :global(.theme-launcher) {
+    right: 16px;
+    bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+    padding: 12px;
+  }
+
+  .scope :global(.theme-launcher-label) {
+    display: none;
+  }
+
+  .scope :global(.theme-modal-backdrop) {
+    padding: 16px;
+  }
+
+  .scope :global(.theme-modal) {
+    width: min(100%, 680px);
+    max-height: min(88vh, 860px);
+    padding: 18px;
+    border-radius: 28px;
+  }
+
+  .scope :global(.theme-modal-header),
+  .scope :global(.theme-modal-section-header),
+  .scope :global(.theme-modal-toolbar) {
+    display: grid;
+  }
+
+  .scope :global(.theme-modal-close) {
+    justify-self: end;
+  }
+
+  .scope :global(.theme-preview-grid),
+  .scope :global(.theme-modal-mode-row) {
+    grid-template-columns: 1fr;
+  }
+
+  .scope :global(.theme-edit-toggle) {
+    width: 100%;
+  }
+
+  .scope :global(.theme-edit-button) {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .scope :global(.theme-modal) {
+    padding: 16px;
+  }
+
+  .scope :global(.theme-status-chip) {
+    white-space: normal;
+  }
+}

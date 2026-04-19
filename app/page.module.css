@@ -1,0 +1,131 @@
+/* Home page.
+   Covers the landing-page sections that sit below the hero component. */
+
+.page {
+  display: contents;
+}
+
+.page :global(.story-strip),
+.page :global(.home-feature-layout),
+.page :global(.home-preview-grid) {
+  display: grid;
+  gap: 20px;
+}
+
+.page :global(.story-strip) {
+  margin-top: 28px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.page :global(.story-card) {
+  position: relative;
+  overflow: hidden;
+  padding: 22px;
+}
+
+.page :global(.story-card h3) {
+  margin: 14px 0 10px;
+  font-size: 1.08rem;
+  letter-spacing: -0.03em;
+}
+
+.page :global(.story-card p) {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.62;
+}
+
+.page :global(.story-card span) {
+  display: block;
+  color: var(--muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.page :global(.home-feature-layout) {
+  grid-template-columns: 1fr 1.2fr 1fr;
+}
+
+.page :global(.home-feature-card) {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  padding: 24px;
+  overflow: hidden;
+}
+
+.page :global(.home-feature-card.accent) {
+  border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
+  box-shadow:
+    0 22px 60px rgba(4, 10, 18, 0.3),
+    inset 0 0 0 1px rgba(var(--accent-rgb), 0.12);
+}
+
+.page :global(.home-feature-icon) {
+  width: 42px;
+  height: 42px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: var(--accent);
+}
+
+.page :global(.home-preview-grid) {
+  margin-top: 28px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.page :global(.home-preview-card) {
+  padding: 22px;
+  display: grid;
+  gap: 16px;
+}
+
+.page :global(.home-preview-card.is-featured) {
+  transform: translateY(-8px);
+}
+
+.page :global(.home-preview-stats) {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.page :global(.home-preview-stats > div) {
+  padding: 14px 16px;
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--surface-soft) 92%, rgba(255, 255, 255, 0.03));
+  border: 1px solid color-mix(in srgb, var(--border) 86%, rgba(255, 255, 255, 0.05));
+}
+
+.page :global(.home-preview-stats > div span) {
+  display: block;
+  color: var(--muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.page :global(.final-cta-card) {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(28px, 4vw, 44px);
+}
+
+@media (max-width: 1180px) {
+  .page :global(.story-strip),
+  .page :global(.home-feature-layout),
+  .page :global(.home-preview-grid) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .page :global(.story-strip),
+  .page :global(.home-feature-layout),
+  .page :global(.home-preview-grid) {
+    grid-template-columns: 1fr;
+  }
+}

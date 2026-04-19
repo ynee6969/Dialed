@@ -1,10 +1,11 @@
 import Link from "next/link";
 
 import { authConfigurationMessage } from "@/lib/auth/config";
+import styles from "./AuthForm.module.css";
 
 export function AuthConfigNotice() {
   return (
-    <div className="auth-shell">
+    <div className={`auth-shell ${styles.scope}`}>
       <div className="glass-panel auth-card">
         <span className="section-label">Auth Setup Needed</span>
         <h1 className="feature-title">Authentication is not configured yet.</h1>

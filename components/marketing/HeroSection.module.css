@@ -1,0 +1,279 @@
+/* Home hero.
+   Owns the landing-page hero, signature comparison preview, and phone-friendly spacing. */
+
+.scope {
+  padding-top: clamp(34px, 5vw, 58px);
+}
+
+.scope :global(.premium-hero-grid) {
+  align-items: start;
+}
+
+.scope :global(.premium-hero-panel),
+.scope :global(.hero-signature-card),
+.scope :global(.hero-story-card),
+.scope :global(.hero-feature-list) {
+  position: relative;
+  overflow: hidden;
+}
+
+.scope :global(.premium-hero-panel) {
+  min-height: 620px;
+}
+
+.scope :global(.hero-noise) {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.3;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08), transparent 20%),
+    radial-gradient(circle at 80% 14%, rgba(var(--accent-rgb), 0.22), transparent 18%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.03), transparent 44%);
+}
+
+.scope :global(.hero-copy-stack),
+.scope :global(.hero-story-card) {
+  position: relative;
+  z-index: 1;
+}
+
+.scope :global(.hero-action-row) {
+  margin-top: 28px;
+}
+
+.scope :global(.hero-badge-row) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.scope :global(.hero-badge-row .pill) {
+  min-height: 48px;
+  padding: 12px 16px;
+  justify-content: flex-start;
+}
+
+.scope :global(.hero-story-grid) {
+  display: grid;
+  gap: 14px;
+  margin-top: 34px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.scope :global(.hero-story-card) {
+  padding: 18px;
+  border-radius: 24px;
+  background: color-mix(in srgb, var(--surface-soft) 82%, rgba(255, 255, 255, 0.03));
+  border: 1px solid color-mix(in srgb, var(--border) 86%, rgba(255, 255, 255, 0.04));
+}
+
+.scope :global(.hero-story-card h3) {
+  margin: 14px 0 10px;
+  font-size: 1.08rem;
+  letter-spacing: -0.03em;
+}
+
+.scope :global(.hero-story-card p) {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.62;
+}
+
+.scope :global(.hero-story-icon) {
+  width: 42px;
+  height: 42px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: var(--accent);
+}
+
+.scope :global(.premium-hero-stack) {
+  gap: 20px;
+}
+
+.scope :global(.hero-signature-card) {
+  padding: 24px;
+}
+
+.scope :global(.signature-eyebrow) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.scope :global(.signature-phone-row) {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  margin-top: 22px;
+  align-items: center;
+}
+
+.scope :global(.signature-phone-card) {
+  padding: 18px;
+  border-radius: 24px;
+  background: color-mix(in srgb, var(--surface-soft) 90%, rgba(255, 255, 255, 0.03));
+  border: 1px solid color-mix(in srgb, var(--border) 86%, rgba(255, 255, 255, 0.04));
+}
+
+.scope :global(.signature-phone-card h3) {
+  margin: 12px 0 8px;
+  font-size: 1.18rem;
+}
+
+.scope :global(.signature-phone-card p) {
+  margin: 0;
+  color: var(--muted);
+}
+
+.scope :global(.signature-phone-card-accent) {
+  border-color: color-mix(in srgb, var(--accent) 32%, var(--border));
+  box-shadow: inset 0 0 0 1px rgba(var(--accent-rgb), 0.14);
+}
+
+.scope :global(.signature-versus) {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 96%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--border));
+  font-family: var(--font-display), sans-serif;
+  letter-spacing: -0.04em;
+}
+
+.scope :global(.signature-compare-grid) {
+  display: grid;
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.scope :global(.signature-compare-row) {
+  padding: 14px 16px;
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--surface-soft) 86%, rgba(255, 255, 255, 0.03));
+  border: 1px solid color-mix(in srgb, var(--border) 84%, rgba(255, 255, 255, 0.04));
+}
+
+.scope :global(.signature-compare-header) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.scope :global(.signature-compare-header span) {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.scope :global(.signature-compare-header strong) {
+  color: var(--accent);
+  font-size: 0.84rem;
+}
+
+.scope :global(.signature-compare-bars) {
+  display: grid;
+  gap: 8px;
+}
+
+.scope :global(.signature-compare-bar) {
+  display: block;
+  height: 11px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(88, 186, 135, 0.94), rgba(107, 230, 176, 0.64));
+}
+
+.scope :global(.signature-compare-bar.right) {
+  background: linear-gradient(90deg, rgba(93, 153, 255, 0.88), rgba(69, 205, 255, 0.58));
+}
+
+.scope :global(.hero-stats-grid) {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.scope :global(.hero-stat-card) {
+  padding: 14px 16px;
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--surface-soft) 92%, rgba(255, 255, 255, 0.03));
+  border: 1px solid color-mix(in srgb, var(--border) 86%, rgba(255, 255, 255, 0.05));
+}
+
+.scope :global(.hero-stat-card span) {
+  display: block;
+  color: var(--muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.scope :global(.hero-stat-card strong) {
+  display: block;
+  margin-top: 8px;
+  font-size: 1.25rem;
+  letter-spacing: -0.04em;
+}
+
+.scope :global(.hero-feature-list) {
+  padding: 22px;
+}
+
+.scope :global(.hero-feature-list-header p) {
+  margin: 14px 0 0;
+}
+
+.scope :global(.hero-feature-reveal) {
+  display: grid;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.scope :global(.hero-feature-reveal div) {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--surface-soft) 90%, rgba(255, 255, 255, 0.03));
+  border: 1px solid color-mix(in srgb, var(--border) 84%, rgba(255, 255, 255, 0.04));
+}
+
+@media (max-width: 1180px) {
+  .scope :global(.premium-hero-panel) {
+    min-height: auto;
+  }
+
+  .scope :global(.hero-story-grid) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .scope :global(.hero-badge-row) {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .scope :global(.hero-badge-row .pill) {
+    width: 100%;
+  }
+
+  .scope :global(.hero-story-grid),
+  .scope :global(.hero-stats-grid),
+  .scope :global(.signature-phone-row) {
+    grid-template-columns: 1fr;
+  }
+
+  .scope :global(.signature-versus) {
+    margin: 0 auto;
+  }
+}

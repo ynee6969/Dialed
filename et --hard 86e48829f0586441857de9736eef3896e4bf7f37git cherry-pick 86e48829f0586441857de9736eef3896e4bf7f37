@@ -1,0 +1,93 @@
+[33mcommit 551688483ef336e39e2dd54254ebda419627f641[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: ynee <samsungj2pro47@gmail.com>
+Date:   Sun Apr 19 13:58:56 2026 +0800
+
+    Revert "css fix"
+    
+    This reverts commit 61bca6b14b29bbca58626c6d907d7bda993565a3.
+
+[33mcommit ff00dfffa6e427f4e05c4ed06c2d471ea7835e34[m
+Author: ynee <samsungj2pro47@gmail.com>
+Date:   Sun Apr 19 13:56:02 2026 +0800
+
+    Revert "css fix"
+    
+    This reverts commit 86e48829f0586441857de9736eef3896e4bf7f37.
+
+[33mcommit 86e48829f0586441857de9736eef3896e4bf7f37[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: ynee <samsungj2pro47@gmail.com>
+Date:   Sun Apr 19 13:52:27 2026 +0800
+
+    css fix
+
+[33mcommit 61bca6b14b29bbca58626c6d907d7bda993565a3[m
+Author: ynee <samsungj2pro47@gmail.com>
+Date:   Sun Apr 19 13:37:13 2026 +0800
+
+    css fix
+
+[33mcommit 7a009421cbc631c23e1ba2b378756217ca2af120[m
+Author: ynee <samsungj2pro47@gmail.com>
+Date:   Sat Apr 18 22:56:50 2026 +0800
+
+    css improvements
+
+[33mcommit ae0895668015b755536f98e22ec45e2ef1811a0a[m
+Author: ynee <samsungj2pro47@gmail.com>
+Date:   Sat Apr 18 20:29:40 2026 +0800
+
+    css imoriovemnt
+
+[33mcommit 6773da95f362922b02122af5f747a58512b592b9[m
+Author: ynee <samsungj2pro47@gmail.com>
+Date:   Sat Apr 18 19:44:47 2026 +0800
+
+    css improvement
+
+[33mcommit 5b4550266c3bd8671422012947d7ee44288622d7[m
+Author: ynee <samsungj2pro47@gmail.com>
+Date:   Sat Apr 18 19:24:00 2026 +0800
+
+    css improvements
+
+[33mcommit a4d95a7f8367ee951bc1279f0440fc87372bda5e[m
+Author: ynee <samsungj2pro47@gmail.com>
+Date:   Sat Apr 18 18:58:51 2026 +0800
+
+    css improvements
+
+[33mcommit 9983648266d802cb2e31854c903a2e669d9bb697[m
+Author: ynee <samsungj2pro47@gmail.com>
+Date:   Fri Apr 17 21:53:46 2026 +0800
+
+    bug fixes
+
+[33mcommit e464f608607c1a3dc9462a3262b6103f332a76e3[m
+Author: ynee <samsungj2pro47@gmail.com>
+Date:   Fri Apr 17 21:26:29 2026 +0800
+
+    big fixes
+
+[33mcommit 1009a0f71e7760c4a8e9ae8a1a2d31160e685ada[m
+Author: ynee <samsungj2pro47@gmail.com>
+Date:   Fri Apr 17 20:15:04 2026 +0800
+
+    Add NextAuth secret guards for deployment
+
+[33mcommit fc202ecc23bd5571d79031f285fe723ddc9bd0e6[m
+Author: ynee <samsungj2pro47@gmail.com>
+Date:   Fri Apr 17 20:02:20 2026 +0800
+
+    Ensure Prisma client regenerates on install
+
+[33mcommit 801a060d35c95dda244b718279f0b1ecdea3c556[m
+Author: ynee <samsungj2pro47@gmail.com>
+Date:   Fri Apr 17 19:53:24 2026 +0800
+
+    big fixes
+
+[33mcommit 09ecf689d358de07efe550f74dc346d44643e395[m
+Author: ynee <samsungj2pro47@gmail.com>
+Date:   Fri Apr 17 18:38:31 2026 +0800
+
+    Initial commit

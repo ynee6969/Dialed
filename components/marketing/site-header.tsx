@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 
 import { BrandLockup } from "@/components/marketing/brand-lockup";
 import { HeaderAuthControls } from "@/components/marketing/header-auth-controls";
+import styles from "./SiteHeader.module.css";
 
 const links = [
   { href: "/", label: "Home" },
@@ -28,7 +29,7 @@ export function SiteHeader() {
   const pathname = usePathname();
 
   return (
-    <header className="site-header">
+    <header className={`site-header ${styles.header}`}>
       <div className="header-inner">
         <BrandLockup />
 

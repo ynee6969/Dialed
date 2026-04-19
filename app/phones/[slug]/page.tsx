@@ -35,6 +35,7 @@ import {
   getPhoneDisplayName
 } from "@/lib/utils/phone-presentation";
 import { formatPhp, formatScore } from "@/lib/utils/format";
+import styles from "./page.module.css";
 
 /* Cache function: Fetches phone data + specs
    Caches result for 5 minutes (300 seconds)
@@ -88,7 +89,7 @@ export default async function PhoneDetailPage({
   const marketplaceLinks = buildPhoneMarketplaceLinks(phone);
 
   return (
-    <section className="section">
+    <section className={`section ${styles.page}`}>
       <div className="page-shell phone-detail-layout">
         <div className="glass-panel phone-detail-hero">
           <div className="phone-detail-media">

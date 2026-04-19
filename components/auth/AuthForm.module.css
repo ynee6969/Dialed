@@ -1,0 +1,40 @@
+/* Auth shell.
+   Keeps login and signup layout centered without touching the auth logic. */
+
+.scope {
+  display: grid;
+  place-items: center;
+}
+
+.scope :global(.auth-card) {
+  width: min(100%, 560px);
+  padding: clamp(22px, 4vw, 32px);
+}
+
+.scope :global(.auth-submit) {
+  width: 100%;
+  gap: 8px;
+}
+
+.scope :global(.auth-message) {
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid transparent;
+}
+
+.scope :global(.auth-message-error) {
+  background: color-mix(in srgb, var(--danger) 16%, transparent);
+  border-color: color-mix(in srgb, var(--danger) 34%, transparent);
+  color: var(--text);
+}
+
+.scope :global(.inline-link) {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .scope :global(.auth-card) {
+    padding: 22px;
+  }
+}
