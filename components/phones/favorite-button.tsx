@@ -1,5 +1,17 @@
 "use client";
 
+/**
+ * ===================================
+ * FAVORITE BUTTON
+ * ===================================
+ *
+ * Purpose:
+ * Encapsulates the save/remove interaction for a phone.
+ *
+ * Why this component matters:
+ * - Keeps button visuals consistent in cards and detail pages.
+ * - Reads favorite state from the shared provider instead of each page reimplementing it.
+ */
 import { Heart, LoaderCircle } from "lucide-react";
 
 import { useFavorites } from "@/components/providers/favorites-provider";
@@ -16,6 +28,7 @@ export function FavoriteButton({
   variant = "icon",
   className
 }: FavoriteButtonProps) {
+  /* Provider helpers keep the button tied to the current authenticated account only. */
   const { isFavorite, isPending, toggleFavorite } = useFavorites();
   const saved = isFavorite(phoneId);
   const pending = isPending(phoneId);

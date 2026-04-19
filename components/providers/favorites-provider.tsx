@@ -1,5 +1,18 @@
 "use client";
 
+/**
+ * ===================================
+ * FAVORITES PROVIDER
+ * ===================================
+ *
+ * Purpose:
+ * Keeps the current account's favorites list in client state and exposes helpers
+ * to read/toggle that state from anywhere in the app.
+ *
+ * Important behavior:
+ * Favorites are reloaded whenever the signed-in user changes, so one account's
+ * saved phones do not leak into another account on the same device.
+ */
 import {
   createContext,
   useContext,
@@ -20,6 +33,8 @@ interface FavoritesContextValue {
 
 const FavoritesContext = createContext<FavoritesContextValue | null>(null);
 
+/* Builds the callback URL used when a guest tries to save a phone.
+   After login, the user returns to the same screen they were browsing. */
 function buildCallbackUrl(pathname: string | null) {
   const basePath = pathname || "/dashboard";
   const query = typeof window !== "undefined" ? window.location.search : "";
@@ -36,11 +51,13 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
   const [favoritesReady, setFavoritesReady] = useState(false);
 
   useEffect(() => {
+    /* Loading state means NextAuth is still determining who the current user is. */
     if (status === "loading") {
       setFavoritesReady(false);
       return;
     }
 
+    /* Guests should not inherit stale favorites from a previous signed-in session. */
     if (status === "unauthenticated" || !userId) {
       setFavoriteIds([]);
       setPendingIds([]);
@@ -51,6 +68,7 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
     let ignore = false;
     const controller = new AbortController();
 
+    /* Start a fresh fetch every time the active user id changes. */
     setFavoritesReady(false);
     setPendingIds([]);
 
@@ -92,11 +110,13 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
   async function toggleFavorite(phoneId: string) {
     const callbackUrl = buildCallbackUrl(pathname);
 
+    /* Guests are redirected into the auth flow before any write request is attempted. */
     if (status !== "authenticated") {
       window.location.assign(`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`);
       return;
     }
 
+    /* Prevent duplicate writes for the same phone while one request is already running. */
     if (pendingIds.includes(phoneId)) {
       return;
     }
@@ -117,6 +137,7 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
     });
 
     try {
+      /* Add or remove the favorite depending on the current optimistic state. */
       const response = await fetch(currentlyFavorite ? `/api/favorites/${phoneId}` : "/api/favorites", {
         method: currentlyFavorite ? "DELETE" : "POST",
         headers: currentlyFavorite
@@ -137,6 +158,7 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
       }
     } catch (error) {
       console.error("[favorites.toggle]", error);
+      /* Roll back the optimistic update when the server request fails. */
       setFavoriteIds((current) => {
         if (currentlyFavorite) {
           return current.includes(phoneId) ? current : [...current, phoneId];
@@ -150,6 +172,7 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
+    /* Context value exposes both raw state and helper functions to child components. */
     <FavoritesContext.Provider
       value={{
         favoriteIds,
@@ -168,6 +191,7 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
 export function useFavorites() {
   const context = useContext(FavoritesContext);
 
+  /* Guardrail: makes provider wiring mistakes obvious during development. */
   if (!context) {
     throw new Error("useFavorites must be used within FavoritesProvider.");
   }

@@ -1,5 +1,19 @@
 "use client";
 
+/**
+ * ===================================
+ * HOME HERO SECTION
+ * ===================================
+ *
+ * Purpose:
+ * Delivers the first-screen story for the website and funnels people toward
+ * the two main actions: browsing the catalog and opening the compare flow.
+ *
+ * This component mixes:
+ * - motion-driven presentation
+ * - prefetching for snappier navigation
+ * - animated count-up metrics
+ */
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -14,6 +28,8 @@ interface HeroSectionProps {
   segmentCount: number;
 }
 
+/* Animated statistic card used in the hero's quick-metrics grid.
+   The count-up makes catalog data feel alive without changing the content itself. */
 function CountMetric({
   label,
   value,
@@ -26,6 +42,8 @@ function CountMetric({
   const [displayValue, setDisplayValue] = useState(0);
 
   useEffect(() => {
+    /* Lightweight easing function built with requestAnimationFrame so the number
+       climbs smoothly rather than jumping instantly. */
     let animationFrame = 0;
     const start = performance.now();
     const duration = 1100;
@@ -58,11 +76,13 @@ function CountMetric({
 export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
   const router = useRouter();
 
+  /* Prefetch the two most likely next pages so the main CTA feels immediate. */
   useEffect(() => {
     router.prefetch("/dashboard");
     router.prefetch("/compare");
   }, [router]);
 
+  /* Story cards explain the problem-solution arc in a compact visual format. */
   const storyPoints = [
     {
       icon: Layers3,
@@ -81,6 +101,7 @@ export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
     }
   ];
 
+  /* These rows fake the "signature comparison reveal" with simple animated bars. */
   const revealRows = [
     { label: "Camera", left: 99, right: 91 },
     { label: "Battery", left: 93, right: 88 },
@@ -90,6 +111,7 @@ export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
   return (
     <section className={`section home-hero-section ${styles.scope}`}>
       <div className="page-shell hero-grid premium-hero-grid">
+        {/* Left column: core message, CTA buttons, and problem-solution cards. */}
         <motion.div
           className="glass-panel hero-panel premium-hero-panel"
           initial={{ opacity: 0, y: 24 }}
@@ -153,6 +175,7 @@ export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
           </div>
         </motion.div>
 
+        {/* Right column: product-theater cards that show what the tool feels like. */}
         <motion.div
           className="hero-stack premium-hero-stack"
           initial={{ opacity: 0, y: 24 }}

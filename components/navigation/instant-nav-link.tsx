@@ -1,5 +1,16 @@
 "use client";
 
+/**
+ * ===================================
+ * INSTANT NAV LINK
+ * ===================================
+ *
+ * Purpose:
+ * Wraps slow route transitions with prefetching and a visible loading state.
+ *
+ * This is especially useful for the dashboard route because that page still
+ * performs more work than simple marketing pages.
+ */
 import type { Route } from "next";
 import { LoaderCircle } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
@@ -26,6 +37,7 @@ export function InstantNavLink({
   const [isPending, startTransition] = useTransition();
   const [showOverlay, setShowOverlay] = useState(false);
 
+  /* Prefetch on mount when the caller wants this link to feel instant. */
   useEffect(() => {
     if (prefetchOnMount) {
       router.prefetch(href);
@@ -33,10 +45,12 @@ export function InstantNavLink({
   }, [href, prefetchOnMount, router]);
 
   function handleNavigate() {
+    /* Skip work when the user taps the tab for the route they already occupy. */
     if (pathname === href) {
       return;
     }
 
+    /* Show feedback immediately, then let Next.js perform the route transition. */
     setShowOverlay(true);
     router.prefetch(href);
     startTransition(() => {
@@ -50,6 +64,7 @@ export function InstantNavLink({
         type="button"
         className={className}
         onClick={handleNavigate}
+        /* Touch prefetch gives phone users an earlier head start before the click completes. */
         onTouchStart={() => router.prefetch(href)}
         aria-busy={showOverlay || isPending}
       >

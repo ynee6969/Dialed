@@ -1,631 +1,570 @@
 # Website Defense Package
 
-## 1. Project HTML + CSS Analysis
+## 1. Defense Framing
 
-### Project overview
+This project should be defended as a **responsive full-stack phone discovery website** with a strong frontend structure.
 
-This project is a multi-page product discovery website called **Dialed**. From an HTML and CSS perspective, its purpose is to present a clean, structured, and responsive interface for browsing, comparing, and reviewing phone information. The design direction is modern and app-like, with reusable layout blocks, card-based presentation, a sticky navigation shell, and a dual-theme visual system.
+Two names appear in the repository:
 
-One important note: this project does **not** use Tailwind. Its styling layer is built with **custom global CSS classes and CSS variables** inside `app/globals.css`. So for defense purposes, the styling system should be explained as a **custom design system made with reusable CSS classes**, not a utility-first framework.
+- `Dialed` — repository/project codename
+- `DeviceIQ` — current user-facing brand shown in the interface
 
-### HTML / JSX structure
+For presentation, the clearest explanation is:
 
-#### A. Global page hierarchy
+> “Dialed is the project build, and DeviceIQ is the current UI brand of the deployed website.”
 
-The root structure is consistent across the website:
+## 2. What The Website Does
 
-- `html`
-- `body`
-- `header`
-- `main`
-- `footer`
-- mobile navigation bar
+The website helps users make better phone-buying decisions through four main flows:
 
-This is strong because it creates one shared shell for the entire site. Instead of rebuilding the same navigation and footer on every page, the project places them in the root layout so every route inherits the same structure automatically.
+1. Browse the public phone catalog
+2. Filter the list by practical criteria
+3. Open detailed specification pages
+4. Save favorites and track comparisons with an account
 
-#### B. Shared layout components
+The most important design decision is that **browsing is public**.
 
-The shared layout is built from reusable components:
+Users do **not** need to sign in just to:
+
+- open the home page
+- open the dashboard
+- open compare
+- read phone details
+
+Sign-in becomes useful only for:
+
+- favorites
+- account-based history
+
+That makes the UI feel more open and less restrictive.
+
+## 3. HTML / JSX Defense Notes
+
+## 3.1 Global structure
+
+The website uses a shared application shell through `app/layout.tsx`.
+
+The root structure is:
+
+- `<html>`
+- `<body>`
+- `<header>`
+- `<main>`
+- `<footer>`
+- mobile navigation
+- floating theme launcher
+
+This is strong because it creates consistency.
+
+Instead of rebuilding navigation and footer on every route, the layout provides one reusable shell for the entire app.
+
+## 3.2 Semantic structure
+
+The site uses semantic sections intentionally:
+
+- `header` for the top site bar
+- `nav` for route navigation
+- `main` for primary page content
+- `section` for major content blocks
+- `article` for reusable self-contained content such as device cards and service cards
+- `aside` for dashboard support controls such as desktop filters
+- `footer` for the closing site block
+
+This is important in defense because the markup is not just visually correct. It also reflects content purpose.
+
+## 3.3 Componentized markup
+
+The project is not built as long single-page files with repeated HTML.
+
+Instead, the JSX is broken into reusable UI pieces:
 
 - `SiteHeader`
 - `SiteFooter`
 - `MobileTabBar`
+- `HeroSection`
 - `BrandLockup`
-- `ThemeToggle`
-
-This makes the structure maintainable. If the header, footer, or branding changes, it only needs to be updated once.
-
-#### C. Main pages in the site
-
-The project contains these visual pages:
-
-- Home page
-- About page
-- Services page
-- Gallery page
-- Contact page
-- Dashboard page
-- Dynamic phone detail page
-
-Each page follows a consistent pattern:
-
-- outer `section`
-- inner `page-shell` container
-- headings and supporting text
-- cards or grids for content
-
-That consistency is good for both users and developers because the layout feels familiar as people move from one page to another.
-
-#### D. Semantic structure
-
-The semantic HTML choices are mostly strong:
-
-- `header` is used for the site top bar
-- `nav` is used for desktop and mobile navigation
-- `main` wraps page content globally
-- `section` is used for major content blocks
-- `article` is used for repeatable card items like services and device cards
-- `aside` is used in the dashboard for filters and quick-match tools
-- `footer` is used for the closing site section
-- `ul` and `li` are used for grouped text lists
-- `label` is used with form controls on the contact page and dashboard inputs
-
-This makes the project easier to explain in a defense because the structure is not just visual. It also reflects the purpose of each area.
-
-#### E. Heading structure
-
-The heading hierarchy is also well organized:
-
-- Each main page has a primary heading such as `h1`
-- Supporting sections on the homepage use `h2`
-- Card titles and smaller feature headings use `h3`
-
-That creates a readable content hierarchy and helps the layout feel professional.
-
-#### F. Reusable content blocks
-
-The project reuses several HTML patterns across pages:
-
-- glass-style panels
-- section labels
-- card blocks
-- metric blocks
-- pill and chip rows
-- button rows
-- phone cards
-
-This is an important defense point: the site is component-based, so the HTML is not random per page. It is a system of repeatable building blocks.
-
-### CSS / styling system
-
-#### A. Design tokens with CSS variables
-
-The project uses CSS custom properties for core design values:
-
-- colors
-- surfaces
-- borders
-- text colors
-- accent color
-- border radius
-- shadows
-
-This is a professional approach because it centralizes design decisions. Instead of hardcoding values repeatedly, the project stores them in variables and reuses them across the interface.
-
-#### B. Theme system
-
-The interface supports both dark mode and light mode through:
-
-- `:root` default tokens
-- `html[data-theme="dark"]`
-- `html[data-theme="light"]`
-
-This is a strong design choice because the same class structure can render in two visual themes without rebuilding the layout.
-
-#### C. Layout system
-
-The site uses both **CSS Grid** and **Flexbox**, and each is used for the right reason:
-
-- **Grid** handles major page structure and card layouts
-- **Flexbox** handles one-dimensional alignment such as navigation rows, pill rows, chip rows, and button groups
-
-Examples of Grid usage:
-
-- hero split layout
-- two-column marketing sections
-- three-column feature card area
-- auto-fill phone gallery
-- dashboard two-column layout
-- comparison grid
-- detail summary grid
-- spec table sections
-
-Examples of Flexbox usage:
-
-- header row
-- footer row
-- nav row
-- phone card top row
-- buttons and chips
-
-This is one of the best parts of the project. The layout system is not overcomplicated, and the use of Grid versus Flexbox is easy to justify.
-
-#### D. Spacing system
-
-Spacing is handled consistently through:
-
-- shared classes like `section`, `card`, `stack`, `field`
-- repeating gaps such as `18px`, `20px`, and `24px`
-- responsive spacing with `clamp(...)`
-- consistent inner padding on cards and containers
-
-This gives the interface rhythm. The design does not feel cramped, and content blocks are clearly separated.
-
-#### E. Typography
-
-The project uses two fonts with distinct roles:
-
-- **Space Grotesk** for major headings and display text
-- **Manrope** for body text
-
-This improves visual hierarchy because headings feel bold and expressive while body text remains readable.
-
-Typography is also responsive through:
-
-- large `clamp(...)` values for headings
-- tighter letter spacing on major titles
-- longer line height for paragraph text
-
-#### F. Visual style
-
-The visual identity is built around:
-
-- glassmorphism-inspired panels
-- large rounded corners
-- subtle shadows
-- layered surfaces
-- green accent color for actions and emphasis
-
-This makes the site feel modern and slightly app-like, which fits a dashboard-oriented product.
-
-#### G. UI consistency
-
-Consistency is strong across the site because the same classes are reused for:
-
-- buttons
-- cards
-- panels
-- labels
-- metrics
-- form fields
-- layout containers
-
-That consistency improves usability because users do not need to relearn the interface from page to page.
-
-### Responsiveness analysis
-
-The project has three key responsive breakpoints:
-
-- `1180px`
-- `960px`
-- `768px`
-
-#### At 1180px and below
-
-- the hero becomes single-column
-- the marketing two-column layout stacks vertically
-- the feature card area reduces from three columns to two
-
-#### At 960px and below
-
-- the dashboard changes from sidebar + content into one column
-- the desktop sidebar is hidden
-- mobile action buttons appear
-- comparison and card layouts become single-column
-- the phone detail hero stacks vertically
-
-#### At 768px and below
-
-- the bottom mobile tab bar appears
-- the desktop navigation is hidden
-- the footer note is hidden
-- major grids collapse to one column
-- section spacing becomes tighter
-- brand subtitle and theme text are simplified
-- spec sections stack for easier reading on narrow screens
-
-This is a solid responsive strategy because the site does not simply shrink. It **reorganizes** itself depending on screen size.
-
-### UI / UX decisions you can defend
-
-#### Why a sidebar is used on the dashboard
-
-The sidebar is used because filters and quick actions are secondary controls, while phone results are the main content. On desktop, placing controls in an `aside` keeps them always available without interrupting the main browsing flow.
-
-#### Why cards are used
-
-Cards make repeated content easier to scan. Each device card separates image, score, price, and summary details into a predictable unit. This is better than presenting everything in long paragraphs or dense tables.
-
-#### Why spacing improves usability
-
-The project uses generous padding, grouped content, and repeated gaps so users can visually separate actions, information, and categories. Good spacing reduces cognitive load and makes the interface easier to understand quickly.
-
-#### Why the design feels app-like on mobile
-
-On smaller screens, the interface switches from desktop navigation and sidebars to:
-
-- a bottom mobile tab bar
-- simplified top bar content
-- stacked layouts
-- sheet-style mobile panels for tools
-
-This creates a more native mobile feel because controls become thumb-friendly and content is prioritized vertically.
-
-### Strongest defense points
-
-If you need the strongest points to emphasize, use these:
-
-1. The website has a **shared semantic layout** with `header`, `main`, `footer`, and route-based sections.
-2. The interface is built from **reusable components**, not repeated static markup.
-3. The styling is based on a **central CSS design system** using variables, shared classes, and repeatable layout patterns.
-4. The project uses **Grid for structure** and **Flexbox for alignment**, which is a strong front-end design choice.
-5. Responsiveness is thoughtful because layouts **reorganize**, not just resize.
-6. The design maintains **visual consistency** through repeated cards, labels, buttons, spacing, and typography.
-
-### Honest improvement notes
-
-If your teacher asks what can still be improved, you can answer professionally:
-
-- The contact inputs are well labeled, but wrapping them in a formal `<form>` element would strengthen semantics even more.
-- Some spacing is applied inline in JSX, so moving more of those values into named CSS classes would make the styling system even cleaner.
-
-Those are good answers because they show awareness without weakening the overall design.
-
----
-
-## 2. Full Presentation Script
-
-### 1. Introduction
-
-Good day. I will be presenting the front-end structure and design of my website, which is called **Dialed**. The main purpose of this website is to help users browse phone options in a cleaner and more organized way. Instead of showing information in a crowded or confusing format, the website focuses on clear layout, reusable page sections, card-based content, and responsive design.
-
-For this defense, I will focus only on the HTML structure and the CSS styling system. In this project, the HTML is represented by the JSX layout inside the pages and components, while the CSS is handled through a custom global styling system using reusable class names and CSS variables.
-
-### 2. HTML Structure
-
-The first thing I want to highlight is the overall page hierarchy. At the root level, the website uses a shared layout with an `html` element, a `body`, a top `header`, a global `main` content area, a `footer`, and a mobile navigation bar. This structure is important because it keeps the website consistent across all pages.
-
-The header contains the brand identity, the primary navigation links, and the theme toggle. The main element is where each page is rendered. The footer closes the page with supporting brand information, and on smaller screens there is also a mobile tab bar for easier navigation.
-
-Inside the pages, the site uses semantic sections to divide content into meaningful blocks. For example, the homepage is not just one long container. It is divided into a hero section, a feature section, an information section, a gallery preview section, and a closing call-to-action section. This makes the content easier to scan and easier to explain.
-
-The project also uses reusable components heavily. Instead of rewriting the same HTML on different pages, it separates shared parts like the header, footer, hero, and device cards into individual components. This improves maintainability because changes only need to be made once.
-
-Another important part of the structure is semantics. The project uses `header`, `nav`, `main`, `section`, `article`, `aside`, and `footer` in meaningful ways. For example, the dashboard uses an `aside` for filters and tools, while the phone cards are built as `article` elements because each one represents a standalone content unit. Lists use `ul` and `li`, and form controls use `label` elements, which improves clarity and accessibility.
-
-### 3. CSS Design System
-
-Now I will discuss the styling system. This project does not rely on random one-off CSS rules. Instead, it uses a small design system based on reusable classes and CSS variables. The CSS variables define colors, surfaces, borders, radii, shadows, and accent colors. Because of that, the interface stays visually consistent and easier to maintain.
-
-The layout system combines CSS Grid and Flexbox. Grid is used for larger structural layouts such as the hero section, the dashboard layout, the card areas, the gallery grid, the comparison area, and the phone detail summary area. Flexbox is used for smaller horizontal alignments such as the navigation row, button rows, chip rows, and pill rows.
-
-This combination is intentional. Grid is stronger for arranging complete sections and columns, while Flexbox is better for aligning items in a single direction. Using both correctly makes the interface flexible and organized.
-
-Spacing is also handled consistently. The site uses shared spacing classes like `section`, `card`, `stack`, and `field`, along with repeated gap values and responsive padding. This creates a clean visual rhythm and prevents the layout from feeling crowded.
-
-Typography also supports the design. The project uses one display font for titles and one body font for readable content. The headings use larger, bolder styles with tighter spacing, while paragraph text uses more comfortable line height. This creates strong hierarchy without needing too many colors or decorative elements.
-
-### 4. Responsiveness
-
-One of the strengths of the project is that the layout changes properly across screen sizes. On desktop, the dashboard uses a two-column layout with a sidebar on the left and the main results on the right. This works well because larger screens have enough horizontal space for persistent controls.
-
-On tablet-size screens, the layout begins to simplify. Some multi-column areas stack vertically, and the dashboard removes the fixed desktop sidebar. This prevents the page from becoming compressed.
-
-On mobile, the design becomes much more app-like. The desktop navigation is hidden, and a bottom mobile tab bar appears. Large grids collapse into one column. The phone detail page stacks the image and text content vertically. The spec table also becomes easier to read because section labels and rows no longer compete for width.
-
-So the responsive strategy is not just shrinking elements. It is restructuring the interface so each device gets a layout that matches its available space.
-
-### 5. UI/UX Decisions
-
-There are several design decisions that improve usability. First, the dashboard uses a sidebar because filtering tools should stay organized and separate from the main content. This keeps the results area focused while still making the controls easy to access.
-
-Second, the design uses cards for repeated content like phones, services, and summary items. Cards are helpful because they break large amounts of information into manageable pieces. Users can compare one card to another quickly without reading long paragraphs.
-
-Third, spacing and grouping are used carefully. Related items are placed close together, while different sections are separated with larger spacing. This helps users understand the page visually before they even start reading the text.
-
-Fourth, the dark and light theme system improves flexibility. The layout stays the same, but the visual tokens change. This means the interface keeps its structure while adapting to different viewing preferences.
-
-Finally, the mobile layout feels more natural because navigation becomes bottom-based, layouts stack vertically, and dense areas are simplified. That makes the interface feel closer to a native mobile app experience.
-
-### 6. Conclusion
-
-In conclusion, the strength of this project is not only in how it looks, but in how well the structure and styling work together. The HTML side is organized, semantic, and component-based. The CSS side is consistent, responsive, and maintainable because it uses a clear design system.
-
-Overall, the project demonstrates good front-end practice by combining semantic structure, reusable layout patterns, responsive design, and consistent visual styling. That results in a website that is easier to maintain for developers and easier to use for end users.
-
----
-
-## 3. Presentation Plan (Slides)
-
-### Slide 1: Title / Introduction
-
-**What to say**
-
-Introduce the website as Dialed and explain that it is a responsive multi-page front-end project for browsing and comparing phones.
-
-**Key points**
-
-- Project name and purpose
-- Scope of defense: HTML and CSS only
-- Goal: clean, responsive, user-friendly interface
-
-**Flow**
-
-Start broad and set expectations.
-
-### Slide 2: Website Overview
-
-**What to say**
-
-Explain the pages included in the project: home, about, services, gallery, contact, dashboard, and phone detail.
-
-**Key points**
-
-- Multi-page structure
-- Shared global layout
-- Consistent shell across the site
-
-**Flow**
-
-Move from project purpose into project structure.
-
-### Slide 3: Global HTML Structure
-
-**What to say**
-
-Describe the shared root layout: header, main, footer, and mobile navigation. Mention that the structure is reusable across routes.
-
-**Key points**
-
-- `header`, `main`, `footer`
-- shared navigation
-- reusable layout component
-
-**Flow**
-
-From whole site structure into semantic layout.
-
-### Slide 4: Component Breakdown
-
-**What to say**
-
-Explain the major reusable components like the header, hero, footer, device cards, gallery grid, dashboard layout, and phone detail page.
-
-**Key points**
-
+- `MatchmakerDashboard`
+- `DeviceCard`
+- `FavoriteButton`
+
+That improves:
+
+- maintainability
+- consistency
+- readability
 - reusability
-- component-based structure
-- easier maintenance
 
-**Flow**
+## 3.4 Route composition
 
-Show that the layout is modular, not static.
+Each route uses the App Router pattern:
 
-### Slide 5: CSS Design System
+- `page.tsx` defines the route view
+- nearby `.module.css` files define route-owned styling when needed
+- shared UI is imported from `components/`
 
-**What to say**
+This is a strong structure to defend because it separates:
 
-Discuss CSS variables, shared classes, typography, buttons, cards, colors, and the glass-panel visual style.
+- routing
+- layout
+- component presentation
+- business/data logic
 
-**Key points**
+## 4. CSS Defense Notes
 
-- design tokens
-- reusable style classes
-- consistent visual identity
+## 4.1 CSS architecture
 
-**Flow**
+The current CSS architecture is one of the strongest parts of the project.
 
-Transition from HTML structure into styling logic.
+It now follows this rule:
 
-### Slide 6: Layout Techniques
+- `app/globals.css` = shared foundation only
+- CSS modules = route-owned or component-owned styling
 
-**What to say**
+That means:
 
-Explain where Grid and Flexbox are used and why each one was chosen.
+- colors, resets, shared spacing, shared buttons, shared fields, and shared primitives stay global
+- unique page/component layouts stay local
 
-**Key points**
+Examples:
 
-- Grid for sections and page layout
-- Flexbox for rows and alignment
-- spacing and grouping
+- `app/page.module.css` owns landing-page sections
+- `app/compare/page.module.css` owns compare layout
+- `components/phones/DeviceCard.module.css` owns phone-card styling
+- `components/dashboard/MatchmakerDashboard.module.css` owns dashboard layout
 
-**Flow**
+## 4.2 Why this is better than one huge stylesheet
 
-Move from styling system into layout mechanics.
+This structure is easier to defend because each style has clear ownership.
 
-### Slide 7: Responsiveness
+Benefits:
 
-**What to say**
+- easier debugging
+- easier responsive work
+- less accidental style collision
+- cleaner mental model for future maintenance
 
-Explain the desktop, tablet, and mobile layouts, especially the dashboard sidebar, stacked mobile sections, and bottom mobile tab bar.
+Also, blank CSS module placeholders were removed, so the folder is less cluttered and more meaningful.
 
-**Key points**
+## 4.3 Design tokens
 
-- breakpoints
-- adaptive layout
-- mobile-friendly navigation
+The app uses CSS custom properties for design consistency.
 
-**Flow**
+Shared variables in `app/globals.css` cover:
 
-From general layout into responsive behavior.
+- background colors
+- surface colors
+- border colors
+- text and muted text
+- accent colors
+- radius values
+- shadow values
 
-### Slide 8: UI/UX Decisions and Conclusion
+This is a professional approach because the design system is centralized rather than hard-coded repeatedly.
 
-**What to say**
+## 4.4 Theme system
 
-Summarize why the sidebar, cards, spacing, and theme system improve usability, then end with the maintainability and user experience strengths.
+The site supports appearance customization through:
 
-**Key points**
+- light mode
+- dark mode
+- system mode
+- separate preset selection for light and dark themes
 
-- why sidebar works
-- why cards help scanning
-- why spacing improves clarity
-- maintainable front-end structure
+The theme modal is launched from the floating button in the bottom-right corner, and the modal itself opens in the center.
 
-**Flow**
+The visual values are applied by writing CSS custom properties to the document root.
 
-End with design reasoning and overall quality.
+That means the layout stays the same, but the visual identity can change without rewriting the UI.
+
+## 4.5 Layout techniques
+
+The site uses both Grid and Flexbox for the right reasons.
+
+### Grid is used for:
+
+- page section layouts
+- feature card layouts
+- dashboard two-column structure
+- compare layouts
+- card grids
+- summary metric blocks
+
+### Flexbox is used for:
+
+- navigation rows
+- button rows
+- chip rows
+- small horizontal alignments
+- icon/text alignment
+
+This is good frontend practice because:
+
+- Grid handles two-dimensional structure
+- Flexbox handles one-dimensional alignment
+
+## 4.6 Responsive strategy
+
+The site is designed to adapt to:
+
+- phones
+- tablets
+- laptops / desktops
+
+The project uses mobile-aware modules rather than trying to force desktop layout onto small screens.
+
+Examples:
+
+- bottom mobile tab bar appears on smaller screens
+- header auth actions collapse into a centered mobile sheet
+- dashboard filters move from sticky sidebar to mobile sheet
+- compare rows collapse into phone-friendly stacked cards
+- device cards keep one organized structure across screen sizes
+
+This is worth emphasizing in defense because responsive design is not just “smaller desktop”.
+It is a real layout reorganization strategy.
+
+## 5. Current Feature Defense Notes
+
+## 5.1 Dashboard
+
+The dashboard is the main browsing route.
+
+Frontend strengths:
+
+- public access
+- collapsible filters
+- responsive layout
+- phone-card grid
+- “show more” pagination with 10 items per batch
+- loading skeletons instead of blank waiting states
+
+## 5.2 Compare page
+
+The compare page is a dedicated structured comparison interface.
+
+Frontend strengths:
+
+- side-by-side selection flow
+- grouped sections like display, camera, battery, and build
+- visual winner highlighting
+- strong mobile layout
+
+## 5.3 Favorites
+
+Favorites are tied to the authenticated user only.
+
+Frontend and data behavior:
+
+- guests can still browse
+- saving redirects guests into the login flow
+- current account favorites are reloaded when the active user changes
+- this prevents favorites from appearing under the wrong account on the same device
+
+## 5.4 Theme settings
+
+The floating settings launcher is important in defense because it shows:
+
+- custom UI thinking
+- state-driven styling
+- CSS variable usage
+- modal-based interaction design
+
+## 6. 20–30 Minute Presentation Manuscript
+
+Use this as a speaking script. It is written to be detailed and especially strong on HTML and CSS decisions.
 
 ---
 
-## 4. 50 Possible Questions with Model Answers
+### Opening
 
-1. **[Easy] Why did you use a shared layout for the whole website?**  
-   **Answer:** I used a shared layout so the header, main content area, footer, and mobile navigation stay consistent across all pages. It also reduces repeated HTML and improves maintainability.
+Good day. Today I will defend my website project, which is built in a repository called Dialed and currently branded in the user interface as DeviceIQ.
 
-2. **[Easy] Why is semantic HTML important in your project?**  
-   **Answer:** Semantic HTML makes the structure clearer for both users and developers. It also improves readability, accessibility, and maintainability because each element reflects its real purpose.
+The purpose of this website is to help users browse smartphones, compare them clearly, and narrow down choices without jumping between many separate pages or websites. Instead of forcing the user to open multiple tabs for specs, store pages, and quick comparisons, the website tries to keep the decision flow in one organized interface.
 
-3. **[Easy] Why did you use `header`, `main`, and `footer` instead of only `div` elements?**  
-   **Answer:** Those semantic elements describe the role of each page area more clearly than generic `div` tags. They make the layout easier to understand and more professional.
+For this defense, I will focus heavily on the frontend side, especially the HTML structure, the CSS architecture, and the responsive behavior across phones, tablets, and larger screens. I will also explain how the current project structure supports maintainability and how the design decisions support usability.
 
-4. **[Easy] Why do you use `section` elements so often?**  
-   **Answer:** I use `section` to divide the page into meaningful content blocks, such as the hero, feature area, and gallery preview. It creates a cleaner structure than placing everything in one container.
+---
 
-5. **[Easy] Why are phone cards built as `article` elements?**  
-   **Answer:** Each phone card is a standalone content unit with its own title, image, summary, and actions. That fits the purpose of an `article`.
+### Part 1: Overall frontend structure
 
-6. **[Easy] Why is the dashboard control area an `aside`?**  
-   **Answer:** The filter and quick-match panel supports the main content, but it is not the primary content itself. That is why `aside` is a suitable semantic choice.
+The first thing I want to explain is the overall structure of the website.
 
-7. **[Easy] How is your navigation structured?**  
-   **Answer:** The desktop layout uses a top navigation inside the header, while the mobile layout uses a bottom tab bar. Both are wrapped in `nav` elements for clear semantic structure.
+This project uses the Next.js App Router, which means each route is organized by folders inside the `app` directory. This is helpful because the routing structure is easy to understand directly from the folder tree. For example, the home page is in `app/page.tsx`, the dashboard is in `app/dashboard/page.tsx`, the compare page is in `app/compare/page.tsx`, and the phone detail page is in `app/phones/[slug]/page.tsx`.
 
-8. **[Easy] Why are labels important for your inputs?**  
-   **Answer:** Labels clearly connect the text description to each input field. That improves usability and accessibility because users understand what each control is for.
+At the very top of the application, I use a shared root layout in `app/layout.tsx`. This file is one of the most important frontend files because it wraps all routes with the same shell. It loads the global CSS, registers the global providers, and renders the shared interface pieces such as the sticky header, the footer, the mobile tab bar, and the floating theme settings button.
 
-9. **[Easy] Why did you separate the website into components?**  
-   **Answer:** Components make the HTML reusable and easier to maintain. For example, the same card pattern or header can be used in multiple places without rewriting markup.
+This shared shell is important from both a technical and design perspective. Technically, it reduces repeated code because I do not need to manually rebuild the same header and footer on each page. From a user-experience perspective, it makes the interface consistent, because users always know where the navigation is and how the site is structured.
 
-10. **[Easy] What makes your homepage structure effective?**  
-    **Answer:** The homepage is divided into clear content sections: hero, features, information, gallery preview, and closing CTA. That creates a logical reading flow from introduction to action.
+---
 
-11. **[Medium] Why did you choose CSS Grid for major layouts?**  
-    **Answer:** CSS Grid is better for controlling rows and columns at the section level. It works well for the hero split layout, dashboard layout, gallery, comparison area, and summary sections.
+### Part 2: HTML and semantic structure
 
-12. **[Medium] Why did you still use Flexbox if you already used Grid?**  
-    **Answer:** Flexbox is better for one-dimensional alignment, like horizontal navigation, button rows, chip rows, and card header alignment. Grid and Flexbox solve different layout problems.
+Now I will focus on the HTML side of the project. Since this is a React and Next.js application, the HTML is written in JSX, but the structural logic is still based on HTML semantics.
 
-13. **[Medium] Can you give one example where Grid was the better choice than Flexbox?**  
-    **Answer:** The dashboard layout is a good example because it needs a stable two-column structure with a sidebar and a content area. Grid handles that more cleanly than Flexbox.
+The site uses meaningful semantic elements throughout the interface. For example, the global top bar is rendered inside a `header`. The main route links are wrapped in `nav`. The page content is placed inside `main`, which clearly indicates the primary content area of the application. Many major route sections are wrapped in `section`, while repeatable content blocks such as device cards and service cards are wrapped in `article`.
 
-14. **[Medium] Can you give one example where Flexbox was the better choice than Grid?**  
-    **Answer:** The navigation row is a good example because it only needs horizontal alignment and spacing between links. Flexbox is simpler and more suitable there.
+On the dashboard, I use `aside` for the desktop filter area. This is a strong semantic choice because the filters support the main content, but they are not the main content themselves. The actual primary content is the results area with the phone cards.
 
-15. **[Medium] How do you keep spacing consistent throughout the site?**  
-    **Answer:** I use shared classes like `section`, `card`, `stack`, and `field`, along with repeated gap and padding values. That creates a consistent rhythm instead of random spacing per page.
+These semantic choices matter because they make the structure easier to understand, easier to maintain, and easier to explain in a defense. The markup is not just visually arranged; it also reflects the purpose of each area.
 
-16. **[Medium] Why did you use `clamp()` in your CSS?**  
-    **Answer:** I used `clamp()` so spacing and typography can scale smoothly between smaller and larger screens. It helps the design stay balanced without needing too many custom overrides.
+Another strength is that the website is component-based instead of one giant page of repeated markup. The brand lockup, the site header, the footer, the hero section, the device card, the favorite button, and the mobile tab bar are all isolated into reusable components. This means the JSX is cleaner and easier to study. It also means if I want to update one pattern, such as the header or the phone card, I only need to change it in one place.
 
-17. **[Medium] How did you make the cards visually consistent?**  
-    **Answer:** The cards reuse the same panel styling, spacing, border radius, shadow, and surface colors. This repeated styling creates a unified visual system.
+---
 
-18. **[Medium] What is the role of CSS variables in your design?**  
-    **Answer:** CSS variables centralize the visual tokens like colors, borders, surfaces, radius, and shadows. That makes the styling easier to maintain and easier to theme.
+### Part 3: CSS architecture
 
-19. **[Medium] Why did you use two fonts instead of one?**  
-    **Answer:** I used one display font for strong headings and one body font for readability. This creates clearer hierarchy and gives the interface more personality.
+The CSS architecture is one of the main improvements in the current version of the project.
 
-20. **[Medium] How does your heading hierarchy help the layout?**  
-    **Answer:** It guides the user’s attention from major titles to supporting sections and then to smaller card headings. That makes the content easier to scan and understand.
+Earlier, many route and component styles were too dependent on `app/globals.css`. Over time, I refactored the project so that global CSS is now only used for shared foundation styles. That includes design tokens, resets, common layout primitives, shared buttons, shared chips, shared field styles, and global skeleton loading patterns.
 
-21. **[Medium] What makes your color system defendable?**  
-    **Answer:** The colors are controlled through theme tokens instead of scattered hardcoded values. The palette uses a clear background, surface, text, muted, and accent structure, which keeps the UI consistent.
+Then, any route-specific or component-specific styling is now kept beside the file that owns it. For example, the compare page has `app/compare/page.module.css`, the landing page has `app/page.module.css`, the dashboard component has `components/dashboard/MatchmakerDashboard.module.css`, and the device card has `components/phones/DeviceCard.module.css`.
 
-22. **[Medium] Why did you use a green accent color?**  
-    **Answer:** The green accent stands out clearly against both dark and light surfaces and works well for actions, scores, and emphasis. It helps important elements become visible without overusing bright colors.
+This is important because it improves maintainability. When I want to understand the compare page layout, I can read the compare JSX and the compare CSS module together. I do not need to search a huge stylesheet for hidden route-specific selectors. The same is true for the dashboard, the theme modal, the header, and the phone cards.
 
-23. **[Medium] Why is the header sticky?**  
-    **Answer:** A sticky header keeps navigation accessible while users scroll. That improves usability, especially on longer pages or content-heavy screens.
+I also cleaned up the route folders by removing blank CSS modules that were only placeholders. Now, if a route or component still has a CSS module beside it, that file should have a real styling purpose. This makes the folder tree cleaner and less confusing.
 
-24. **[Medium] Why is the sidebar sticky on desktop?**  
-    **Answer:** It keeps filters and tools available while the user browses the results. That reduces unnecessary scrolling back and makes the browsing process more efficient.
+---
 
-25. **[Medium] Why are phone details shown in cards instead of one large table?**  
-    **Answer:** Cards are easier to scan for repeated content. A large table would be more rigid and harder to read quickly, especially on smaller screens.
+### Part 4: Visual system and design tokens
 
-26. **[Medium] Why do you use pills and chips in the interface?**  
-    **Answer:** Pills and chips help highlight short pieces of information like categories, scores, or quick labels. They separate key metadata from longer text.
+The visual identity of the website is built using CSS custom properties. In `app/globals.css`, I define variables for colors, surfaces, borders, text colors, muted text, accent colors, border radii, and shadows.
 
-27. **[Medium] Why did you create a dedicated phone detail page instead of placing everything on the card?**  
-    **Answer:** The card is meant for quick scanning, while the detail page is meant for full reading. Separating them keeps the browsing experience clean and avoids overcrowding the card layout.
+This is a strong design-system approach because it separates the visual language from the raw selectors. For example, instead of hard-coding colors everywhere, the UI reads from variables like background, surface, accent, and muted. That makes the project easier to theme and easier to keep visually consistent.
 
-28. **[Medium] How does your gallery page differ structurally from the dashboard?**  
-    **Answer:** The gallery focuses on a simple grid of repeated cards, while the dashboard adds a more complex layout with an `aside`, top area, recommendations, comparison area, and result grid.
+This system also supports the theme switcher. The user can choose a light mode, a dark mode, or system mode, and then apply different presets to the light and dark sides of the interface. The settings modal is driven by state, but the actual visual change happens by updating CSS variables on the root element. That is efficient and elegant because the component structure does not need to change when the theme changes.
 
-29. **[Medium] Why is the contact page split into two columns?**  
-    **Answer:** One side presents contact information, while the other side presents the user input area. This creates a balanced layout and separates reading content from action content.
+The typography also supports the design system. Display text and headings use a more expressive font, while body text uses a cleaner font for readability. The result is a clearer hierarchy. Headings feel intentional and strong, while supporting text stays legible and less noisy.
 
-30. **[Medium] Why is the spec sheet on the detail page designed like grouped sections?**  
-    **Answer:** Grouped sections make long technical information easier to scan. Instead of one continuous block, the content is divided into labeled categories.
+---
 
-31. **[Hard] How does your responsive strategy go beyond simply resizing elements?**  
-    **Answer:** The design actually reorganizes layout behavior. For example, the dashboard removes the desktop sidebar on smaller screens, shows mobile action buttons, and switches to a more vertical mobile structure.
+### Part 5: Layout logic with Grid and Flexbox
 
-32. **[Hard] Why do you think the mobile tab bar improves UX on small screens?**  
-    **Answer:** On mobile, bottom navigation is easier to reach with the thumb and keeps the main routes visible without occupying too much top space. It feels more natural for phone users.
+The website uses both CSS Grid and Flexbox, but each is used for the right reason.
 
-33. **[Hard] Why does the dashboard hide the desktop sidebar on tablet and mobile?**  
-    **Answer:** A fixed sidebar would take too much horizontal space on smaller screens. Hiding it prevents a cramped layout and allows the main content to remain readable.
+Grid is used for larger structural layouts, such as multi-column sections, dashboard layout, feature grids, compare layouts, and grouped metric areas. This is because Grid is stronger when both rows and columns matter.
 
-34. **[Hard] How does your card grid stay flexible with different numbers of items?**  
-    **Answer:** The card and phone grids use responsive column rules like `repeat(auto-fill, minmax(...))` or breakpoint-based template changes. That lets the layout adapt without manually redefining every card position.
+Flexbox is used more for alignment and smaller directional layouts. Examples include navigation rows, button rows, chip rows, icon-text pairings, and compact action groups. This is because Flexbox is better for one-dimensional arrangements.
 
-35. **[Hard] Why is your detail page split into a hero area and a spec table area?**  
-    **Answer:** The hero area gives users the summary first: image, name, score chips, and key specs. The table area then provides deeper information. This supports progressive disclosure in the layout.
+This combination is an important defense point. It shows that the layout is not random. The project uses the correct tool depending on whether the layout problem is structural or directional.
 
-36. **[Hard] How does your design system improve maintainability?**  
-    **Answer:** Shared classes and tokens reduce repetition. If I update a button style, card surface, border radius, or accent color, that change can propagate across the whole interface consistently.
+---
 
-37. **[Hard] What makes your design consistent even though different pages serve different purposes?**  
-    **Answer:** The pages all reuse the same shell, spacing rules, card treatment, button styles, labels, typography, and color tokens. So even when page content changes, the visual language stays the same.
+### Part 6: Responsive design
 
-38. **[Hard] Why is the mobile version not just a smaller desktop version?**  
-    **Answer:** Mobile users need a different layout priority. The design changes navigation placement, stacks columns, reduces clutter, and simplifies dense areas so the interface remains usable on narrow screens.
+Another major strength of the project is responsiveness.
 
-39. **[Hard] Why did you choose a glass-panel style instead of flat boxes?**  
-    **Answer:** The glass-panel style adds depth and separation between content areas without using heavy borders or harsh contrast. It supports the modern app-like identity of the site.
+I did not treat phone layouts as just smaller desktop layouts. Instead, I created route-level and component-level responsive adjustments that reorganize the interface for smaller screens.
 
-40. **[Hard] How do your CSS choices support content scanning?**  
-    **Answer:** Clear headings, muted supporting text, card separation, metric blocks, pills, and repeated spacing all help users identify important information quickly instead of reading everything line by line.
+For example, the header works differently on mobile. On desktop, the navigation links are visible across the top bar. On smaller screens, the desktop navigation disappears and the bottom mobile tab bar becomes the main navigation method. This is better for thumb reach and for limited width.
 
-41. **[Trick] Is your styling system Tailwind?**  
-    **Answer:** No. The project is styled with custom global CSS classes and CSS variables, not Tailwind utilities. The styling is still systematic, but it is built in standard CSS.
+The header actions also change. On desktop, favorites and sign-out can sit inline. On phone screens, those actions collapse into a centered overlay sheet triggered from a smaller menu button. This prevents the top bar from becoming too wide or getting cut off.
 
-42. **[Trick] If you already have semantic tags, do you still need good CSS?**  
-    **Answer:** Yes. Semantic HTML gives the page structure and meaning, but CSS is what makes the layout readable, balanced, responsive, and visually consistent.
+The dashboard also reorganizes itself. On desktop, it uses a sidebar plus results layout. On smaller screens, the filters move into a mobile sheet so the results can take the full width. This is a better experience because a persistent sidebar would waste too much space on a phone.
 
-43. **[Trick] Why not use only `div` and style everything with classes?**  
-    **Answer:** That would work visually, but it would weaken the structure. Semantic elements communicate purpose more clearly and make the HTML easier to understand and defend.
+The compare page also has dedicated mobile handling. On large screens it can show more spacious side-by-side structures. On narrow screens, the layout becomes more vertical, the comparison rows become easier to scan, and each value block is adapted to fit the available width.
 
-44. **[Trick] Does responsive design only mean using media queries?**  
-    **Answer:** No. Media queries are part of it, but responsive design also includes flexible layouts, scalable typography, spacing choices, and content reorganization across screen sizes.
+This is important to emphasize in a defense: responsiveness here is not just resizing fonts. It is restructuring the interface so that it stays understandable and usable on different device sizes.
 
-45. **[Trick] Is a visually attractive interface automatically a good UI/UX design?**  
-    **Answer:** No. Good UI/UX also depends on clarity, consistency, readability, spacing, hierarchy, and ease of navigation. Visual style helps, but structure and usability matter more.
+---
 
-46. **[Follow-up] Why did you keep the homepage sections separate instead of combining them into one long card?**  
-    **Answer:** Separate sections improve scanning and create a clearer information flow. Each block has its own purpose, so giving it its own section makes the page easier to understand.
+### Part 7: The dashboard as the main discovery surface
 
-47. **[Follow-up] Why are the quick stats on the hero shown in metric boxes?**  
-    **Answer:** Metric boxes make short facts easier to compare visually. They also break dense information into smaller chunks that users can read quickly.
+One major product decision in the current build is that the dashboard is public and acts as the main browsing surface.
 
-48. **[Follow-up] How would you justify the use of repeated buttons with three visual styles?**  
-    **Answer:** Different button styles help communicate priority. The primary button draws attention to the main action, the secondary button supports common actions, and the ghost style handles less dominant actions.
+This is important because it removes friction. Users no longer need to create an account just to browse phones. They can open the dashboard immediately, filter the catalog, open device cards, and use the compare page. The only time authentication becomes necessary is when they want to save favorites or maintain account-based state.
 
-49. **[Follow-up] If you had to improve one HTML detail, what would it be?**  
-    **Answer:** I would wrap the contact inputs inside a formal `<form>` element. The labels are already present, so adding the form wrapper would strengthen the semantics even more.
+From a frontend perspective, the dashboard combines several strong practices:
 
-50. **[Follow-up] If you had to improve one CSS detail, what would it be?**  
-    **Answer:** I would move more inline spacing values into named CSS classes. That would make the styling system even cleaner and more centralized.
+- it starts with server-rendered initial data
+- it refreshes client-side through the phone API
+- it uses a paginated loading pattern instead of loading the whole catalog at once
+- it shows skeleton loading states during refreshes
+- it provides a mobile-friendly filter sheet
+
+The result is a route that feels lighter, more scalable, and easier to use.
+
+---
+
+### Part 8: Phone cards and interaction design
+
+The phone card is one of the most important reusable UI units in the project.
+
+Each card is designed to contain the most important quick-decision information:
+
+- phone name
+- price
+- overall score
+- key category scores
+- quick chips for specs
+- favorite action
+- compare action
+- marketplace links
+
+From an HTML point of view, this is useful because each card is a self-contained `article`. From a CSS point of view, it is useful because the entire card layout is owned by one CSS module, so the interaction details stay local to the card.
+
+The cards also include motion details such as subtle tilt and glow on pointer devices. These effects are intentionally scoped so they do not break touch devices. This means desktop users get a premium hover feel, while mobile users still get a clean and stable layout.
+
+---
+
+### Part 9: Compare page as a dedicated experience
+
+The compare page is also a strong part of the defense because it demonstrates structured information design.
+
+Instead of using compare checkboxes inside the dashboard, the compare process now has its own page. That makes the dashboard cleaner and makes comparison easier to read.
+
+The compare page includes:
+
+- a selector area for choosing two phones
+- a hero section showing both compared phones
+- visual score summaries
+- highlights for why each phone may be worth choosing
+- grouped specification sections
+
+This is valuable from a frontend perspective because the page prioritizes clarity. It is not trying to show everything in one chaotic block. It breaks the information into understandable sections and uses layout and emphasis to guide the user.
+
+On phone screens, this is especially important. A dense comparison table can easily become unreadable, so the CSS module for compare includes mobile-specific restructuring that makes the rows easier to scan.
+
+---
+
+### Part 10: Favorites and account-specific state
+
+Another important feature is favorites.
+
+Favorites are tied to the authenticated user through the favorites provider and the favorites API routes. A key improvement in the current build is that favorites are refreshed whenever the authenticated user changes. That prevents the common bug where one user's saved items remain visible after another user signs in on the same device.
+
+This is important in defense because it shows that the frontend does not just look good. It also respects account boundaries and state correctness.
+
+---
+
+### Part 11: Theme settings and customization
+
+The bottom-right theme launcher is also worth highlighting. It gives users access to a centered theme settings modal, where they can switch appearance modes and select presets inspired by Monkeytype themes.
+
+This is a good frontend defense point because it shows:
+
+- interactive UI state
+- modal design
+- CSS variable-driven theming
+- user personalization
+
+The implementation also keeps the feature organized: the launcher and modal live in their own component, and the actual palette logic is centralized in the theme provider.
+
+---
+
+### Closing
+
+To conclude, the strength of this project is not just that it is visually styled, but that it is structurally organized.
+
+The HTML side is component-based, semantic, and easier to understand because the site is built around meaningful layout pieces instead of repeated generic markup.
+
+The CSS side is stronger than before because the styling is now split into shared foundation plus local CSS modules. That makes the code easier to study, easier to maintain, and easier to debug.
+
+The responsive behavior is also a major strength. The site does not simply shrink on phones. It reorganizes navigation, dashboard controls, compare layouts, and header actions so that the interface remains usable and understandable on small screens.
+
+Overall, this website demonstrates:
+
+- strong frontend structure
+- modular CSS organization
+- responsive layout thinking
+- reusable component design
+- a clearer user flow for phone browsing and comparison
+
+Thank you.
+
+---
+
+## 7. Short Slide Guide
+
+### Slide 1 — Project introduction
+
+- Dialed / DeviceIQ
+- Purpose of the website
+- Scope of defense: frontend, HTML, CSS, responsiveness
+
+### Slide 2 — App structure
+
+- Next.js App Router
+- shared layout
+- routes and reusable components
+
+### Slide 3 — HTML structure
+
+- semantic elements
+- componentization
+- route composition
+
+### Slide 4 — CSS architecture
+
+- globals vs CSS modules
+- design tokens
+- why the refactor matters
+
+### Slide 5 — Responsive strategy
+
+- mobile tab bar
+- mobile sheets
+- dashboard adaptation
+- compare adaptation
+
+### Slide 6 — Key pages
+
+- home
+- dashboard
+- compare
+- detail page
+- favorites
+
+### Slide 7 — Theme system and UI polish
+
+- appearance modal
+- CSS variables
+- personalization
+
+### Slide 8 — Conclusion
+
+- maintainability
+- consistency
+- usability
+- readiness for future growth
+
+## 8. Possible Panel Questions and Model Answers
+
+### 1. Why did you keep `globals.css` if you already use CSS modules?
+
+I kept `globals.css` for shared foundation styles only, such as tokens, resets, shared buttons, shared fields, and skeleton states. CSS modules are now used for route-owned and component-owned styling. That gives me both consistency and local ownership.
+
+### 2. Why did you remove blank `page.module.css` files?
+
+They were only placeholders and added noise to the folder structure. If a module file exists now, it should own real styles. That makes the structure easier to understand.
+
+### 3. Why is the dashboard public instead of protected?
+
+Because browsing is the main entry point of the product. Requiring login too early would add friction. Authentication is more appropriate for account-based features like favorites.
+
+### 4. Why use CSS variables instead of hard-coded values everywhere?
+
+CSS variables make theming and consistency much easier. I can update the visual system from one place instead of chasing repeated color values across many files.
+
+### 5. Why use both Grid and Flexbox?
+
+Grid handles larger structural layouts, while Flexbox handles smaller alignment tasks. Using both correctly creates cleaner and more maintainable layouts.
+
+### 6. What is the biggest frontend improvement in the current version?
+
+The CSS ownership is much clearer now. Shared styles stay global, and local styles stay beside the route or component that owns them.
+
+### 7. How did you make the mobile layout better?
+
+I changed the interaction model instead of just shrinking things. The dashboard gets a mobile filter sheet, the header actions collapse, the mobile tab bar takes over navigation, and the compare page is restructured for narrow screens.
+
+### 8. Why is the compare page separate from the dashboard now?
+
+Because comparison is a different cognitive task from browsing. Separating them makes both pages cleaner and easier to understand.
+
+### 9. How do you ensure favorites do not mix between users?
+
+The favorites provider reloads state whenever the session user changes, and the backend APIs work from the authenticated session user id instead of trusting client identity.
+
+### 10. What would you improve next?
+
+I would continue polishing image handling with `next/image`, keep refining responsive edge cases, and further reduce inline style usage by converting more one-off spacing values into named classes.

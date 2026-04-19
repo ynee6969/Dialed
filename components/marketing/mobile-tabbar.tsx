@@ -1,5 +1,17 @@
 "use client";
 
+/**
+ * ===================================
+ * MOBILE TAB BAR
+ * ===================================
+ *
+ * Purpose:
+ * Provides the fixed bottom navigation for phone-sized screens.
+ *
+ * Why a separate component:
+ * - Desktop navigation stays in the header.
+ * - Mobile needs larger touch targets and a fixed thumb-friendly bar.
+ */
 import type { Route } from "next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -16,6 +28,7 @@ const tabs = [
   { href: "/favorites", label: "Saved", icon: Heart }
 ] satisfies Array<{ href: Route; label: string; icon: typeof House }>;
 
+/* Marks a tab active on exact matches and nested route paths. */
 function isActivePath(pathname: string, href: Route) {
   if (href === "/") {
     return pathname === "/";
@@ -28,11 +41,14 @@ export function MobileTabBar() {
   const pathname = usePathname();
 
   return (
+    /* Only visible on smaller screens through the CSS module. */
     <nav className={`mobile-tabbar ${styles.scope}`} aria-label="Mobile navigation">
       {tabs.map((tab) => {
         const Icon = tab.icon;
         const active = isActivePath(pathname, tab.href);
 
+        /* Dashboard uses the instant navigation wrapper because that route is the
+           most data-heavy and benefits from prefetch + loading feedback. */
         if (tab.href === "/dashboard") {
           return (
             <InstantNavLink
@@ -48,6 +64,7 @@ export function MobileTabBar() {
           );
         }
 
+        /* All other tabs can use a normal Link because they are much lighter routes. */
         return (
           <Link key={tab.href} href={tab.href} className={`mobile-tablink ${active ? "is-active" : ""}`.trim()}>
             <Icon size={16} />

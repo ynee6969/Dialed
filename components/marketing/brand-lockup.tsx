@@ -1,3 +1,16 @@
+/**
+ * ===================================
+ * BRAND LOCKUP
+ * ===================================
+ *
+ * Purpose:
+ * Renders the reusable brand unit seen in the header and footer.
+ *
+ * Why this component exists:
+ * - Keeps the logo mark and brand text consistent everywhere.
+ * - Makes it easy to change the product name, subtitle, or home link once.
+ * - Separates branding markup from larger layout components like the header.
+ */
 import Link from "next/link";
 import type { Route } from "next";
 
@@ -14,6 +27,8 @@ export function BrandMark() {
   );
 }
 
+/* Full brand lockup: icon + product name + supporting subtitle.
+   Default subtitle comes from the shared site configuration. */
 export function BrandLockup({
   subtitle = site.tagline,
   href = "/"

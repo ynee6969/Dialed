@@ -1,5 +1,18 @@
 "use client";
 
+/**
+ * ===================================
+ * AUTH FORM
+ * ===================================
+ *
+ * Purpose:
+ * Powers both login and signup screens with a single reusable client component.
+ *
+ * Flow:
+ * - Signup first creates the user through the custom API.
+ * - Both signup and login then call NextAuth credentials sign-in.
+ * - The form only redirects after `/api/auth/session` confirms a real session.
+ */
 import type { Route } from "next";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
@@ -36,10 +49,13 @@ const authContent = {
 const sessionVerificationRetries = 4;
 const sessionVerificationDelayMs = 150;
 
+/* Tiny delay helper used while polling for a newly created NextAuth session. */
 function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+/* Verifies that the browser truly received a usable authenticated session.
+   This prevents the "ghost login" behavior where the UI redirects too early. */
 async function readAuthenticatedSession() {
   for (let attempt = 0; attempt < sessionVerificationRetries; attempt += 1) {
     const response = await fetch("/api/auth/session", {
@@ -81,12 +97,14 @@ export function AuthForm({ mode, callbackUrl }: AuthFormProps) {
     event.preventDefault();
     setError(null);
 
+    /* Read the current form values directly from the submitted form element. */
     const formData = new FormData(event.currentTarget);
     const name = String(formData.get("name") || "").trim();
     const email = String(formData.get("email") || "").trim().toLowerCase();
     const password = String(formData.get("password") || "");
 
     startTransition(async () => {
+      /* Signup needs the account record created before the credentials sign-in can work. */
       if (mode === "signup") {
         const response = await fetch("/api/auth/signup", {
           method: "POST",
@@ -107,6 +125,7 @@ export function AuthForm({ mode, callbackUrl }: AuthFormProps) {
         }
       }
 
+      /* NextAuth credentials sign-in creates the actual session cookie/JWT. */
       const result = await signIn("credentials", {
         email,
         password,
@@ -122,6 +141,7 @@ export function AuthForm({ mode, callbackUrl }: AuthFormProps) {
         return;
       }
 
+      /* Double-check the session endpoint before redirecting anywhere. */
       const session = await readAuthenticatedSession();
 
       if (!session?.user?.id) {

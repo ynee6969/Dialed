@@ -26,7 +26,6 @@ import { AuthForm } from "@/components/auth/auth-form";
 import { AuthConfigNotice } from "@/components/auth/auth-config-notice";
 import { getOptionalSession } from "@/lib/auth/session";
 import { hasConfiguredAuthSecret } from "@/lib/auth/config";
-import styles from "./page.module.css";
 
 /* force-dynamic: Don't cache this page
    Auth state changes frequently; always check current session */
@@ -42,7 +41,7 @@ export default async function LoginPage({
 
   if (!hasConfiguredAuthSecret()) {
     return (
-      <section className={`section ${styles.page}`}>
+      <section className="section">
         <div className="page-shell">
           <AuthConfigNotice />
         </div>
@@ -62,7 +61,7 @@ export default async function LoginPage({
   }
 
   return (
-    <section className={`section ${styles.page}`}>
+    <section className="section">
       <div className="page-shell">
         <AuthForm mode="login" callbackUrl={callbackUrl} />
       </div>

@@ -1,5 +1,18 @@
 "use client";
 
+/**
+ * ===================================
+ * THEME PROVIDER
+ * ===================================
+ *
+ * Purpose:
+ * Owns the site-wide appearance system: theme mode, active palette ids,
+ * and CSS variable updates applied to the document root.
+ *
+ * Why this is a provider:
+ * Several components need theme state, but only one place should read and write
+ * localStorage as well as update the `<html>` CSS custom properties.
+ */
 import {
   createContext,
   useContext,
@@ -42,6 +55,8 @@ const LEGACY_PALETTE_KEY = "dialed-theme-palette";
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
+/* Parses a hex color into RGBA-ready pieces so presets can generate many CSS variables
+   from only a small set of stored palette values. */
 function parseHexColor(value: string) {
   const normalized = value.replace("#", "");
   const compact = normalized.length === 3
@@ -69,6 +84,7 @@ function parseHexToRgb(value: string) {
   return `${red}, ${green}, ${blue}`;
 }
 
+/* Utility used to build semi-transparent surface and border colors from solid palette values. */
 function toRgba(value: string, alphaMultiplier = 1) {
   const { red, green, blue, alpha } = parseHexColor(value);
   const finalAlpha = Math.max(0, Math.min(1, alpha * alphaMultiplier));
@@ -76,6 +92,7 @@ function toRgba(value: string, alphaMultiplier = 1) {
   return `rgba(${red}, ${green}, ${blue}, ${finalAlpha.toFixed(3)})`;
 }
 
+/* Simple color blending helper used to derive muted surfaces and text values. */
 function mixColors(primary: string, secondary: string, secondaryWeight: number) {
   const base = parseHexColor(primary);
   const mix = parseHexColor(secondary);
@@ -100,6 +117,7 @@ function resolveStoredPalette(value: string | null, fallback: ThemePaletteId): T
   return isThemePaletteId(value) ? value : fallback;
 }
 
+/* Uses the operating system preference when the user picks "system" mode. */
 function getSystemTheme(): ThemeAppearance {
   if (typeof window === "undefined") {
     return "dark";
@@ -108,6 +126,7 @@ function getSystemTheme(): ThemeAppearance {
   return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
 }
 
+/* Applies a preset by writing the derived design tokens directly to the document root. */
 function applyPalette(appearance: ThemeAppearance, paletteId: ThemePaletteId) {
   if (typeof document === "undefined") {
     return;
@@ -145,6 +164,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [systemTheme, setSystemTheme] = useState<ThemeAppearance>("dark");
 
   useEffect(() => {
+    /* Hydrate client-side appearance settings from localStorage once on mount. */
     const storedMode = resolveStoredMode(
       window.localStorage.getItem(THEME_MODE_KEY) ?? window.localStorage.getItem(LEGACY_THEME_KEY)
     );
@@ -164,6 +184,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setSystemTheme(getSystemTheme());
     setReady(true);
 
+    /* Keep the provider synced when the OS theme changes while the app is open. */
     const mediaQuery = window.matchMedia("(prefers-color-scheme: light)");
     const syncSystemTheme = () => setSystemTheme(mediaQuery.matches ? "light" : "dark");
     mediaQuery.addEventListener("change", syncSystemTheme);
@@ -176,11 +197,13 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const resolvedTheme = mode === "system" ? systemTheme : mode;
   const activePaletteId = resolvedTheme === "light" ? lightPaletteId : darkPaletteId;
 
+  /* Update CSS custom properties whenever the visible theme or active palette changes. */
   useEffect(() => {
     applyPalette(resolvedTheme, activePaletteId);
   }, [activePaletteId, resolvedTheme]);
 
   useEffect(() => {
+    /* Persist the latest theme preferences for future visits. */
     if (!ready) {
       return;
     }
@@ -190,6 +213,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     window.localStorage.setItem(DARK_PALETTE_KEY, darkPaletteId);
   }, [darkPaletteId, lightPaletteId, mode, ready]);
 
+  /* Memoize the context payload so child consumers do not rerender unnecessarily. */
   const value = useMemo<ThemeContextValue>(
     () => ({
       ready,
@@ -218,6 +242,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 export function useThemeValue() {
   const context = useContext(ThemeContext);
 
+  /* Guardrail for accidental usage outside the ThemeProvider tree. */
   if (!context) {
     throw new Error("useThemeValue must be used within ThemeProvider.");
   }

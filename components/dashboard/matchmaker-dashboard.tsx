@@ -1,5 +1,19 @@
 "use client";
 
+/**
+ * ===================================
+ * MATCHMAKER DASHBOARD
+ * ===================================
+ *
+ * Purpose:
+ * Acts as the main browse surface for the catalog.
+ *
+ * Responsibilities:
+ * - Keep filter state in the browser.
+ * - Request filtered pages of phones from `/api/phones`.
+ * - Render the public browsing view without forcing sign-in.
+ * - Offer a mobile filter sheet for smaller screens.
+ */
 import Link from "next/link";
 import {
   ChevronDown,
@@ -49,6 +63,7 @@ const defaultFilters: FiltersState = {
   batteryCapacity: ""
 };
 
+/* Small reusable select field used throughout the dashboard filter stack. */
 function FilterSelect({
   id,
   label,
@@ -77,6 +92,7 @@ function FilterSelect({
   );
 }
 
+/* Sidebar/mobile filter body shared by both desktop and mobile presentations. */
 function DashboardFilters({
   filters,
   setFilters,
@@ -152,6 +168,7 @@ function DashboardFilters({
   );
 }
 
+/* Generic centered sheet used for phone-sized filter access. */
 function MobileSheet({
   title,
   onClose,
@@ -182,6 +199,7 @@ function MobileSheet({
   );
 }
 
+/* Skeleton grid shown while the dashboard is refreshing filter results. */
 function DashboardSkeletonGrid() {
   return (
     <div className="phone-grid dashboard-grid dashboard-skeleton-grid" aria-hidden="true">
@@ -208,6 +226,7 @@ export function MatchmakerDashboard({
   initialBrands,
   stats
 }: MatchmakerDashboardProps) {
+  /* Result data begins with the server-rendered payload, then refreshes client-side as filters change. */
   const [phones, setPhones] = useState(initialPhones);
   const [brands, setBrands] = useState(initialBrands);
   const [total, setTotal] = useState(stats.catalogSize);
@@ -219,6 +238,7 @@ export function MatchmakerDashboard({
   const [desktopFiltersExpanded, setDesktopFiltersExpanded] = useState(true);
   const pageSize = 10;
 
+  /* Convert the current filter state into URLSearchParams for the `/api/phones` endpoint. */
   const buildParams = useCallback(
     (skip = 0) => {
       const params = new URLSearchParams();
@@ -236,6 +256,7 @@ export function MatchmakerDashboard({
   );
 
   useEffect(() => {
+    /* Every filter change starts a small delayed refresh to avoid excessive API chatter. */
     const params = buildParams(0);
 
     let ignore = false;
@@ -283,6 +304,7 @@ export function MatchmakerDashboard({
   }, [buildParams]);
 
   async function handleShowMore() {
+    /* Pagination is append-only: fetch the next 10 phones and merge unique ids. */
     setLoadingMore(true);
     setStatus(null);
 
@@ -312,6 +334,7 @@ export function MatchmakerDashboard({
   const hasMore = phones.length < total;
 
   return (
+    /* Desktop layout uses a sidebar + results split. CSS collapses that on smaller screens. */
     <div className={`dashboard-layout ${styles.scope}`}>
       <aside className="sidebar desktop-sidebar">
         <div className="glass-panel sidebar-card dashboard-filter-panel">
@@ -343,6 +366,7 @@ export function MatchmakerDashboard({
       </aside>
 
       <section className="results-stack">
+        {/* Hero copy keeps the browsing route understandable even before users interact with filters. */}
         <div className="dashboard-topbar dashboard-topbar-split">
           <div className="stack dashboard-copy-stack">
             <span className="section-label">Dashboard</span>
@@ -368,6 +392,7 @@ export function MatchmakerDashboard({
           </div>
         </div>
 
+        {/* Mobile-only action row gives one-tap access to filters and compare. */}
         <div className="dashboard-mobile-actions">
           <button type="button" className="button-secondary magnetic-button" onClick={() => setActiveMobileSheet(true)}>
             <Filter size={16} />
@@ -391,6 +416,7 @@ export function MatchmakerDashboard({
 
         {loading ? <DashboardSkeletonGrid /> : null}
 
+        {/* Main catalog grid. Empty state only appears when filters return zero results. */}
         <div className={`phone-grid dashboard-grid ${loading ? "is-dimmed" : ""}`}>
           {phones.length ? (
             phones.map((phone) => <DeviceCard key={phone.id} phone={phone} />)
@@ -432,10 +458,11 @@ export function MatchmakerDashboard({
         ) : null}
       </section>
 
-      {activeMobileSheet ? (
-        <MobileSheet title="Filters" onClose={() => setActiveMobileSheet(false)}>
-          <DashboardFilters filters={filters} setFilters={setFilters} brands={brands} />
-        </MobileSheet>
+        {activeMobileSheet ? (
+          /* Small-screen filter sheet reuses the exact same filter body as desktop. */
+          <MobileSheet title="Filters" onClose={() => setActiveMobileSheet(false)}>
+            <DashboardFilters filters={filters} setFilters={setFilters} brands={brands} />
+          </MobileSheet>
       ) : null}
     </div>
   );

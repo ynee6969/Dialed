@@ -1,3 +1,15 @@
+/**
+ * ===================================
+ * AUTH CONFIG NOTICE
+ * ===================================
+ *
+ * Purpose:
+ * Shows a friendly setup message when auth secrets are missing in the environment.
+ *
+ * Why this matters:
+ * Instead of crashing the page, the app explains what is missing and gives the user
+ * a safe way back to the public dashboard.
+ */
 import Link from "next/link";
 
 import { authConfigurationMessage } from "@/lib/auth/config";

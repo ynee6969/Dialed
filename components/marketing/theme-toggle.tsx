@@ -1,5 +1,18 @@
 "use client";
 
+/**
+ * ===================================
+ * THEME SETTINGS LAUNCHER
+ * ===================================
+ *
+ * Purpose:
+ * Opens the centered appearance modal from the floating button in the bottom-right corner.
+ *
+ * Key features:
+ * - Light / dark / system mode switching
+ * - Separate presets for the light side and dark side of the UI
+ * - Search through the imported Monkeytype palette catalog
+ */
 import { Check, Monitor, MoonStar, Palette, Search, SunMedium, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -16,6 +29,7 @@ function PresetSwatches({
   secondary: string;
   tertiary: string;
 }) {
+  /* Tiny three-dot preview used in both the launcher and the preset list. */
   return (
     <span className="theme-toggle-preview" aria-hidden="true">
       <span style={{ background: accent }} />
@@ -39,8 +53,10 @@ export function ThemeToggle() {
   } = useThemeValue();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  /* Controls whether the modal is editing the light palette or dark palette. */
   const [editingTheme, setEditingTheme] = useState<ThemeAppearance>("dark");
 
+  /* Close the modal on route changes so it never persists across page navigation. */
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
@@ -50,6 +66,8 @@ export function ThemeToggle() {
       return;
     }
 
+    /* When the modal opens, match the editing tab to the currently visible theme
+       and lock body scrolling behind the backdrop. */
     setEditingTheme(resolvedTheme);
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -68,6 +86,7 @@ export function ThemeToggle() {
     };
   }, [open, resolvedTheme]);
 
+  /* Search narrows the preset list without mutating the source catalog. */
   const filteredPresets = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
     if (!normalizedQuery) {
@@ -98,6 +117,7 @@ export function ThemeToggle() {
 
   return (
     <div className={styles.scope}>
+      {/* Floating launcher stays visible on every route and opens the modal. */}
       <button
         type="button"
         className={`theme-launcher ${open ? "is-open" : ""}`.trim()}
@@ -115,6 +135,7 @@ export function ThemeToggle() {
       </button>
 
       {open ? (
+        /* Full-screen backdrop centers the modal and dismisses on outside click. */
         <div className="theme-modal-backdrop" role="presentation" onClick={() => setOpen(false)}>
           <div
             className="glass-panel theme-modal"

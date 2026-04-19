@@ -1,5 +1,18 @@
 "use client";
 
+/**
+ * ===================================
+ * HEADER AUTH CONTROLS
+ * ===================================
+ *
+ * Purpose:
+ * Handles the right side of the header for both guests and signed-in users.
+ *
+ * Responsibilities:
+ * - Show login/signup for guests.
+ * - Show favorites count and sign-out for authenticated users.
+ * - Collapse those actions into a centered mobile sheet on small screens.
+ */
 import Link from "next/link";
 import { Heart, LoaderCircle, LogIn, LogOut, Menu, UserPlus, X } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -13,12 +26,17 @@ export function HeaderAuthControls() {
   const pathname = usePathname();
   const { data: session, status } = useSession();
   const { favoritesCount, favoritesReady } = useFavorites();
+  /* Local state controls the mobile action sheet. */
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  /* Close the sheet whenever navigation or session state changes
+     so the overlay never lingers on the wrong page. */
   useEffect(() => {
     setMobileOpen(false);
   }, [pathname, status]);
 
+  /* Only show the favorites badge when the user is signed in and the favorites list
+     has finished loading for that exact account. */
   const mobileCount = status === "authenticated" && favoritesReady ? favoritesCount : null;
 
   function closeMobileSheet() {
@@ -32,6 +50,7 @@ export function HeaderAuthControls() {
 
   return (
     <>
+      {/* Desktop action group stays inline with the main header layout. */}
       <div className={`header-auth-desktop ${styles.desktop}`}>
         {status === "loading" ? (
           <span className="chip muted-chip">
@@ -66,6 +85,7 @@ export function HeaderAuthControls() {
         )}
       </div>
 
+      {/* Mobile gets a single compact trigger instead of wide action buttons. */}
       <div className={`header-auth-mobile ${styles.mobile}`}>
         <button
           type="button"
@@ -78,6 +98,7 @@ export function HeaderAuthControls() {
         </button>
       </div>
 
+      {/* Mobile action sheet: centered overlay that keeps menu content visible on short screens. */}
       {mobileOpen ? (
         <div
           className={`sheet-overlay header-account-overlay ${styles.overlay}`}
@@ -106,6 +127,7 @@ export function HeaderAuthControls() {
               </button>
             </div>
 
+            {/* Authenticated and guest actions share the same layout shell for consistency. */}
             {status === "authenticated" ? (
               <div className="header-account-actions">
                 <Link href="/favorites" className="button-secondary header-account-link" onClick={closeMobileSheet}>

@@ -1,5 +1,18 @@
 "use client";
 
+/**
+ * ===================================
+ * DEVICE CARD
+ * ===================================
+ *
+ * Purpose:
+ * Displays one phone in the dashboard or favorites grid.
+ *
+ * Responsibilities:
+ * - Present the phone name, price, key scores, and quick specs.
+ * - Offer compare, favorite, and marketplace actions.
+ * - Add subtle motion on pointer devices without breaking touch layouts.
+ */
 import Link from "next/link";
 import { BatteryCharging, Camera, Cpu, Sparkles, Zap } from "lucide-react";
 import { useRef } from "react";
@@ -21,16 +34,19 @@ interface StatRow {
   value: number | null;
 }
 
+/* Keeps all progress bars inside a consistent 0-100 range. */
 function clampScore(value: number | null) {
   return Math.max(0, Math.min(100, Math.round(value ?? 0)));
 }
 
+/* Build up to three compact chips from the preview spec fields that were serialized server-side. */
 function buildSpecChips(phone: PhoneCardRecord) {
   return [phone.displaySpec, phone.chipsetSpec, phone.batterySpec]
     .filter((value): value is string => Boolean(value))
     .slice(0, 3);
 }
 
+/* Build the deeper fact boxes that sit below the score bars. */
 function buildDetailCards(phone: PhoneCardRecord) {
   return [
     {
@@ -49,6 +65,7 @@ function buildDetailCards(phone: PhoneCardRecord) {
 }
 
 export function DeviceCard({ phone }: DeviceCardProps) {
+  /* Ref is used only for hover tilt and glow positioning. */
   const cardRef = useRef<HTMLElement | null>(null);
   const displayName = getPhoneDisplayName(phone.brand, phone.model);
   const marketplaceLinks = buildPhoneMarketplaceLinks(phone);
@@ -61,6 +78,7 @@ export function DeviceCard({ phone }: DeviceCardProps) {
     { label: "Value", icon: Cpu, value: phone.valueScore }
   ];
 
+  /* Desktop pointer movement updates CSS variables that drive the card tilt and internal glow. */
   function handlePointerMove(event: React.PointerEvent<HTMLElement>) {
     if (!cardRef.current || !window.matchMedia("(pointer: fine)").matches) {
       return;
@@ -78,6 +96,7 @@ export function DeviceCard({ phone }: DeviceCardProps) {
     cardRef.current.style.setProperty("--card-glow-y", `${offsetY.toFixed(0)}px`);
   }
 
+  /* Reset card transform variables when the pointer leaves. */
   function resetPointerState() {
     if (!cardRef.current) {
       return;
@@ -98,11 +117,13 @@ export function DeviceCard({ phone }: DeviceCardProps) {
     >
       <div className="phone-card-glow" aria-hidden="true" />
 
+      {/* Top row: segment badge on the left, favorite action on the right. */}
       <div className="phone-card-top">
         <span className="pill phone-card-segment">{phone.segment.replace(/_/g, " ")}</span>
         <FavoriteButton phoneId={phone.id} variant="full" className="phone-card-favorite" />
       </div>
 
+      {/* Quick score + price snapshot before the user reads the rest of the card. */}
       <div className="phone-card-score-strip">
         <div className="phone-card-score-panel">
           <span>Dialed score</span>
@@ -114,6 +135,7 @@ export function DeviceCard({ phone }: DeviceCardProps) {
         </div>
       </div>
 
+      {/* Product image area falls back to an initial when no local/remote artwork exists. */}
       <div className="phone-media">
         {phone.imageUrl ? (
           <img src={phone.imageUrl} alt={displayName} loading="lazy" decoding="async" />
@@ -123,6 +145,7 @@ export function DeviceCard({ phone }: DeviceCardProps) {
       </div>
 
       <div className="phone-card-body">
+        {/* Headline block explains what the user can do with this card. */}
         <div className="phone-headline">
           <div>
             <h3>{displayName}</h3>
@@ -132,6 +155,7 @@ export function DeviceCard({ phone }: DeviceCardProps) {
           </div>
         </div>
 
+        {/* Chips expose the fastest scannable specs from the cached preview payload. */}
         <div className="phone-card-chip-row">
           {specChips.length ? (
             specChips.map((spec) => (
@@ -144,6 +168,7 @@ export function DeviceCard({ phone }: DeviceCardProps) {
           )}
         </div>
 
+        {/* Animated stat rows help the card feel more "alive" without changing the data model. */}
         <div className="phone-card-stat-stack">
           {statRows.map((stat) => {
             const Icon = stat.icon;
@@ -166,6 +191,7 @@ export function DeviceCard({ phone }: DeviceCardProps) {
           })}
         </div>
 
+        {/* Detail chips are optional because not every phone has every enriched field. */}
         {detailCards.length ? (
           <div className="phone-card-detail-grid">
             {detailCards.map((detail) => (
@@ -177,6 +203,7 @@ export function DeviceCard({ phone }: DeviceCardProps) {
           </div>
         ) : null}
 
+        {/* Primary actions stay inside the card so the dashboard grid is self-sufficient. */}
         <div className="phone-card-actions">
           <div className="card-primary-actions">
             <Link href={`/phones/${phone.slug}`} className="button-secondary magnetic-button">

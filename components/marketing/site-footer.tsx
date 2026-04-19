@@ -1,3 +1,15 @@
+/**
+ * ===================================
+ * SITE FOOTER
+ * ===================================
+ *
+ * Purpose:
+ * Ends every page with a compact brand reminder and a short product summary.
+ *
+ * Design choice:
+ * The footer stays intentionally small so the app still feels product-focused,
+ * especially on catalog-heavy routes like dashboard and compare.
+ */
 import { BrandLockup } from "@/components/marketing/brand-lockup";
 import styles from "./SiteFooter.module.css";
 

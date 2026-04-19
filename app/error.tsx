@@ -23,7 +23,6 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
-import styles from "./error.module.css";
 
 /* Error boundary component - catches errors from child routes
    Parameters:
@@ -43,7 +42,7 @@ export default function GlobalRouteError({
   }, [error]);
 
   return (
-    <section className={`section ${styles.page}`}>
+    <section className="section">
       <div className="page-shell">
         <div className="glass-panel card">
           <span className="section-label">Something Went Wrong</span>
