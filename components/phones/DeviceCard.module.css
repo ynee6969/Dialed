@@ -1,0 +1,311 @@
+/* Phone card.
+   Keeps the interactive card layout consistent across laptop, tablet, and phone. */
+
+.scope {
+  --card-rotate-x: 0deg;
+  --card-rotate-y: 0deg;
+  --card-glow-x: 50%;
+  --card-glow-y: 50%;
+  position: relative;
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+  min-width: 0;
+  content-visibility: auto;
+  contain-intrinsic-size: 560px;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.scope:hover {
+  transform:
+    perspective(1100px)
+    rotateX(var(--card-rotate-x))
+    rotateY(var(--card-rotate-y))
+    translateY(-6px);
+  border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
+}
+
+.scope :global(.phone-card-glow) {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(circle 180px at var(--card-glow-x) var(--card-glow-y), rgba(var(--accent-rgb), 0.18), transparent 72%);
+  opacity: 0.9;
+}
+
+.scope :global(.phone-card-top),
+.scope :global(.phone-card-score-strip),
+.scope :global(.phone-card-body) {
+  position: relative;
+  z-index: 1;
+}
+
+.scope :global(.phone-card-top) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+}
+
+.scope :global(.phone-card-segment) {
+  min-width: 0;
+  justify-content: flex-start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: color-mix(in srgb, var(--surface-soft) 86%, rgba(255, 255, 255, 0.06));
+  text-transform: capitalize;
+}
+
+.scope :global(.phone-card-favorite) {
+  min-width: 118px;
+}
+
+.scope :global(.phone-card-score-strip) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.scope :global(.phone-card-score-panel),
+.scope :global(.phone-card-price-panel),
+.scope :global(.phone-detail-chip) {
+  padding: 14px 16px;
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--surface-soft) 92%, rgba(255, 255, 255, 0.03));
+  border: 1px solid color-mix(in srgb, var(--border) 86%, rgba(255, 255, 255, 0.05));
+}
+
+.scope :global(.phone-card-score-panel span),
+.scope :global(.phone-card-price-panel span),
+.scope :global(.phone-detail-chip span) {
+  display: block;
+  color: var(--muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.scope :global(.phone-card-score-panel strong),
+.scope :global(.phone-card-price-panel strong),
+.scope :global(.phone-detail-chip strong) {
+  display: block;
+  margin-top: 8px;
+  font-size: 1.25rem;
+  letter-spacing: -0.04em;
+}
+
+.scope :global(.phone-media) {
+  width: 100%;
+  height: 248px;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.14), transparent 45%),
+    color-mix(in srgb, var(--surface-soft) 90%, rgba(255, 255, 255, 0.04));
+  border: 1px solid color-mix(in srgb, var(--border) 88%, rgba(255, 255, 255, 0.05));
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+.scope :global(.phone-media img) {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.scope :global(.phone-media-placeholder) {
+  width: 84px;
+  height: 84px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--surface-strong);
+  color: var(--muted);
+  font-family: var(--font-display), sans-serif;
+  font-size: 2rem;
+}
+
+.scope :global(.phone-card-body) {
+  display: grid;
+  gap: 16px;
+}
+
+.scope :global(.phone-headline) {
+  display: block;
+}
+
+.scope :global(.phone-card h3) {
+  margin: 0;
+  font-size: clamp(1.3rem, 2vw, 1.82rem);
+  line-height: 1.02;
+  letter-spacing: -0.05em;
+}
+
+.scope :global(.phone-card-subcopy) {
+  margin: 10px 0 0;
+  line-height: 1.55;
+}
+
+.scope :global(.phone-card-chip-row) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.scope :global(.phone-card-chip) {
+  background: color-mix(in srgb, var(--surface-strong) 82%, transparent);
+}
+
+.scope :global(.phone-card-stat-stack) {
+  display: grid;
+  gap: 12px;
+}
+
+.scope :global(.phone-stat-row) {
+  display: grid;
+  gap: 8px;
+}
+
+.scope :global(.phone-stat-label) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.scope :global(.phone-stat-label span) {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.scope :global(.phone-stat-track) {
+  width: 100%;
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface-soft) 92%, rgba(255, 255, 255, 0.05));
+}
+
+.scope :global(.phone-stat-fill) {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 82%, white 18%), rgba(86, 216, 155, 0.74));
+  box-shadow: 0 0 18px rgba(var(--accent-rgb), 0.34);
+  transition: width 320ms ease;
+}
+
+.scope:hover :global(.phone-stat-fill) {
+  filter: saturate(1.14);
+}
+
+.scope :global(.phone-card-detail-grid) {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.scope :global(.phone-card-actions) {
+  display: grid;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.scope :global(.card-primary-actions),
+.scope :global(.marketplace-actions) {
+  display: grid;
+  gap: 12px;
+}
+
+.scope :global(.card-primary-actions) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.scope :global(.marketplace-actions) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.scope :global(.phone-card-actions .button-secondary),
+.scope :global(.phone-card-actions .button),
+.scope :global(.marketplace-actions .button),
+.scope :global(.marketplace-actions .button-secondary),
+.scope :global(.marketplace-actions .button-ghost) {
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .scope {
+    gap: 16px;
+    padding: 18px;
+    transform: none;
+  }
+
+  .scope:hover {
+    transform: translateY(-4px);
+  }
+
+  .scope :global(.phone-media) {
+    height: 228px;
+    border-radius: 24px;
+  }
+
+  .scope :global(.phone-card-detail-grid) {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .scope {
+    padding: 18px;
+  }
+
+  .scope :global(.phone-media) {
+    height: 220px;
+  }
+
+  .scope :global(.phone-card-favorite) {
+    min-width: 0;
+    width: auto;
+  }
+
+  .scope :global(.phone-card-chip-row) {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .scope :global(.card-primary-actions),
+  .scope :global(.marketplace-actions) {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .scope {
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .scope :global(.phone-media) {
+    height: 208px;
+    border-radius: 22px;
+  }
+
+  .scope :global(.phone-card h3) {
+    font-size: 1.22rem;
+    line-height: 1.08;
+  }
+
+  .scope :global(.phone-card-score-strip) {
+    grid-template-columns: 1fr;
+  }
+}

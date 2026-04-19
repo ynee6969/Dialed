@@ -20,10 +20,11 @@
  */
 
 import { site } from "@/lib/site"; /* Contains site.email config */
+import styles from "./page.module.css";
 
 export default function ContactPage() {
   return (
-    <section className="section">
+    <section className={`section ${styles.page}`}>
       <div className="page-shell marketing-grid">
         <div className="glass-panel card">
           <span className="section-label">Contact</span>

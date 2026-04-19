@@ -5,6 +5,7 @@ import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useState, useTransition } from "react";
 import { LoaderCircle } from "lucide-react";
+import styles from "./AuthForm.module.css";
 
 type AuthMode = "login" | "signup";
 
@@ -137,7 +138,7 @@ export function AuthForm({ mode, callbackUrl }: AuthFormProps) {
   }
 
   return (
-    <div className="auth-shell">
+    <div className={`auth-shell ${styles.scope}`}>
       <div className="glass-panel auth-card">
         <span className="section-label">{mode === "login" ? "Log In" : "Sign Up"}</span>
         <h1 className="feature-title">{content.title}</h1>

@@ -4,6 +4,7 @@ import type { Route } from "next";
 import { LoaderCircle } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
+import styles from "./InstantNavLink.module.css";
 
 interface InstantNavLinkProps {
   href: Route;
@@ -44,7 +45,7 @@ export function InstantNavLink({
   }
 
   return (
-    <>
+    <span className={styles.scope}>
       <button
         type="button"
         className={className}
@@ -56,14 +57,14 @@ export function InstantNavLink({
       </button>
 
       {showOverlay || isPending ? (
-        <div className="route-loading-overlay" aria-live="polite">
-          <div className="glass-panel route-loading-card">
+        <div className={`route-loading-overlay ${styles.overlay}`} aria-live="polite">
+          <div className={`glass-panel route-loading-card ${styles.card}`}>
             <LoaderCircle size={18} className="spin" />
             <strong>{loadingLabel}</strong>
             <p className="muted">Preparing the fastest catalog view for this device.</p>
           </div>
         </div>
       ) : null}
-    </>
+    </span>
   );
 }

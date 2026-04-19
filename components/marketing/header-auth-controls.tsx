@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 
 import { useFavorites } from "@/components/providers/favorites-provider";
+import styles from "./HeaderAuthControls.module.css";
 
 export function HeaderAuthControls() {
   const pathname = usePathname();
@@ -31,7 +32,7 @@ export function HeaderAuthControls() {
 
   return (
     <>
-      <div className="header-auth-desktop">
+      <div className={`header-auth-desktop ${styles.desktop}`}>
         {status === "loading" ? (
           <span className="chip muted-chip">
             <LoaderCircle size={14} className="spin" />
@@ -65,7 +66,7 @@ export function HeaderAuthControls() {
         )}
       </div>
 
-      <div className="header-auth-mobile">
+      <div className={`header-auth-mobile ${styles.mobile}`}>
         <button
           type="button"
           className="button-secondary header-mobile-trigger"
@@ -78,9 +79,13 @@ export function HeaderAuthControls() {
       </div>
 
       {mobileOpen ? (
-        <div className="sheet-overlay header-account-overlay" role="presentation" onClick={closeMobileSheet}>
+        <div
+          className={`sheet-overlay header-account-overlay ${styles.overlay}`}
+          role="presentation"
+          onClick={closeMobileSheet}
+        >
           <div
-            className="sheet-panel header-account-sheet"
+            className={`sheet-panel header-account-sheet ${styles.panel}`}
             role="dialog"
             aria-modal="true"
             aria-label="Account actions"

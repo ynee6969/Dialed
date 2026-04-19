@@ -1,0 +1,150 @@
+/* Phone detail page.
+   Keeps the large spec layout readable and touch-friendly across phones and tablets. */
+
+.page :global(.phone-detail-layout) {
+  display: grid;
+  gap: 24px;
+}
+
+.page :global(.phone-detail-hero) {
+  display: grid;
+  grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
+  gap: 28px;
+  padding: 28px;
+}
+
+.page :global(.phone-detail-media) {
+  min-height: 360px;
+  border-radius: 26px;
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+.page :global(.phone-detail-media img) {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.page :global(.phone-media-placeholder) {
+  width: 84px;
+  height: 84px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--surface-strong);
+  color: var(--muted);
+  font-family: var(--font-display), sans-serif;
+  font-size: 2rem;
+}
+
+.page :global(.phone-detail-title) {
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2rem, 4vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+}
+
+.page :global(.phone-detail-actions) {
+  display: grid;
+  gap: 12px;
+}
+
+.page :global(.card-primary-actions),
+.page :global(.marketplace-actions) {
+  display: grid;
+  gap: 12px;
+}
+
+.page :global(.marketplace-actions) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.page :global(.phone-detail-actions .card-primary-actions) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.page :global(.phone-detail-actions > .button-secondary),
+.page :global(.phone-detail-actions .marketplace-actions) {
+  width: 100%;
+}
+
+.page :global(.specs-table-card) {
+  overflow: hidden;
+}
+
+.page :global(.specs-table) {
+  display: grid;
+}
+
+.page :global(.specs-section) {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  border-top: 1px solid var(--border);
+}
+
+.page :global(.specs-section:first-child) {
+  border-top: 0;
+}
+
+.page :global(.specs-section-title) {
+  padding: 18px 24px;
+  background: var(--surface-soft);
+  border-right: 1px solid var(--border);
+  font-family: var(--font-display), sans-serif;
+}
+
+.page :global(.spec-row) {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 18px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+}
+
+.page :global(.spec-row:first-child) {
+  border-top: 0;
+}
+
+.page :global(.spec-label) {
+  color: var(--muted);
+}
+
+.page :global(.spec-value) {
+  white-space: pre-wrap;
+  line-height: 1.65;
+}
+
+@media (max-width: 768px) {
+  .page :global(.phone-detail-hero) {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+
+  .page :global(.phone-detail-media) {
+    min-height: 280px;
+  }
+
+  .page :global(.phone-detail-actions .card-primary-actions),
+  .page :global(.phone-detail-actions .marketplace-actions) {
+    grid-template-columns: 1fr;
+  }
+
+  .page :global(.specs-section) {
+    grid-template-columns: 1fr;
+  }
+
+  .page :global(.specs-section-title) {
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .page :global(.spec-row) {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 import { useThemeValue, type ThemeAppearance, type ThemeMode } from "@/components/providers/theme-provider";
+import styles from "./ThemeToggle.module.css";
 
 function PresetSwatches({
   accent,
@@ -96,7 +97,7 @@ export function ThemeToggle() {
       : `${mode.charAt(0).toUpperCase()}${mode.slice(1)} mode is active`;
 
   return (
-    <>
+    <div className={styles.scope}>
       <button
         type="button"
         className={`theme-launcher ${open ? "is-open" : ""}`.trim()}
@@ -265,6 +266,6 @@ export function ThemeToggle() {
           </div>
         </div>
       ) : null}
-    </>
+    </div>
   );
 }

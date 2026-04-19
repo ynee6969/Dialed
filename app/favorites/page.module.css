@@ -1,0 +1,8 @@
+/* Favorites route styles.
+   Keeps the empty state near the page while cards stay styled by the shared device card module. */
+
+.page :global(.empty-state) {
+  padding: 42px 24px;
+  text-align: center;
+  color: var(--muted);
+}

@@ -33,6 +33,7 @@ import { hasConfiguredAuthSecret } from "@/lib/auth/config";
 import { getOptionalSession } from "@/lib/auth/session";
 import { listFavoritesByUserId } from "@/lib/services/favorites";
 import { serializePhoneCard } from "@/lib/types/phone-card";
+import styles from "./page.module.css";
 
 /* force-dynamic: Don't cache this page
    Each user has different favorites; always fetch fresh data */
@@ -41,7 +42,7 @@ export const dynamic = "force-dynamic";
 export default async function FavoritesPage() {
   if (!hasConfiguredAuthSecret()) {
     return (
-      <section className="section">
+      <section className={`section ${styles.page}`}>
         <div className="page-shell">
           <AuthConfigNotice />
         </div>
@@ -61,7 +62,7 @@ export default async function FavoritesPage() {
   const phones = favorites.map((favorite) => serializePhoneCard(favorite.phone));
 
   return (
-    <section className="section">
+    <section className={`section ${styles.page}`}>
       <div className="page-shell">
         <span className="section-label">Favorites</span>
         <h1 className="section-title">Your saved phones.</h1>

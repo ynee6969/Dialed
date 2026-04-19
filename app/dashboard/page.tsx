@@ -28,6 +28,7 @@ import { unstable_cache } from "next/cache"; /* Next.js caching helper */
 import { MatchmakerDashboard } from "@/components/dashboard/matchmaker-dashboard"; /* Client component with all interactivity */
 import { listPhones } from "@/lib/services/phones";
 import { serializePhoneCard } from "@/lib/types/phone-card";
+import styles from "./page.module.css";
 
 /* Cache function: Fetches top 10 phones and caches result
    - Key: "dashboard-catalog" (used to invalidate cache if needed)
@@ -63,7 +64,7 @@ export default async function DashboardPage() {
   }
 
   return (
-    <section className="section">
+    <section className={`section ${styles.page}`}>
       <div className="page-shell">
         <MatchmakerDashboard
           initialPhones={catalog.phones.map(serializePhoneCard)}

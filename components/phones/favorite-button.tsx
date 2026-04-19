@@ -3,6 +3,7 @@
 import { Heart, LoaderCircle } from "lucide-react";
 
 import { useFavorites } from "@/components/providers/favorites-provider";
+import styles from "./FavoriteButton.module.css";
 
 interface FavoriteButtonProps {
   phoneId: string;
@@ -22,7 +23,7 @@ export function FavoriteButton({
   return (
     <button
       type="button"
-      className={`favorite-button ${saved ? "is-active" : ""} ${variant === "full" ? "favorite-button-full" : ""} ${className ?? ""}`.trim()}
+      className={`${styles.button} ${saved ? styles.active : ""} ${variant === "full" ? styles.full : ""} ${className ?? ""}`.trim()}
       onClick={() => void toggleFavorite(phoneId)}
       aria-pressed={saved}
       disabled={pending}
