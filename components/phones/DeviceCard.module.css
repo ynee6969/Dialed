@@ -13,10 +13,59 @@
   min-width: 0;
   content-visibility: auto;
   contain-intrinsic-size: 560px;
+  container-type: inline-size; /* Enable container queries */
   transition:
     transform 180ms ease,
     border-color 180ms ease,
-    box-shadow 180ms ease;
+    box-shadow 180ms ease,
+    filter 180ms ease;
+  will-change: transform, filter; /* Performance optimization */
+}
+
+.scope:hover {
+  transform:
+    perspective(1100px)
+    rotateX(var(--card-rotate-x))
+    rotateY(var(--card-rotate-y))
+    translateY(-6px);
+  border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
+  filter: brightness(1.05) contrast(1.02); /* Advanced visual effects */
+}
+
+.scope:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+/* Container query for responsive card layout */
+@container (min-width: 320px) {
+  .scope {
+    padding: 24px;
+    gap: 20px;
+  }
+}
+
+@container (min-width: 400px) {
+  .scope {
+    grid-template-rows: auto auto 1fr;
+  }
+}
+
+/* Keyframe animations for enhanced interactions */
+@keyframes cardGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(var(--accent-rgb), 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0);
+  }
+}
+
+.scope:hover {
+  animation: cardGlow 1.5s ease-out infinite;
 }
 
 .scope:hover {
@@ -34,8 +83,11 @@
   border-radius: inherit;
   pointer-events: none;
   background:
-    radial-gradient(circle 180px at var(--card-glow-x) var(--card-glow-y), rgba(var(--accent-rgb), 0.18), transparent 72%);
+    radial-gradient(circle 180px at var(--card-glow-x) var(--card-glow-y), rgba(var(--accent-rgb), 0.18), transparent 72%),
+    conic-gradient(from 0deg, transparent, rgba(var(--accent-rgb), 0.1), transparent); /* Advanced gradient */
   opacity: 0.9;
+  mix-blend-mode: screen; /* CSS blend mode */
+  filter: blur(1px); /* CSS filter effect */
 }
 
 .scope :global(.phone-card-top),
@@ -76,6 +128,27 @@
 .scope :global(.phone-card-price-panel),
 .scope :global(.phone-detail-chip) {
   padding: 14px 16px;
+  backdrop-filter: blur(8px); /* Glass morphism effect */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.scope :global(.phone-card-score-panel)::before,
+.scope :global(.phone-card-price-panel)::before,
+.scope :global(.phone-detail-chip)::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.scope :global(.phone-card-score-panel):hover::before,
+.scope :global(.phone-card-price-panel):hover::before,
+.scope :global(.phone-detail-chip):hover::before {
+  opacity: 1;
   border-radius: 20px;
   background: color-mix(in srgb, var(--surface-soft) 92%, rgba(255, 255, 255, 0.03));
   border: 1px solid color-mix(in srgb, var(--border) 86%, rgba(255, 255, 255, 0.05));
