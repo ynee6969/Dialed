@@ -15,14 +15,14 @@
 import type { Route } from "next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { GitCompareArrows, Heart, House, LayoutDashboard, Sparkles } from "lucide-react";
+import { GitCompareArrows, Heart, House, LayoutDashboard, SlidersHorizontal } from "lucide-react";
 
 import { InstantNavLink } from "@/components/navigation/instant-nav-link";
 import styles from "./MobileTabBar.module.css";
 
 const tabs = [
   { href: "/", label: "Home", icon: House },
-  { href: "/services", label: "Tools", icon: Sparkles },
+  { href: "/recommend", label: "Recommend", icon: SlidersHorizontal },
   { href: "/compare", label: "Compare", icon: GitCompareArrows },
   { href: "/dashboard", label: "Browse", icon: LayoutDashboard },
   { href: "/favorites", label: "Saved", icon: Heart }

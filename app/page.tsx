@@ -47,7 +47,7 @@ const workflowSteps = [
   },
   {
     title: "Decision",
-    copy: "Filter by what matters, save contenders, and compare the final options." /* Highlights the decision flow */
+    copy: "Set requirements and priorities, review the ranked shortlist, then compare the final options." /* Highlights the decision flow */
   }
 ];
 
@@ -63,7 +63,7 @@ export default function HomePage() {
       <section className="section">
         <div className="page-shell">
           <span className="section-label">How it works</span>
-          <h2 className="feature-title">Compare phones and narrow your choices.</h2>
+          <h2 className="feature-title">Set priorities, receive a shortlist, and compare your choices.</h2>
           <div className="story-strip">
             {workflowSteps.map((step, index) => (
               <article key={step.title} className="glass-panel story-card">
@@ -78,6 +78,13 @@ export default function HomePage() {
 
       <section className="section">
         <div className="page-shell home-feature-layout">
+          <article className="glass-panel home-feature-card accent">
+            <div className="home-feature-icon"><SlidersHorizontal size={18} /></div>
+            <span className="section-label">Recommendation</span>
+            <h3>Rank eligible phones by what matters to you.</h3>
+            <p className="muted">Set requirements, adjust weights, and see the score contribution behind every result.</p>
+            <Link href="/recommend" className="button magnetic-button">Get recommendations <ArrowRight size={16} /></Link>
+          </article>
           <article className="glass-panel home-feature-card">
             <div className="home-feature-icon">
               <SlidersHorizontal size={18} />
@@ -161,11 +168,11 @@ export default function HomePage() {
             <span className="section-label">Get started</span>
             <h2 className="feature-title">Choose phones based on your priorities.</h2>
             <p className="section-copy">
-              Browse, filter, compare, and save phones that fit your needs.
+              Set priorities, then browse, compare, and save phones that fit your needs.
             </p>
             <div className="button-row">
-              <Link href="/dashboard" className="button magnetic-button">
-                Browse phones
+              <Link href="/recommend" className="button magnetic-button">
+                Get recommendations
               </Link>
               <Link href="/services" className="button-secondary magnetic-button">
                 View features

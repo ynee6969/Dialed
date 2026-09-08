@@ -22,7 +22,7 @@
  */
 
 import Link from "next/link";
-import { ArrowRight, BarChart3, Boxes, GitCompareArrows } from "lucide-react"; /* Icon components */
+import { ArrowRight, BarChart3, Boxes, GitCompareArrows, SlidersHorizontal } from "lucide-react"; /* Icon components */
 import styles from "./page.module.css";
 
 export default function ServicesPage() {
@@ -30,14 +30,20 @@ export default function ServicesPage() {
     <section className={`section ${styles.page}`}>
       <div className="page-shell services-shell">
         <span className="section-label">DeviceIQ tools</span>
-        <h1 className="section-title">Browse, compare, and review phone specifications.</h1>
+        <h1 className="section-title">Browse, get recommendations, and compare phone specifications.</h1>
         <p className="section-copy">
-          DeviceIQ includes a phone catalog, a comparison page, and detailed specification pages.
+          Set requirements and priorities to receive a ranked shortlist, then compare the phones in detail.
         </p>
 
         {/* Asymmetric 3-column grid: featured card + 2 smaller cards
             Featured card spans more vertical space */}
         <div className="services-grid">
+          <article className="glass-panel service-card">
+            <div className="service-card-icon"><SlidersHorizontal size={18} /></div>
+            <h3>Recommendation</h3>
+            <p className="muted">Set your requirements and priorities to get a ranked shortlist with an explainable score breakdown.</p>
+            <Link href="/recommend" className="button magnetic-button">Get recommendations <ArrowRight size={16} /></Link>
+          </article>
           {/* FEATURED CARD: Compare Lab - The signature experience */}
           <article className="glass-panel service-card service-card-featured">
             <div className="service-card-copy">

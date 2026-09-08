@@ -382,6 +382,9 @@ export function MatchmakerDashboard({
           </div>
 
           <div className="button-row dashboard-cta-row">
+            <Link href="/recommend" className="button magnetic-button">
+              Get recommendations
+            </Link>
             <Link href="/compare" className="button magnetic-button">
               Compare phones
             </Link>

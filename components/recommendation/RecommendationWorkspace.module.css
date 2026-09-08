@@ -1,0 +1,14 @@
+.scope { display: grid; gap: 28px; }
+.scope form, .match, .sensitivity { padding: clamp(20px, 3vw, 32px); }
+.formHeader, .resultHeader, .matchTop { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.formHeader { margin-bottom: 18px; }.formHeader h2, .resultHeader h2, .match h3, .sensitivity h3 { margin: 0; }.formHeader p { margin: 8px 0 0; }
+.fields, .weights { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.fields { margin-bottom: 28px; }.presetRow { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }.presetRow button { text-transform: capitalize; }
+.weightInput { display: flex; align-items: center; gap: 8px; }.weightInput input { min-width: 0; }.weightInput span { color: var(--muted); }
+.check { display: block; margin: 22px 0; color: var(--text); }.check input { margin-right: 8px; }.error { color: #b42318; margin: 0 0 16px; }.valid { color: var(--accent); }.invalid { color: #b42318; }
+.results { display: grid; gap: 18px; }.constraints { padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); color: var(--muted); }
+.match { display: grid; gap: 18px; }.matchTop h3 { margin-top: 12px; }.matchTop p { margin: 8px 0 0; }.overall { display: grid; justify-items: end; }.overall span, .overall small { color: var(--muted); }.overall strong { font-size: 1.65rem; }
+.breakdown { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }.breakdown > div { display: grid; gap: 5px; padding: 14px; border-radius: var(--radius-md); background: var(--surface-soft); }.breakdown span { color: var(--muted); font-size: .9rem; }
+.sensitivity > div { display: flex; flex-wrap: wrap; gap: 8px; }.sensitivity p { margin: 8px 0 16px; }
+@media (max-width: 850px) { .fields, .weights { grid-template-columns: repeat(2, minmax(0, 1fr)); }.breakdown { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .fields, .weights, .breakdown { grid-template-columns: 1fr; }.formHeader, .resultHeader, .matchTop { flex-direction: column; }.overall { justify-items: start; }.scope form, .match, .sensitivity { padding: 20px; } }

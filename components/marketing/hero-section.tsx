@@ -54,7 +54,7 @@ export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
   /* Prefetch the two most likely next pages so the main CTA feels immediate. */
   useEffect(() => {
     router.prefetch("/dashboard");
-    router.prefetch("/compare");
+    router.prefetch("/recommend");
   }, [router]);
 
   /* Story cards explain the problem-solution arc in a compact visual format. */
@@ -93,15 +93,14 @@ export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
           <div className="hero-noise" aria-hidden="true" />
           <div className="hero-copy-stack">
             <span className="section-label">DeviceIQ</span>
-            <h1 className="section-title">Browse, compare, and choose a phone.</h1>
+            <h1 className="section-title">Set priorities, get recommendations, and choose a phone.</h1>
             <p className="section-copy">
-              Use filters to find phones that match your budget and preferences. Compare specifications and save
-              phones for later.
+              Set your requirements, choose what matters most, and receive a ranked shortlist. Compare specifications and save phones for later.
             </p>
 
             <div className="button-row hero-action-row">
-              <InstantNavLink href="/dashboard" className="button magnetic-button" loadingLabel="Opening phone browser...">
-                Browse phones <ArrowRight size={16} />
+              <InstantNavLink href="/recommend" className="button magnetic-button" loadingLabel="Opening recommendations...">
+                Get recommendations <ArrowRight size={16} />
               </InstantNavLink>
               <Link href="/compare" className="button-secondary magnetic-button">
                 Compare phones
@@ -115,7 +114,7 @@ export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
               </span>
               <span className="pill">
                 <Camera size={14} />
-                Preference filters
+                Adjustable priorities
               </span>
               <span className="pill">
                 <Zap size={14} />
