@@ -149,8 +149,7 @@ export function ThemeToggle() {
                 <span className="section-label theme-modal-label">Appearance</span>
                 <h2>Theme settings</h2>
                 <p className="muted">
-                  Match the layout to your taste with the full Monkeytype theme catalog, then choose what
-                  light, dark, and system mode should use.
+                  Choose the colors used in light, dark, and system mode.
                 </p>
               </div>
 
@@ -228,7 +227,7 @@ export function ThemeToggle() {
                 <input
                   id="theme-preset-search"
                   type="search"
-                  placeholder="Search Monkeytype themes..."
+                  placeholder="Search theme presets..."
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
                 />

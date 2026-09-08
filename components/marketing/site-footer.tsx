@@ -18,10 +18,10 @@ export function SiteFooter() {
     <footer className={styles.footer}>
       <div className={styles.inner}>
         <div>
-          <BrandLockup subtitle="Search, compare, and get to a short list." />
+          <BrandLockup subtitle="Browse, compare, and save phones." />
         </div>
         <p className={styles.note}>
-          Phone search, full specs, and compare mode in one place.
+          Browse phones, review specifications, and compare models in one place.
         </p>
       </div>
     </footer>

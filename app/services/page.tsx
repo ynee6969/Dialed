@@ -29,10 +29,10 @@ export default function ServicesPage() {
   return (
     <section className={`section ${styles.page}`}>
       <div className="page-shell services-shell">
-        <span className="section-label">Inside DeviceIQ</span>
-        <h1 className="section-title">Three tools, one clear decision flow.</h1>
+        <span className="section-label">DeviceIQ tools</span>
+        <h1 className="section-title">Browse, compare, and review phone specifications.</h1>
         <p className="section-copy">
-          Compare takes the lead, while discovery and full specs support the same decision flow.
+          DeviceIQ includes a phone catalog, a comparison page, and detailed specification pages.
         </p>
 
         {/* Asymmetric 3-column grid: featured card + 2 smaller cards
@@ -41,17 +41,17 @@ export default function ServicesPage() {
           {/* FEATURED CARD: Compare Lab - The signature experience */}
           <article className="glass-panel service-card service-card-featured">
             <div className="service-card-copy">
-              <span className="section-label">Featured Tool</span>
-              <h2>Compare phones side by side, instantly.</h2>
+              <span className="section-label">Comparison</span>
+              <h2>Compare phones side by side.</h2>
               <p className="muted">
-                Compare two phones side by side and review the key differences without extra clutter.
+                Review the key specifications and scores for two phones in one view.
               </p>
               <div className="button-row">
                 <Link href="/compare" className="button magnetic-button">
-                  Open compare lab
+                  Compare phones
                 </Link>
                 <Link href="/dashboard" className="button-secondary magnetic-button">
-                  Start from dashboard
+                  Browse phones
                 </Link>
               </div>
             </div>
@@ -85,7 +85,7 @@ export default function ServicesPage() {
             </div>
             <h3>Catalog browser</h3>
             <p className="muted">
-              One public dashboard replaces the old split between dashboard and gallery. Cards stay consistent on phone, tablet, and laptop.
+              Browse the catalog with filters and consistent phone cards on any screen.
             </p>
             <div className="service-inline-preview">
               <span />
@@ -103,7 +103,7 @@ export default function ServicesPage() {
             </div>
             <h3>Full spec pages</h3>
             <p className="muted">
-              Cached reference data keeps long-form specs ready faster, while favorites and compare links stay close at hand.
+              Open detailed specifications, then save or compare the phone.
             </p>
             <div className="service-inline-preview text">
               <span />
@@ -112,14 +112,14 @@ export default function ServicesPage() {
               <span />
             </div>
             <Link href="/compare" className="button-secondary magnetic-button">
-              See the structured specs
+              View phone details
             </Link>
           </article>
         </div>
 
         <div className="services-hint">
           <GitCompareArrows size={16} />
-          <span>Each tool keeps the decision process focused.</span>
+          <span>Use the tools to browse, compare, and choose a phone.</span>
         </div>
       </div>
     </section>

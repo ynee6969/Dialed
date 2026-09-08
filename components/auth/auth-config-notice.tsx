@@ -19,13 +19,13 @@ export function AuthConfigNotice() {
   return (
     <div className={`auth-shell ${styles.scope}`}>
       <div className="glass-panel auth-card">
-        <span className="section-label">Auth Setup Needed</span>
+        <span className="section-label">Setup required</span>
         <h1 className="feature-title">Authentication is not configured yet.</h1>
         <p className="section-copy" style={{ maxWidth: "none" }}>
           {authConfigurationMessage}
         </p>
         <p className="muted" style={{ marginBottom: 0 }}>
-          Add the secret in Vercel, redeploy, and the login/signup flow will start working.
+          Add the required secret in Vercel and redeploy before using the login and sign-up forms.
         </p>
         <div className="button-row" style={{ marginTop: 20 }}>
           <Link href="/dashboard" className="button-secondary">

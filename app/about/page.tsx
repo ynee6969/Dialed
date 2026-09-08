@@ -1,10 +1,10 @@
 /* Core principles/pillars that define the app's philosophy and approach
    These values guide design decisions and feature prioritization */
 const pillars = [
-  "The catalog stays usable even when some specs are still being refreshed.",  /* Robustness: Partial data is acceptable */
-  "Each phone gives you quick shopping links so you can price-check on Lazada or Shopee fast.", /* Integration: Direct links to markets */
-  "Scores stay simple on purpose: performance, camera, battery, and value.",    /* Simplicity: Four core metrics only */
-  "The layout is made to work on phone, tablet, and desktop."                   /* Responsiveness: True mobile-first design */
+  "The catalog remains usable while some specifications are being updated.",
+  "Each phone includes links to check prices on Lazada or Shopee.",
+  "Scores use four criteria: performance, camera, battery, and value.",
+  "The interface works on phones, tablets, and desktop computers."
 ];
 
 /**
@@ -28,15 +28,15 @@ export default function AboutPage() {
         <div className="glass-panel card">
           <span className="section-label">About</span>
           {/* Large responsive title using clamp() for font scaling */}
-          <h1 className="section-title">Built for a cleaner phone search.</h1>
+          <h1 className="section-title">A practical way to compare phones.</h1>
           <p className="section-copy">
-            Instead of bouncing between store pages, spec sites, and random comparison tabs, you can do the
-            basic work here: filter the list, compare models, and open the full spec sheet when you need more detail.
+            Browse a phone catalog, filter it by your requirements, compare models, and open full specifications
+            when you need more detail.
           </p>
         </div>
 
         <div className="glass-panel card">
-          <span className="section-label">What Matters Here</span>
+          <span className="section-label">What DeviceIQ focuses on</span>
           <ul className="insight-list" style={{ marginTop: 20 }}>
             {pillars.map((pillar) => (
               <li key={pillar}>{pillar}</li>

@@ -35,7 +35,7 @@ import styles from "./page.module.css";
 const workflowSteps = [
   {
     title: "Problem",
-    copy: "Too many phones. Too many spec sheets. Too many tabs." /* Establishes the pain point: information overload */
+    copy: "Phone information is spread across many pages." /* Establishes the problem the app addresses */
   },
   {
     title: "Fragmented information",
@@ -63,7 +63,7 @@ export default function HomePage() {
       <section className="section">
         <div className="page-shell">
           <span className="section-label">How it works</span>
-          <h2 className="feature-title">From phone-shopping overload to a shortlist you trust.</h2>
+          <h2 className="feature-title">Compare phones and narrow your choices.</h2>
           <div className="story-strip">
             {workflowSteps.map((step, index) => (
               <article key={step.title} className="glass-panel story-card">
@@ -83,13 +83,12 @@ export default function HomePage() {
               <SlidersHorizontal size={18} />
             </div>
             <span className="section-label">Discovery</span>
-            <h3>One dashboard, no redundant gallery.</h3>
+            <h3>Browse phones in one place.</h3>
             <p className="muted">
-              The catalog now lives in one public dashboard with collapsible filters, faster cards, and a cleaner route
-              structure.
+              Use filters to browse the catalog, open specifications, and keep your options together.
             </p>
             <Link href="/dashboard" className="button magnetic-button">
-              Open dashboard <ArrowRight size={16} />
+              Browse phones <ArrowRight size={16} />
             </Link>
           </article>
 
@@ -98,12 +97,12 @@ export default function HomePage() {
               <GitCompareArrows size={18} />
             </div>
             <span className="section-label">Comparison</span>
-            <h3>See the important differences side by side.</h3>
+            <h3>Compare important differences side by side.</h3>
             <p className="muted">
-              The compare page keeps the focus on row-by-row specifications and clear differences.
+              Review specifications and scores for two phones in one view.
             </p>
             <Link href="/compare" className="button magnetic-button">
-              Open compare lab
+              Compare phones
             </Link>
           </article>
 
@@ -112,12 +111,12 @@ export default function HomePage() {
               <Layers3 size={18} />
             </div>
             <span className="section-label">Favorites</span>
-            <h3>Browsing stays public. Account features kick in only when you want them.</h3>
+            <h3>Save phones for later.</h3>
             <p className="muted">
-              Sign in becomes valuable when you want persistent favorites and comparison history, not before.
+              Sign in to save phones and keep your comparison history.
             </p>
             <Link href="/favorites" className="button-secondary magnetic-button">
-              See favorites flow
+              View saved phones
             </Link>
           </article>
         </div>
@@ -126,7 +125,7 @@ export default function HomePage() {
       <section className="section">
         <div className="page-shell">
           <span className="section-label">Catalog preview</span>
-          <h2 className="feature-title">Start with the information that matters.</h2>
+          <h2 className="feature-title">Sample phones from the catalog.</h2>
           <div className="home-preview-grid">
             {curatedGallery.slice(0, 3).map((phone, index) => (
               <article key={`${phone.brand}-${phone.model}`} className={`glass-panel home-preview-card ${index === 1 ? "is-featured" : ""}`.trim()}>
@@ -159,17 +158,17 @@ export default function HomePage() {
       <section className="section">
         <div className="page-shell">
           <div className="glass-panel final-cta-card">
-            <span className="section-label">Next step</span>
-            <h2 className="feature-title">Build a shortlist that fits your priorities.</h2>
+            <span className="section-label">Get started</span>
+            <h2 className="feature-title">Choose phones based on your priorities.</h2>
             <p className="section-copy">
-              Browse the catalog, apply filters, compare phones, and sign in when you want favorites to persist.
+              Browse, filter, compare, and save phones that fit your needs.
             </p>
             <div className="button-row">
               <Link href="/dashboard" className="button magnetic-button">
-                Start browsing
+                Browse phones
               </Link>
               <Link href="/services" className="button-secondary magnetic-button">
-                Explore the tools
+                View features
               </Link>
             </div>
           </div>

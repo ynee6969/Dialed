@@ -30,7 +30,7 @@ interface AuthFormProps {
 const authContent = {
   login: {
     title: "Welcome back",
-    copy: "Sign in to save phones, keep favorites synced, and pick up your shortlist anywhere.",
+    copy: "Sign in to save phones and keep your favorites synced across devices.",
     submitLabel: "Log in",
     alternateLabel: "Need an account?",
     alternateHref: "/signup",
@@ -38,7 +38,7 @@ const authContent = {
   },
   signup: {
     title: "Create your DeviceIQ account",
-    copy: "Save standout phones, keep your shortlist attached to your account, and compare with context later.",
+    copy: "Save phones to your account and compare them again later.",
     submitLabel: "Create account",
     alternateLabel: "Already have an account?",
     alternateHref: "/login",

@@ -79,18 +79,17 @@ export default async function ComparePage({
   return (
     <section className={`section ${styles.page}`}>
       <div className="page-shell compare-page">
-        <span className="section-label">Compare Lab</span>
-        <h1 className="section-title">Structured phone comparison without the dashboard clutter.</h1>
+        <span className="section-label">Compare phones</span>
+        <h1 className="section-title">Compare phone specifications side by side.</h1>
         <p className="section-copy">
-          Pick two phones, line up the important spec sections, and let the page surface the biggest
-          differences visually.
+          Pick two phones to review their scores, specifications, and key differences.
         </p>
 
         <div className="glass-panel card compare-selector-card">
           <div className="compare-selector-copy">
             <h2 className="feature-title">Choose the phones to compare.</h2>
             <p className="muted" style={{ marginBottom: 0 }}>
-              This page owns comparison now, so the dashboard stays focused on discovery and favorites.
+              Choose two phones to review their specifications side by side.
             </p>
           </div>
 
@@ -118,7 +117,7 @@ export default async function ComparePage({
             </div>
 
             <button type="submit" className="button compare-selector-submit">
-              Update comparison
+              Compare phones
             </button>
           </form>
         </div>
@@ -127,7 +126,7 @@ export default async function ComparePage({
           <div className="glass-panel card" style={{ marginTop: 20 }}>
             <span className="section-label">Recent comparisons</span>
             <p className="muted" style={{ marginBottom: 0 }}>
-              Your last comparison pairs stay attached to your account for quick jump-backs.
+              Your recent comparison pairs are available here for quick access.
             </p>
 
             <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 18 }}>
@@ -181,7 +180,7 @@ export default async function ComparePage({
               <div className="compare-highlights-grid">
                 <div className="glass-panel card compare-highlight-card">
                 <span className="section-label">{leftDevice.displayName}</span>
-                <h3>Reasons to consider it</h3>
+                <h3>Highlights</h3>
                 <ul className="insight-list" style={{ marginTop: 18 }}>
                   {comparison.highlights.left.map((highlight) => (
                     <li key={highlight}>{highlight}</li>
@@ -191,7 +190,7 @@ export default async function ComparePage({
 
               <div className="glass-panel card compare-highlight-card">
                 <span className="section-label">{rightDevice.displayName}</span>
-                <h3>Reasons to consider it</h3>
+                <h3>Highlights</h3>
                 <ul className="insight-list" style={{ marginTop: 18 }}>
                   {comparison.highlights.right.map((highlight) => (
                     <li key={highlight}>{highlight}</li>
@@ -201,7 +200,7 @@ export default async function ComparePage({
             </div>
 
             <div className="glass-panel card compare-score-card">
-              <span className="section-label">Score Snapshot</span>
+              <span className="section-label">Score summary</span>
               <div className="compare-score-rows">
                 {comparison.summaryRows.map((row) => (
                   <div key={row.label} className="compare-score-row">

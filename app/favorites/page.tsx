@@ -67,7 +67,7 @@ export default async function FavoritesPage() {
         <span className="section-label">Favorites</span>
         <h1 className="section-title">Your saved phones.</h1>
         <p className="section-copy">
-          Keep standout devices in one place, then jump back into compare when the shortlist gets tight.
+          Keep saved phones in one place and compare them when you are ready.
         </p>
 
         {phones.length ? (
@@ -82,7 +82,7 @@ export default async function FavoritesPage() {
               You have not saved any phones yet.
             </p>
             <Link href="/dashboard" className="button-secondary" style={{ display: "inline-flex" }}>
-              Browse the dashboard
+              Browse phones
             </Link>
           </div>
         )}

@@ -359,7 +359,7 @@ export function MatchmakerDashboard({
             </div>
           ) : (
             <p className="muted dashboard-filter-collapsed">
-              {activeFilterCount ? `${activeFilterCount} filters active.` : "Filters are tucked away."}
+              {activeFilterCount ? `${activeFilterCount} filters active.` : "Filters are hidden."}
             </p>
           )}
         </div>
@@ -371,23 +371,22 @@ export function MatchmakerDashboard({
           <div className="stack dashboard-copy-stack">
             <span className="section-label">Dashboard</span>
             <div className="dashboard-hero-meta">
-              <span className="chip">{stats.catalogSize} phones in the live catalog</span>
+              <span className="chip">{stats.catalogSize} phones in the catalog</span>
               <span className="chip">{activeFilterCount} filters active</span>
               <span className="chip">Sign-in is optional</span>
             </div>
-            <h1 className="dashboard-title">Browse the full catalog first. Sign in only when you want favorites.</h1>
+            <h1 className="dashboard-title">Browse phones and filter by your requirements.</h1>
             <p className="muted dashboard-copy">
-              This page is now the main discovery surface. Filter the catalog, open specs fast, and jump into
-              compare only when you already have contenders worth testing.
+              Use the filters to narrow the catalog, open specifications, and compare phones you are considering.
             </p>
           </div>
 
           <div className="button-row dashboard-cta-row">
             <Link href="/compare" className="button magnetic-button">
-              Open compare lab
+              Compare phones
             </Link>
             <Link href="/favorites" className="button-secondary magnetic-button">
-              View saved phones
+              View favorites
             </Link>
           </div>
         </div>
@@ -436,7 +435,7 @@ export function MatchmakerDashboard({
               {loadingMore ? (
                 <>
                   <LoaderCircle size={16} className="spin" />
-                  <span style={{ marginLeft: 8 }}>Loading more</span>
+                  <span style={{ marginLeft: 8 }}>Loading more phones</span>
                 </>
               ) : (
                 "Show 10 more phones"
@@ -452,7 +451,7 @@ export function MatchmakerDashboard({
           <div className="glass-panel card dashboard-loading-card">
             <p className="muted" style={{ margin: 0 }}>
               <LoaderCircle size={16} className="spin" style={{ marginRight: 8, verticalAlign: "middle" }} />
-              Updating the catalog view...
+              Updating the phone list...
             </p>
           </div>
         ) : null}

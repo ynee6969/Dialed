@@ -61,18 +61,18 @@ export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
   const storyPoints = [
     {
       icon: Layers3,
-      title: "Too many tabs",
-      copy: "Phone shopping turns into chaos when every shortlist lives in a different spec page."
+      title: "Many sources",
+      copy: "Phone details are often spread across store pages, reviews, and spec sheets."
     },
     {
       icon: BarChart3,
-      title: "One clean flow",
-      copy: "DeviceIQ keeps discovery, saved phones, and comparison in one consistent place."
+      title: "One place to compare",
+      copy: "DeviceIQ brings phone browsing, saved phones, and comparison together."
     },
     {
       icon: Sparkles,
-      title: "A better decision",
-      copy: "Filter the catalog, compare the details, and make a more informed choice."
+      title: "Make an informed choice",
+      copy: "Use filters, compare specifications, and review the scores."
     }
   ];
 
@@ -93,10 +93,10 @@ export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
           <div className="hero-noise" aria-hidden="true" />
           <div className="hero-copy-stack">
             <span className="section-label">DeviceIQ</span>
-            <h1 className="section-title">Compare phones with more clarity.</h1>
+            <h1 className="section-title">Browse, compare, and choose a phone.</h1>
             <p className="section-copy">
-              Filter the catalog, compare specifications, and keep your shortlist focused. Sign in when you want
-              favorites and comparison history.
+              Use filters to find phones that match your budget and preferences. Compare specifications and save
+              phones for later.
             </p>
 
             <div className="button-row hero-action-row">
@@ -104,22 +104,22 @@ export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
                 Browse phones <ArrowRight size={16} />
               </InstantNavLink>
               <Link href="/compare" className="button-secondary magnetic-button">
-                Compare two phones
+                Compare phones
               </Link>
             </div>
 
             <div className="hero-badge-row">
               <span className="pill">
                 <Sparkles size={14} />
-                Structured specs
+                Phone specifications
               </span>
               <span className="pill">
                 <Camera size={14} />
-                Clear criteria
+                Preference filters
               </span>
               <span className="pill">
                 <Zap size={14} />
-                Fast shortlist
+                Quick comparisons
               </span>
             </div>
           </div>
@@ -151,14 +151,14 @@ export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
           <div className="glass-panel hero-signature-card">
             <div className="signature-eyebrow">
               <span className="section-label">Comparison preview</span>
-              <span className="chip hero-chip">Two phones. Key differences.</span>
+              <span className="chip hero-chip">Compare two phones.</span>
             </div>
 
             <div className="signature-phone-row">
               <article className="signature-phone-card">
                 <span className="chip">Phone A</span>
                 <h3>Xiaomi 14 Ultra</h3>
-                <p>Flagship camera + ultra-premium build</p>
+                <p>High-end camera and build</p>
               </article>
 
               <div className="signature-versus">VS</div>
@@ -198,9 +198,9 @@ export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
 
           <div className="glass-panel hero-feature-list">
             <div className="hero-feature-list-header">
-              <span className="section-label">What scroll reveals</span>
+              <span className="section-label">How DeviceIQ works</span>
               <p className="muted">
-                As you move through the site, the decision flow keeps tightening instead of throwing more clutter at you.
+                The main parts of the site support browsing, comparing, and saving phones.
               </p>
             </div>
             <div className="hero-feature-reveal">
