@@ -150,3 +150,16 @@
     margin: 0 auto;
   }
 }
+
+.page :global(.service-card) {
+  backdrop-filter: none;
+}
+
+.page :global(.service-card-featured) {
+  box-shadow: var(--shadow);
+}
+
+.page :global(.service-mini-bars span),
+.page :global(.service-inline-preview span) {
+  background: var(--accent);
+}

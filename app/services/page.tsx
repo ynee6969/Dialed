@@ -3,7 +3,7 @@
  * SERVICES PAGE (Features Showcase)
  * ===================================
  * 
- * Purpose: Highlights the three main tools/services Dialed provides.
+ * Purpose: Highlights the three main tools DeviceIQ provides.
  * Marketing-focused page explaining app capabilities to new users.
  * 
  * Three Main Tools:
@@ -32,7 +32,7 @@ export default function ServicesPage() {
         <span className="section-label">Inside DeviceIQ</span>
         <h1 className="section-title">Three tools, one clear decision flow.</h1>
         <p className="section-copy">
-          The layout now breaks the old equal-box grid. Compare takes the lead, while discovery and full specs support it.
+          Compare takes the lead, while discovery and full specs support the same decision flow.
         </p>
 
         {/* Asymmetric 3-column grid: featured card + 2 smaller cards
@@ -44,7 +44,7 @@ export default function ServicesPage() {
               <span className="section-label">Featured Tool</span>
               <h2>Compare phones side by side, instantly.</h2>
               <p className="muted">
-                The compare lab is the signature experience: two phones slide in, stat bars fill, and the major wins surface without checkbox clutter.
+                Compare two phones side by side and review the key differences without extra clutter.
               </p>
               <div className="button-row">
                 <Link href="/compare" className="button magnetic-button">
@@ -119,7 +119,7 @@ export default function ServicesPage() {
 
         <div className="services-hint">
           <GitCompareArrows size={16} />
-          <span>Hover each card to explore the interaction previews.</span>
+          <span>Each tool keeps the decision process focused.</span>
         </div>
       </div>
     </section>

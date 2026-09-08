@@ -37,7 +37,7 @@ const authContent = {
     alternateAction: "Create one"
   },
   signup: {
-    title: "Create your Dialed account",
+    title: "Create your DeviceIQ account",
     copy: "Save standout phones, keep your shortlist attached to your account, and compare with context later.",
     submitLabel: "Create account",
     alternateLabel: "Already have an account?",

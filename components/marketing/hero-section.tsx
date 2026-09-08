@@ -16,9 +16,8 @@
  */
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
 import { ArrowRight, BarChart3, BatteryCharging, Camera, Layers3, Sparkles, Zap } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { InstantNavLink } from "@/components/navigation/instant-nav-link";
 import styles from "./HeroSection.module.css";
@@ -28,8 +27,7 @@ interface HeroSectionProps {
   segmentCount: number;
 }
 
-/* Animated statistic card used in the hero's quick-metrics grid.
-   The count-up makes catalog data feel alive without changing the content itself. */
+/* Compact statistic card used in the hero's quick-metrics grid. */
 function CountMetric({
   label,
   value,
@@ -39,34 +37,11 @@ function CountMetric({
   value: number;
   suffix?: string;
 }) {
-  const [displayValue, setDisplayValue] = useState(0);
-
-  useEffect(() => {
-    /* Lightweight easing function built with requestAnimationFrame so the number
-       climbs smoothly rather than jumping instantly. */
-    let animationFrame = 0;
-    const start = performance.now();
-    const duration = 1100;
-
-    const tick = (time: number) => {
-      const progress = Math.min((time - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setDisplayValue(Math.round(value * eased));
-
-      if (progress < 1) {
-        animationFrame = window.requestAnimationFrame(tick);
-      }
-    };
-
-    animationFrame = window.requestAnimationFrame(tick);
-    return () => window.cancelAnimationFrame(animationFrame);
-  }, [value]);
-
   return (
     <div className="hero-stat-card">
       <span>{label}</span>
       <strong>
-        {displayValue}
+        {value}
         {suffix}
       </strong>
     </div>
@@ -92,16 +67,16 @@ export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
     {
       icon: BarChart3,
       title: "One clean flow",
-      copy: "Dialed keeps discovery, saved phones, and deep comparison inside one consistent surface."
+      copy: "DeviceIQ keeps discovery, saved phones, and comparison in one consistent place."
     },
     {
       icon: Sparkles,
       title: "A better decision",
-      copy: "Filter fast, compare like a pro, and stop guessing which phone is actually right for you."
+      copy: "Filter the catalog, compare the details, and make a more informed choice."
     }
   ];
 
-  /* These rows fake the "signature comparison reveal" with simple animated bars. */
+  /* These rows preview the comparison view with static score bars. */
   const revealRows = [
     { label: "Camera", left: 99, right: 91 },
     { label: "Battery", left: 93, right: 88 },
@@ -112,19 +87,16 @@ export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
     <section className={`section home-hero-section ${styles.scope}`}>
       <div className="page-shell hero-grid premium-hero-grid">
         {/* Left column: core message, CTA buttons, and problem-solution cards. */}
-        <motion.div
+        <div
           className="glass-panel hero-panel premium-hero-panel"
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55 }}
         >
           <div className="hero-noise" aria-hidden="true" />
           <div className="hero-copy-stack">
-            <span className="section-label">AI Phone Matchmaker</span>
-            <h1 className="section-title">Stop guessing. Start comparing.</h1>
+            <span className="section-label">DeviceIQ</span>
+            <h1 className="section-title">Compare phones with more clarity.</h1>
             <p className="section-copy">
-              Search the catalog, watch standout phones rise to the top, and open a structured compare lab
-              the moment the shortlist gets serious. Signing in is optional until you want favorites.
+              Filter the catalog, compare specifications, and keep your shortlist focused. Sign in when you want
+              favorites and comparison history.
             </p>
 
             <div className="button-row hero-action-row">
@@ -132,60 +104,54 @@ export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
                 Browse phones <ArrowRight size={16} />
               </InstantNavLink>
               <Link href="/compare" className="button-secondary magnetic-button">
-                Watch the compare reveal
+                Compare two phones
               </Link>
             </div>
 
             <div className="hero-badge-row">
               <span className="pill">
                 <Sparkles size={14} />
-                Premium browsing flow
+                Structured specs
               </span>
               <span className="pill">
                 <Camera size={14} />
-                Rich spec snapshots
+                Clear criteria
               </span>
               <span className="pill">
                 <Zap size={14} />
-                Built for fast decisions
+                Fast shortlist
               </span>
             </div>
           </div>
 
           <div className="hero-story-grid">
-            {storyPoints.map((point, index) => {
+            {storyPoints.map((point) => {
               const Icon = point.icon;
 
               return (
-                <motion.article
+                <article
                   key={point.title}
                   className="hero-story-card"
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.45, delay: 0.12 + index * 0.1 }}
                 >
                   <span className="hero-story-icon">
                     <Icon size={18} />
                   </span>
                   <h3>{point.title}</h3>
                   <p>{point.copy}</p>
-                </motion.article>
+                </article>
               );
             })}
           </div>
-        </motion.div>
+        </div>
 
         {/* Right column: product-theater cards that show what the tool feels like. */}
-        <motion.div
+        <div
           className="hero-stack premium-hero-stack"
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.08 }}
         >
           <div className="glass-panel hero-signature-card">
             <div className="signature-eyebrow">
-              <span className="section-label">Signature Moment</span>
-              <span className="chip hero-chip">Two phones. One winner.</span>
+              <span className="section-label">Comparison preview</span>
+              <span className="chip hero-chip">Two phones. Key differences.</span>
             </div>
 
             <div className="signature-phone-row">
@@ -205,13 +171,10 @@ export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
             </div>
 
             <div className="signature-compare-grid">
-              {revealRows.map((row, index) => (
-                <motion.div
+              {revealRows.map((row) => (
+                <div
                   key={row.label}
                   className="signature-compare-row"
-                  initial={{ opacity: 0, x: 16 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.4, delay: 0.22 + index * 0.12 }}
                 >
                   <div className="signature-compare-header">
                     <span>{row.label}</span>
@@ -221,7 +184,7 @@ export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
                     <span className="signature-compare-bar left" style={{ width: `${row.left}%` }} />
                     <span className="signature-compare-bar right" style={{ width: `${row.right}%` }} />
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
@@ -243,7 +206,7 @@ export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
             <div className="hero-feature-reveal">
               <div>
                 <Camera size={16} />
-                <span>Spec cards expand with animated scores and quick facts.</span>
+                <span>Spec cards keep scores and quick facts together.</span>
               </div>
               <div>
                 <BatteryCharging size={16} />
@@ -255,7 +218,7 @@ export function HeroSection({ catalogSize, segmentCount }: HeroSectionProps) {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

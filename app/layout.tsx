@@ -27,7 +27,6 @@ import { Manrope, Space_Grotesk } from "next/font/google";
 
 import "./globals.css";
 
-import { CursorAura } from "@/components/marketing/cursor-aura";
 import { SiteFooter } from "@/components/marketing/site-footer";
 import { SiteHeader } from "@/components/marketing/site-header";
 import { ThemeToggle } from "@/components/marketing/theme-toggle";
@@ -87,9 +86,6 @@ export default function RootLayout({
         <ThemeProvider>
           {/* AppProviders: Additional context providers (Favorites, Auth, etc.) */}
           <AppProviders>
-            {/* CursorAura: Interactive glow effect that follows mouse position */}
-            <CursorAura />
-            
             {/* SiteHeader: Sticky navigation with logo, links, and auth controls */}
             <SiteHeader />
             

@@ -108,8 +108,7 @@ export function normalizeExtractedPhone(seedPhone: SeedPhone, payload: unknown):
   const cameraScore = computeCameraScore(
     seedPhone.camera_score,
     extracted.camera_main,
-    extracted.camera_ultrawide,
-    asString(extracted.ai_summary)
+    extracted.camera_ultrawide
   );
   const battery = extracted.battery ?? seedPhone.battery;
   const batteryScore = computeBatteryScore(battery, extracted.charging);

@@ -8,7 +8,7 @@ import { env } from "@/lib/env";
 import { prisma } from "@/lib/prisma";
 import { buildTrustedSourceCandidates } from "@/lib/pipeline/source-adapters";
 import { fetchCleanMarkdown } from "@/lib/services/firecrawl";
-import { computeBatteryScore, computeFinalScore, computeValueScore } from "@/lib/services/scoring";
+import { computeBatteryScore, computeFinalScore, computeValueScore } from "@/lib/recommendation/raw-scoring";
 import { normalizeExtractedPhone } from "@/lib/utils/normalization";
 
 function sourceKindToPrisma(kind: SourceDocument["kind"]) {

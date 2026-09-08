@@ -1,7 +1,7 @@
 import { EnrichmentStatus, type Phone, type PhoneSegment, type Prisma } from "@prisma/client";
 
 import { seedPhones, type SeedPhone } from "@/lib/data/seed-phones";
-import { deriveSeedScores } from "@/lib/services/scoring";
+import { deriveSeedScores } from "@/lib/recommendation/raw-scoring";
 import { getPhoneDisplayName } from "@/lib/utils/phone-presentation";
 import { slugify } from "@/lib/utils/format";
 import {

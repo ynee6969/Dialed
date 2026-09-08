@@ -11,11 +11,10 @@
  * Responsibilities:
  * - Present the phone name, price, key scores, and quick specs.
  * - Offer compare, favorite, and marketplace actions.
- * - Add subtle motion on pointer devices without breaking touch layouts.
+ * - Keep the card readable and predictable across pointer and touch devices.
  */
 import Link from "next/link";
 import { BatteryCharging, Camera, Cpu, Sparkles, Zap } from "lucide-react";
-import { useRef } from "react";
 
 import { FavoriteButton } from "@/components/phones/favorite-button";
 import type { PhoneCardRecord } from "@/lib/types/phone-card";
@@ -65,8 +64,6 @@ function buildDetailCards(phone: PhoneCardRecord) {
 }
 
 export function DeviceCard({ phone }: DeviceCardProps) {
-  /* Ref is used only for hover tilt and glow positioning. */
-  const cardRef = useRef<HTMLElement | null>(null);
   const displayName = getPhoneDisplayName(phone.brand, phone.model);
   const marketplaceLinks = buildPhoneMarketplaceLinks(phone);
   const specChips = buildSpecChips(phone);
@@ -78,44 +75,10 @@ export function DeviceCard({ phone }: DeviceCardProps) {
     { label: "Value", icon: Cpu, value: phone.valueScore }
   ];
 
-  /* Desktop pointer movement updates CSS variables that drive the card tilt and internal glow. */
-  function handlePointerMove(event: React.PointerEvent<HTMLElement>) {
-    if (!cardRef.current || !window.matchMedia("(pointer: fine)").matches) {
-      return;
-    }
-
-    const bounds = cardRef.current.getBoundingClientRect();
-    const offsetX = event.clientX - bounds.left;
-    const offsetY = event.clientY - bounds.top;
-    const rotateX = ((offsetY / bounds.height) - 0.5) * -8;
-    const rotateY = ((offsetX / bounds.width) - 0.5) * 8;
-
-    cardRef.current.style.setProperty("--card-rotate-x", `${rotateX.toFixed(2)}deg`);
-    cardRef.current.style.setProperty("--card-rotate-y", `${rotateY.toFixed(2)}deg`);
-    cardRef.current.style.setProperty("--card-glow-x", `${offsetX.toFixed(0)}px`);
-    cardRef.current.style.setProperty("--card-glow-y", `${offsetY.toFixed(0)}px`);
-  }
-
-  /* Reset card transform variables when the pointer leaves. */
-  function resetPointerState() {
-    if (!cardRef.current) {
-      return;
-    }
-
-    cardRef.current.style.setProperty("--card-rotate-x", "0deg");
-    cardRef.current.style.setProperty("--card-rotate-y", "0deg");
-    cardRef.current.style.setProperty("--card-glow-x", "50%");
-    cardRef.current.style.setProperty("--card-glow-y", "50%");
-  }
-
   return (
     <article
-      ref={cardRef}
       className={`glass-panel phone-card ${styles.scope}`}
-      onPointerMove={handlePointerMove}
-      onPointerLeave={resetPointerState}
     >
-      <div className="phone-card-glow" aria-hidden="true" />
 
       {/* Top row: segment badge on the left, favorite action on the right. */}
       <div className="phone-card-top">
@@ -126,7 +89,7 @@ export function DeviceCard({ phone }: DeviceCardProps) {
       {/* Quick score + price snapshot before the user reads the rest of the card. */}
       <div className="phone-card-score-strip">
         <div className="phone-card-score-panel">
-          <span>Dialed score</span>
+          <span>DeviceIQ score</span>
           <strong>{formatScore(phone.finalScore)}</strong>
         </div>
         <div className="phone-card-price-panel">
@@ -168,7 +131,7 @@ export function DeviceCard({ phone }: DeviceCardProps) {
           )}
         </div>
 
-        {/* Animated stat rows help the card feel more "alive" without changing the data model. */}
+        {/* Static score rows keep the comparison readable without changing the data model. */}
         <div className="phone-card-stat-stack">
           {statRows.map((stat) => {
             const Icon = stat.icon;

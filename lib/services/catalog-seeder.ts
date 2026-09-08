@@ -2,7 +2,7 @@ import { Prisma, type PrismaClient } from "@prisma/client";
 
 import { seedPhones } from "@/lib/data/seed-phones";
 import { prisma } from "@/lib/prisma";
-import { deriveSeedScores } from "@/lib/services/scoring";
+import { deriveSeedScores } from "@/lib/recommendation/raw-scoring";
 import { slugify } from "@/lib/utils/format";
 
 export async function upsertSeedCatalog(client: PrismaClient = prisma) {

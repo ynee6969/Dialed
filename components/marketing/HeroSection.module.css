@@ -330,3 +330,27 @@
     margin: 0 auto;
   }
 }
+
+/* Keep the landing page informative rather than theatrical. */
+.scope :global(.premium-hero-panel),
+.scope :global(.hero-signature-card),
+.scope :global(.hero-story-card),
+.scope :global(.hero-feature-list) {
+  background: var(--surface);
+  backdrop-filter: none;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.scope :global(.premium-hero-panel:hover),
+.scope :global(.hero-badge-row .pill:hover) {
+  transform: none;
+}
+
+.scope :global(.hero-noise) {
+  display: none;
+}
+
+.scope :global(.signature-compare-bar),
+.scope :global(.signature-compare-bar.right) {
+  background: var(--accent);
+}

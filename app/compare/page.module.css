@@ -429,3 +429,10 @@
     font-size: 1.1rem;
   }
 }
+
+.page :global(.compare-selector-card),
+.page :global(.compare-hero-card),
+.page :global(.compare-score-card),
+.page :global(.compare-section-card) {
+  box-shadow: var(--shadow);
+}

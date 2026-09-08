@@ -12,7 +12,7 @@ const pillars = [
  * ABOUT PAGE
  * ===================================
  * 
- * Purpose: Explains Dialed's mission, values, and core principles to users.
+ * Purpose: Explains DeviceIQ's mission, values, and core principles to users.
  * Two-card layout: Mission statement and core pillars/features.
  * 
  * User Journey: Users visit to understand the app's philosophy before diving in.

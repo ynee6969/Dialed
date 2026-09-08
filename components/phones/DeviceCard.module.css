@@ -2,10 +2,6 @@
    Keeps the interactive card layout consistent across laptop, tablet, and phone. */
 
 .scope {
-  --card-rotate-x: 0deg;
-  --card-rotate-y: 0deg;
-  --card-glow-x: 50%;
-  --card-glow-y: 50%;
   position: relative;
   display: grid;
   gap: 18px;
@@ -14,22 +10,12 @@
   content-visibility: auto;
   contain-intrinsic-size: 560px;
   container-type: inline-size; /* Enable container queries */
-  transition:
-    transform 180ms ease,
-    border-color 180ms ease,
-    box-shadow 180ms ease,
-    filter 180ms ease;
-  will-change: transform, filter; /* Performance optimization */
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
 
 .scope:hover {
-  transform:
-    perspective(1100px)
-    rotateX(var(--card-rotate-x))
-    rotateY(var(--card-rotate-y))
-    translateY(-6px);
+  transform: translateY(-2px);
   border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
-  filter: brightness(1.05) contrast(1.02); /* Advanced visual effects */
 }
 
 .scope:focus-within {
@@ -49,32 +35,6 @@
   .scope {
     grid-template-rows: auto auto 1fr;
   }
-}
-
-/* Keyframe animations for enhanced interactions */
-@keyframes cardGlow {
-  0% {
-    box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.4);
-  }
-  50% {
-    box-shadow: 0 0 0 8px rgba(var(--accent-rgb), 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0);
-  }
-}
-
-.scope:hover {
-  animation: cardGlow 1.5s ease-out infinite;
-}
-
-.scope:hover {
-  transform:
-    perspective(1100px)
-    rotateX(var(--card-rotate-x))
-    rotateY(var(--card-rotate-y))
-    translateY(-6px);
-  border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
 }
 
 .scope :global(.phone-card-glow) {
@@ -381,4 +341,45 @@
   .scope :global(.phone-card-score-strip) {
     grid-template-columns: 1fr;
   }
+}
+
+/* Keep card feedback useful without pointer-tracking, tilt, or glow effects. */
+.scope {
+  --card-rotate-x: 0deg;
+  --card-rotate-y: 0deg;
+  --card-glow-x: 50%;
+  --card-glow-y: 50%;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  will-change: auto;
+}
+
+.scope:hover {
+  transform: translateY(-2px);
+  filter: none;
+  animation: none;
+}
+
+.scope :global(.phone-card-glow) {
+  display: none;
+}
+
+.scope :global(.phone-card-score-panel),
+.scope :global(.phone-card-price-panel),
+.scope :global(.phone-detail-chip) {
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+  backdrop-filter: none;
+}
+
+.scope :global(.phone-media) {
+  background: var(--surface-soft);
+}
+
+.scope :global(.phone-stat-fill) {
+  background: var(--accent);
+  box-shadow: none;
+}
+
+.scope:hover :global(.phone-stat-fill) {
+  filter: none;
 }
